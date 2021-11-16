@@ -1,14 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-pc란?
+int global; //전역변수 데이터 영역
 
-pc라는 것은 cpu와 같응ㄴ 중앙 처리 장치 내부의 레지스터 중에 하나로써 현재 처리중인 명령어의 바로 다음 명령어의 주소를 작고 있다.
-즉, 실행될 명령어의 위치를 알고 있기 때문에 명령어 포인터 라고 불리기도 한다. 여리거 말하는 명령어란 c언어의 코드 한 줄 을 말하는 것이 아니라
-기계적으로 처리되는 기계어 한 구문을 말한다.
+int main(void)
+{
+    int automatic; //스택영역
+    int *heap;      //힙영역
+    pid_t pid;
 
-위의 fork를 예로들면, fork를 처리하는데 요구되는데 기계어 묶음이 있을텐데 이를 마치게 되면 pc는 fork다음에 실행될 구문의 처 기계어의 위치를 갖고 있게 된다.
-자식 프로세스는 pc역시 복사하여 생성되기 때문에 pc가 갖고 있는 주소에 해당하는 명령어 줄 부터 fetch하여 실행한다.
+    global = 10;
+    automatic = 10;
+    heap = (int *)malloc(sizeof(int));
 
+    if(!heap)
+    return (1);
 
-이처럼 자식 프로세스를 갖게 되었을 때 fork의 반환값으로 부모 프로세스에게 할당되는 값과 자식 프로세스에게 할당되는 값이 서로 다르다. 부모 프로세스에는 자식 프로세스의
-pid 값이 fork의 반환값으로 설정되고, 자식 프로세스에는 0이라는 값이 fork의 반환값으로 설정된다. 만일 부모 프로세스에서 fork를 수행했을 때 정상적으로 fork 가 되지 않는다면
--1이 반환된다. 따라서 이에 대한 에러처리를 별도로 해 주어야한다.
+    *heap = 10;
+    pid = fork();
+    if (pid == -1)
+    {
+        free(heap);
+        return (1);
+    }
+    else if(!pid) //자식
+    {
+       printf("Child: Before operations -> %d (Global), %d (Automatic), %d (Heap)\n", global, automatic, *heap);
+		global += 10;
+		automatic += 10;
+		*heap += 10;
+		printf("Child: After operations -> %d (Global), %d (Automatic), %d (Heap)\n", global, automatic, *heap);
+    }
+    else if (pid) //부모
+	{
+		printf("Parent: Before operations -> %d (Global), %d (Automatic), %d (Heap)\n", global, automatic, *heap);
+		global += 20;
+		automatic += 20;
+		*heap += 20;
+		printf("Parent: After operations -> %d (Global), %d (Automatic), %d (Heap)\n", global, automatic, *heap);
+	}
+	free(heap);
+	return (0);
+}
+
+//자식 프로세스와 부모 프로세스의 메모리 공간이 별도로 구성된다는 것은 위와 같은 코드를 실행함으로써 쉽게 알 수 있다.
+//메모리 공간이 별도이므로 자식 프로세스에서의 증감 연산 결과와 부모 프로세스에서의 증감 연산의  

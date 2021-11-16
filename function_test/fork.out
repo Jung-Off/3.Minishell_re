@@ -1,0 +1,4 @@
+a write to stdout
+fork start!
+pid = 6510, g_vat = 2, l_var = 11
+pid = 6509, g_vat = 1, l_var = 10
