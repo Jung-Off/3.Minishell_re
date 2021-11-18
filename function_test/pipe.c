@@ -6,8 +6,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define READ			0
+#define READ		0
 #define WRITE 		1
+
+
 #define BUFFER_SIZE	4096
 
 void	childcommand(void)
@@ -92,6 +94,7 @@ void parentproc(int pipe[2], pid_t pid)
 
 // fd[1]은 쓰기용 WRITE
 // fd[0]은 읽기용 READ
+
 
 int main()
 {
