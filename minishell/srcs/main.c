@@ -269,51 +269,52 @@ int exe_just(t_cmd *cmd_lst, char **env)
 
 void exe_made(t_cmd *cmd, char **env)
 {
-	pid_t pid, pid1;
+	pid_t pid;
 
 	int in = 0;
 	int out = 1;
 	char *env_path;
 	int status;
 
-	pipe(cmd->fd);
-	out = cmd->fd[1];
-	env_path = exe_parse(env, cmd->argv[0]);
-
-	pid = fork();
-	if(pid == 0)
+	if (cmd->next == NULL)
 	{
-		if (out != 1)
+		exe_just(cmd, env);
+		return ;
+	}
+
+	while(cmd)
+	{
+		if(cmd->next != NULL)
 		{
-			dup2(out, 1);
-			close(out);
+			pipe(cmd->fd);
+			out = cmd->fd[1];
 		}
-		execve(env_path, cmd->argv, NULL);
-	}
-	else if(pid > 0)
-	{
-		waitpid(pid, &status, 0);
-	}
-
-	close(out);
-	in = cmd->fd[0];
-	cmd = cmd->next;
-	env_path = exe_parse(env, cmd->argv[0]);
-
-	pid1 = fork();
-	if(pid1 == 0)
-	{
-		if(in != 0)
+		env_path = exe_parse(env, cmd->argv[0]);
+		pid = fork();
+		if(pid == 0)
 		{
-			dup2(in, 0);
-			close(in);
+			if(in != 0)
+			{
+				dup2(in, 0);
+				close(in);
+			}
+			if (out != 1)
+			{
+				dup2(out, 1);
+				close(out);
+			}
+			execve(env_path, cmd->argv, NULL);
 		}
-		execve(env_path, cmd->argv, NULL);
+		else if(pid > 0)
+		{
+			waitpid(pid, &status, 0);
+		}
+
+		close(out);
+		in = cmd->fd[0];
+		cmd = cmd->next;
 	}
-	else if(pid > 0)
-	{
-		waitpid(pid1, &status, 0);
-	}
+
 }
 
 int	main(int argc, char **argv, char **envp)
