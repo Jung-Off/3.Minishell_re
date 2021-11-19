@@ -134,7 +134,6 @@ int exe_just(t_cmd *cmd_lst, char **env)
 	return (1);
 }
 
-
 void exe_main(t_cmd *cmd, char **env)
 {
 	if (cmd->next == NULL)
@@ -142,27 +141,21 @@ void exe_main(t_cmd *cmd, char **env)
 		exe_just(cmd, env);
 		return ;
 	}
-
-
 	char *env_path;
 	int status;
 	pid_t pid1;
 
-	// int fd_out = dup(1);
-	//int fd_in = dup(0);
-
-
 	//fd[1] write
 	//fd[0] read
-	
-	// only for test
 	int in = 0;
 	int out = 1;
+	
 	env_path = exe_parse(env, cmd->argv[0]);
 
-	pid1 = fork();
 	pipe(cmd->fd);
 	out = cmd->fd[1];
+
+	pid1 = fork();	
 	if(pid1 == 0)
 	{
 		if (in != 0)
