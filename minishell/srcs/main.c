@@ -117,7 +117,6 @@ int exe_just(t_cmd *cmd_lst, char **env)
 	}
 
 	pid = fork(); // 이함수 안쓰면 waitpid == -1 로 해서 error
-		
 	if (pid == 0)
 	{
 		// printf("pid %d", pid[i]);
@@ -134,82 +133,82 @@ int exe_just(t_cmd *cmd_lst, char **env)
 	return (1);
 }
 
-void exe_main(t_cmd *cmd, char **env)
-{
-	if (cmd->next == NULL)
-	{
-		exe_just(cmd, env);
-		return ;
-	}
-	char *env_path;
-	int status;
-	pid_t pid1;
+// void exe_main(t_cmd *cmd, char **env)
+// {
+// 	if (cmd->next == NULL)
+// 	{
+// 		exe_just(cmd, env);
+// 		return ;
+// 	}
+// 	char *env_path;
+// 	int status;
+// 	pid_t pid1;
 
-	//fd[1] write
-	//fd[0] read
-	int in = 0;
-	int out = 1;
+// 	//fd[1] write
+// 	//fd[0] read
+// 	int in = 0;
+// 	int out = 1;
 	
-	env_path = exe_parse(env, cmd->argv[0]);
+// 	env_path = exe_parse(env, cmd->argv[0]);
 
-	pipe(cmd->fd);
-	out = cmd->fd[1];
+// 	pipe(cmd->fd);
+// 	out = cmd->fd[1];
 
-	pid1 = fork();	
-	if(pid1 == 0)
-	{
-		if (in != 0)
-		{
-			dup2 (in, 0);
-			close (in);
-		}
-		if (out != 1)
-		{
-			dup2 (out, 1);
-			close (out);
-		}
-		// close(cmd->fd[0]);
-		// dup2(cmd->fd[1], STDOUT_FILENO);
-		// close(cmd->fd[1]);
-		execve(env_path, cmd->argv, NULL);
-	}
-	else
-	{
-		// close(cmd->fd[0]);
-		// close(cmd->fd[1]);
-		waitpid(pid1, &status, 0);
-	}
-	close(cmd->fd[1]);
-	in = cmd->fd[0];
+// 	pid1 = fork();	
+// 	if(pid1 == 0)
+// 	{
+// 		if (in != 0)
+// 		{
+// 			dup2 (in, 0);
+// 			close (in);
+// 		}
+// 		if (out != 1)
+// 		{
+// 			dup2 (out, 1);
+// 			close (out);
+// 		}
+// 		// close(cmd->fd[0]);
+// 		// dup2(cmd->fd[1], STDOUT_FILENO);
+// 		// close(cmd->fd[1]);
+// 		execve(env_path, cmd->argv, NULL);
+// 	}
+// 	else
+// 	{
+// 		// close(cmd->fd[0]);
+// 		// close(cmd->fd[1]);
+// 		waitpid(pid1, &status, 0);
+// 	}
+// 	close(cmd->fd[1]);
+// 	in = cmd->fd[0];
 
-	t_cmd *cmd_next = cmd->next;
+// 	t_cmd *cmd_next = cmd->next;
 
-	// printf("%s", *(cmd->argv));
-	pid1 = fork();
+// 	// printf("%s", *(cmd->argv));
+// 	pid1 = fork();
 
-	env_path = exe_parse(env, cmd->next->argv[0]);
-	if(pid1 == 0)
-	{	
-		if (in != 0)
-		{
-			dup2 (in, 0);
-			close (in);
-		}
-		if (out != 1)
-		{
-			dup2 (out, 1);
-			close (out);
-		}
-		dprintf(1, "here\n");
-		execve(env_path, cmd_next->argv, NULL);
-	}
-	else 
-	{
-		// dup2(fd_out, 1);
-		waitpid(pid1, &status, 0);
-	}
+// 	env_path = exe_parse(env, cmd->next->argv[0]);
+// 	if(pid1 == 0)
+// 	{	
+// 		if (in != 0)
+// 		{
+// 			dup2 (in, 0);
+// 			close (in);
+// 		}
+// 		if (out != 1)
+// 		{
+// 			dup2 (out, 1);
+// 			close (out);
+// 		}
+// 		dprintf(1, "here\n");
+// 		execve(env_path, cmd_next->argv, NULL);
+// 	}
+// 	else 
+// 	{
+// 		// dup2(fd_out, 1);
+// 		waitpid(pid1, &status, 0);
+// 	}
 	
-}
+// }
 
 // void exe_main(t_cmd *cmd, char **env)
 // {
@@ -268,6 +267,55 @@ void exe_main(t_cmd *cmd, char **env)
 // 	}
 // }
 
+void exe_made(t_cmd *cmd, char **env)
+{
+	pid_t pid, pid1;
+
+	int in = 0;
+	int out = 1;
+	char *env_path;
+	int status;
+
+	pipe(cmd->fd);
+	out = cmd->fd[1];
+	env_path = exe_parse(env, cmd->argv[0]);
+
+	pid = fork();
+	if(pid == 0)
+	{
+		if (out != 1)
+		{
+			dup2(out, 1);
+			close(out);
+		}
+		execve(env_path, cmd->argv, NULL);
+	}
+	else if(pid > 0)
+	{
+		waitpid(pid, &status, 0);
+	}
+
+	close(out);
+	in = cmd->fd[0];
+	cmd = cmd->next;
+	env_path = exe_parse(env, cmd->argv[0]);
+
+	pid1 = fork();
+	if(pid1 == 0)
+	{
+		if(in != 0)
+		{
+			dup2(in, 0);
+			close(in);
+		}
+		execve(env_path, cmd->argv, NULL);
+	}
+	else if(pid > 0)
+	{
+		waitpid(pid1, &status, 0);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -289,7 +337,7 @@ int	main(int argc, char **argv, char **envp)
 				return (EXIT_FAILURE);
 			if (ft_strlen(line) > 0)
 			{
-				exe_main(cmd, env);
+				exe_made(cmd, env);
 				add_history(line);
 			}
 		}
