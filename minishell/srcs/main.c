@@ -211,6 +211,63 @@ void exe_main(t_cmd *cmd, char **env)
 	
 }
 
+// void exe_main(t_cmd *cmd, char **env)
+// {
+
+// 	if (cmd->next == NULL)
+// 	{
+// 		exe_just(cmd, env);
+// 		return ;
+// 	}
+//     pid_t pid, wpid;
+//     int status;
+// 	char *env_path;
+//     int in;
+//     int out;
+//     int fd[2];
+//     in = 0;
+//     out = 1;
+	
+//     while(cmd != NULL)
+//     {
+//         if (cmd->next != NULL)
+//         {
+//             pipe(fd);
+//             out = fd[1];
+//         }
+// 		env_path = exe_parse(env, cmd->argv[0]);
+//         pid = fork();
+//         if (pid == -1)
+//             exit(EXIT_FAILURE);
+//         else if (pid == 0)
+//         {
+//             if (in != 0)
+//             {
+//                 dup2 (in, 0);
+//                 close (in);
+//             }
+//             if (out != 1)
+//             {
+//                 dup2 (out, 1);
+//                 close (out);
+//             }
+//             if (execve(env_path, cmd->argv, NULL) == -1)
+//                 perror("Could not execve");
+//             exit(EXIT_SUCCESS);
+//         }
+//         else if (pid > 0)
+//         {
+//             //do {
+//                 wpid = waitpid(pid, &status, WUNTRACED);
+//             //} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+//         }
+//         close(fd[1]);
+//         in = fd[0];
+//         // move current position
+// 		cmd = cmd->next;
+// 	}
+// }
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
