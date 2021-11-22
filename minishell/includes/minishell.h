@@ -43,6 +43,8 @@
 
 # define QUOTE "\0\'\""
 
+# define MAXSIZE		1024
+
 typedef int		t_bool;
 
 typedef struct s_redirect
@@ -59,6 +61,13 @@ typedef struct s_cmd
 	struct s_cmd		*next;
 	int					fd[2];
 }						t_cmd;
+
+typedef struct s_env
+{
+	char				*key;
+	char				*value;
+	struct s_env 		*next;
+}						t_env;
 
 // error.c
 int			error_handler(char *err_msg);

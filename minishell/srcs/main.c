@@ -276,44 +276,189 @@ void exe_made(t_cmd *cmd, char **env)
 	char *env_path;
 	int status;
 
-	if (cmd->next == NULL)
+	if ((cmd)->next == NULL)
 	{
 		exe_just(cmd, env);
 		return ;
 	}
-	while(cmd)
+	while (cmd)
 	{
-		if(cmd->next != NULL)
+		if((cmd)->next != NULL)
 		{
-			pipe(cmd->fd);
-			out = cmd->fd[1];
+			pipe((cmd)->fd);
+			out = (cmd)->fd[1];
 		}
-		env_path = exe_parse(env, cmd->argv[0]);
+		env_path = exe_parse(env, (cmd)->argv[0]);
 		pid[i] = fork();
 		if(pid[i] == 0)
 		{
 			if(in != 0)
 			{	
 				dup2(in, 0);
-			
 				close(in);
 			}
-			if (out != 1 && cmd->next != NULL)
+			if (out != 1 && (cmd)->next != NULL)
 			{
 				dup2(out, 1);
 				close(out);
 			}
-			execve(env_path, cmd->argv, NULL);
+			execve(env_path, (cmd)->argv, NULL);
 		}
 		else if(pid[i] > 0)
 		{
 			waitpid(pid[i], &status, 0);
 		}
 		close(out); // 마지막일때는 굳이 할 필요는 없는 듯?
-		in = cmd->fd[0];
-		cmd = cmd->next;
+		in = (cmd)->fd[0];
+		(cmd) = (cmd)->next;
 		++i;
 	}
+}
+
+void exe_pwd(void)
+{
+    char *buf;
+	buf = NULL;
+    char *ret;
+	
+	ret = getcwd(0, MAXSIZE);
+	if (ret == NULL)
+		return ;// 오류처리 하기
+
+	ft_putstr_fd(ret, 1);
+	ft_putstr_fd("\n", 1);
+	free(ret);
+	return ;
+}
+
+void	create_list(t_env **lst)
+{
+	*lst = malloc(sizeof(t_env));
+	(*lst)->key = NULL;
+	(*lst)->value = NULL;
+	(*lst)->next = NULL;
+}
+
+void add_node(t_env *add_lst, t_env **env_lst)
+{
+	t_env *move;
+
+	move = *env_lst;
+
+	if (*env_lst == NULL)
+		*env_lst = add_lst;
+	else
+	{
+		while (move->next)
+			move = move->next;
+		move->next = add_lst;
+	}
+}
+
+void exe_split(t_env *lst, char *env)
+{
+	char **env_oneline;
+
+	env_oneline = ft_split(&env[0], '=');
+	lst->key = env_oneline[0];
+	lst->value = env_oneline[1];
+
+}
+
+void exe_env(char **envp, t_env **env_lst)
+{
+	t_env *lst;
+
+
+	while (*envp)
+	{
+		create_list(&lst);
+		// lst = (t_env *)malloc(sizeof(t_env));
+	//	printf("%s\n", envp[0]);
+
+		exe_split(lst, envp[0]);
+		// exe_split(lst, envp[0]);
+		
+		// printf("head : %s", lst->key);		
+		//new_lst->value
+		add_node(lst, env_lst);
+		++envp;
+
+	}
+}
+void print_env(t_env *env_lst, t_cmd *cmd)
+{
+
+	if (cmd->argv[1])	
+	{
+
+		ft_putstr_fd(cmd->argv[1], 1);
+		ft_putstr_fd("\n", 1);
+		// ft_putstr_fd(cmd->argv[0], 1);
+		// ft_putstr_fd("\n", 1);
+		// ft_putstr_fd(cmd->argv[1], 1);
+
+		// while(env_lst) 
+		// {
+		// 	ft_putstr_fd("next : ", 1);
+		// 	ft_putstr_fd(env_lst->key, 1);	
+		// 	if(ft_strncmp(cmd->argv[1], env_lst->value, ft_strlen(env_lst->value)))
+		// 	{
+		// 		ft_putstr_fd("hello\n", 1);
+		// 		ft_putstr_fd(env_lst->key, 1);
+		// 		ft_putstr_fd("=", 1);
+		// 		ft_putstr_fd(env_lst->value, 1);
+		// 		ft_putstr_fd("\n", 1);
+		// 		break;
+		// 	}
+		// 	env_lst = env_lst->next;
+		// }
+		// // ft_putstr_fd("where is env", 1);
+		// // ft_putstr_fd("\n", 1);
+		// return ;
+	}
+	else
+	{
+		while (env_lst)
+		{
+	// 	printf("yyyyyyyy : %s, vvvvvvv : %s\n", env_lst->key, env_lst->value);
+	// //지양
+			ft_putstr_fd(env_lst->key, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(env_lst->value, 1);
+			ft_putstr_fd("\n", 1);
+		//두가지를 구분하기 위함 플래그
+			env_lst = env_lst->next;
+		}
+		
+	}
+
+}
+
+// void exe_export(t_env **env_lst, t_cmd *cmd)
+// {
+
+// }
+
+void exe(t_cmd *cmd, char **env, t_env *env_lst)
+{
+	if (ft_strncmp((cmd->argv[0]), "pwd", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
+		exe_pwd();
+	else if (ft_strncmp((cmd->argv[0]), "env", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
+	{
+		// 만약에 이 과정이 없고 export를 한다면 export가 출력이 안되지 않을까? 
+		// if / else if 외부로 빼는 것을 해야하는 것 아닌가
+		print_env(env_lst, cmd);
+	}
+	// if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 && ft_strlen(cmd->argv[0]) == 6)
+	// {
+	// 	exe_export(&env_lst, cmd);
+	// }
+
+	else
+		exe_made(cmd, env);
+	
+	//env_lst 를 free해주거나 꺼내거나
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -325,7 +470,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	cmd = NULL;
+	t_env *env_lst = NULL;
 	
+	exe_env(envp, &env_lst);
 	env = find_envp_path();
 	while(1)
 	{
@@ -337,7 +484,7 @@ int	main(int argc, char **argv, char **envp)
 				return (EXIT_FAILURE);
 			if (ft_strlen(line) > 0)
 			{
-				exe_made(cmd, env);
+				exe(cmd, env, env_lst);
 				add_history(line);
 			}
 		}
