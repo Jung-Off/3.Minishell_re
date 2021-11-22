@@ -269,8 +269,8 @@ int exe_just(t_cmd *cmd_lst, char **env)
 
 void exe_made(t_cmd *cmd, char **env)
 {
-	pid_t pid;
-
+	pid_t pid[cmd_num(cmd)];
+	int i = 0;
 	int in = 0;
 	int out = 1;
 	char *env_path;
@@ -281,7 +281,6 @@ void exe_made(t_cmd *cmd, char **env)
 		exe_just(cmd, env);
 		return ;
 	}
-
 	while(cmd)
 	{
 		if(cmd->next != NULL)
@@ -290,31 +289,31 @@ void exe_made(t_cmd *cmd, char **env)
 			out = cmd->fd[1];
 		}
 		env_path = exe_parse(env, cmd->argv[0]);
-		pid = fork();
-		if(pid == 0)
+		pid[i] = fork();
+		if(pid[i] == 0)
 		{
 			if(in != 0)
-			{
+			{	
 				dup2(in, 0);
+			
 				close(in);
 			}
-			if (out != 1)
+			if (out != 1 && cmd->next != NULL)
 			{
 				dup2(out, 1);
 				close(out);
 			}
 			execve(env_path, cmd->argv, NULL);
 		}
-		else if(pid > 0)
+		else if(pid[i] > 0)
 		{
-			waitpid(pid, &status, 0);
+			waitpid(pid[i], &status, 0);
 		}
-
-		close(out);
+		close(out); // 마지막일때는 굳이 할 필요는 없는 듯?
 		in = cmd->fd[0];
 		cmd = cmd->next;
+		++i;
 	}
-
 }
 
 int	main(int argc, char **argv, char **envp)
