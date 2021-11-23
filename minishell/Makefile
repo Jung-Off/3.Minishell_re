@@ -31,7 +31,8 @@ SRC			= error.c \
 			  parse_line.c \
 			  replace.c \
 			  utils_cmd.c \
-			  utils_redir.c
+			  utils_redir.c \
+			  ft_env.c
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRC))
 OBJS		= $(addprefix $(OBJS_DIR), $(SRC:.c=.o))

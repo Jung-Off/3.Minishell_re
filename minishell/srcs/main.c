@@ -337,6 +337,7 @@ void	create_list(t_env **lst)
 	(*lst)->key = NULL;
 	(*lst)->value = NULL;
 	(*lst)->next = NULL;
+	(*lst)->env_flag = 0;
 }
 
 void add_node(t_env *add_lst, t_env **env_lst)
@@ -355,90 +356,79 @@ void add_node(t_env *add_lst, t_env **env_lst)
 	}
 }
 
-void exe_split(t_env *lst, char *env)
+void export_split(t_env *lst, char **argv)
 {
-	char **env_oneline;
+	char **export_oneline;
 
-	env_oneline = ft_split(&env[0], '=');
-	lst->key = env_oneline[0];
-	lst->value = env_oneline[1];
+	export_oneline = ft_split(argv[1], '=');
+
+	int i = 0;
+	while(export_oneline[i])
+	{
+		printf("____%s____%d\n", export_oneline[i], i);
+		++i;
+	}
+	lst->key = export_oneline[0];
+	
+	
+	if(ft_strchr(argv[1], '='))
+	{
+		lst->value = export_oneline[1];
+		lst->env_flag = 1;
+	}
 
 }
 
-void exe_env(char **envp, t_env **env_lst)
+void add_export(t_env **env_lst, t_cmd *cmd)
 {
 	t_env *lst;
 
+	create_list(&lst);
+	export_split(lst, cmd->argv);	
+	add_node(lst, env_lst);
 
-	while (*envp)
-	{
-		create_list(&lst);
-		// lst = (t_env *)malloc(sizeof(t_env));
-	//	printf("%s\n", envp[0]);
-
-		exe_split(lst, envp[0]);
-		// exe_split(lst, envp[0]);
-		
-		// printf("head : %s", lst->key);		
-		//new_lst->value
-		add_node(lst, env_lst);
-		++envp;
-
-	}
 }
-void print_env(t_env *env_lst, t_cmd *cmd)
+
+// int duplicat_search(env_lst, cmd)
+// {
+	
+// }
+
+void exe_export(t_env **env_lst, t_cmd *cmd)
 {
+	t_env *print_lst;
 
-	if (cmd->argv[1])	
+	(void)cmd;
+	print_lst = *env_lst;
+
+	if (cmd->argv[1])
 	{
-
-		ft_putstr_fd(cmd->argv[1], 1);
-		ft_putstr_fd("\n", 1);
-		// ft_putstr_fd(cmd->argv[0], 1);
-		// ft_putstr_fd("\n", 1);
-		// ft_putstr_fd(cmd->argv[1], 1);
-
-		// while(env_lst) 
-		// {
-		// 	ft_putstr_fd("next : ", 1);
-		// 	ft_putstr_fd(env_lst->key, 1);	
-		// 	if(ft_strncmp(cmd->argv[1], env_lst->value, ft_strlen(env_lst->value)))
-		// 	{
-		// 		ft_putstr_fd("hello\n", 1);
-		// 		ft_putstr_fd(env_lst->key, 1);
-		// 		ft_putstr_fd("=", 1);
-		// 		ft_putstr_fd(env_lst->value, 1);
-		// 		ft_putstr_fd("\n", 1);
-		// 		break;
-		// 	}
-		// 	env_lst = env_lst->next;
-		// }
-		// // ft_putstr_fd("where is env", 1);
-		// // ft_putstr_fd("\n", 1);
-		// return ;
+		// if (duplicate_search(env_lst, cmd))
+		// 	return ;
+		add_export(env_lst, cmd); // 탐색의 과정도 필요할 듯
 	}
 	else
 	{
-		while (env_lst)
+		while (print_lst)
 		{
-	// 	printf("yyyyyyyy : %s, vvvvvvv : %s\n", env_lst->key, env_lst->value);
-	// //지양
-			ft_putstr_fd(env_lst->key, 1);
-			ft_putstr_fd("=", 1);
-			ft_putstr_fd(env_lst->value, 1);
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(print_lst->key, 1);
+
+			if(print_lst->env_flag == 1)
+			{
+				ft_putstr_fd("=", 1);
+				if(print_lst->value == NULL)
+					ft_putstr_fd("\"hello\"", 1);
+				ft_putstr_fd(print_lst->value, 1);	
+			}
 			ft_putstr_fd("\n", 1);
 		//두가지를 구분하기 위함 플래그
-			env_lst = env_lst->next;
+			print_lst = print_lst->next;
 		}
-		
 	}
-
+	//정렬하는 과정 여기서 쯤 필요할 듯
 }
 
-// void exe_export(t_env **env_lst, t_cmd *cmd)
-// {
-
-// }
 
 void exe(t_cmd *cmd, char **env, t_env *env_lst)
 {
@@ -448,18 +438,27 @@ void exe(t_cmd *cmd, char **env, t_env *env_lst)
 	{
 		// 만약에 이 과정이 없고 export를 한다면 export가 출력이 안되지 않을까? 
 		// if / else if 외부로 빼는 것을 해야하는 것 아닌가
-		print_env(env_lst, cmd);
+		print_env(env_lst);
 	}
-	// if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 && ft_strlen(cmd->argv[0]) == 6)
-	// {
-	// 	exe_export(&env_lst, cmd);
-	// }
-
+	else if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 && ft_strlen(cmd->argv[0]) == 6)
+	{
+		//아스키 코드순서대로 정렬하는 것이 필요하다
+		exe_export(&env_lst, cmd);
+		//정렬과정
+	}
 	else
 		exe_made(cmd, env);
 	
 	//env_lst 를 free해주거나 꺼내거나
 }
+
+
+
+
+
+
+
+
 
 int	main(int argc, char **argv, char **envp)
 {

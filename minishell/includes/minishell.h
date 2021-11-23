@@ -67,6 +67,7 @@ typedef struct s_env
 	char				*key;
 	char				*value;
 	struct s_env 		*next;
+	int					env_flag;
 }						t_env;
 
 // error.c
@@ -98,5 +99,11 @@ void		cmd_clear(t_cmd **lst);
 t_redirect	*create_redir(char *line);
 void		redir_add_back(t_redirect **lst, t_redirect *new);
 void		redir_clear(t_redirect **lst);
+
+//ft_env.c
+void env_split(t_env *lst, char *env);
+void exe_env(char **envp, t_env **env_lst);
+void print_env(t_env *env_lst);
+
 
 #endif
