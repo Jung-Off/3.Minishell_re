@@ -431,44 +431,164 @@ int add_export(t_env **env_lst, t_cmd *cmd)
 	return (0);
 }
 
+// void sort_export(t_env **env_lst)
+// {
+// 	t_env *big;
+// 	t_env *move;
+// 	t_env *set;
 
+// 	set = *env_lst;
+// 	big = *env_lst;
+// 	move = *env_lst;
+// 	int i = 0;
 
-void exe_export(t_env **env_lst, t_cmd *cmd)
+// 	while (set)
+// 	{
+// 		while (move)
+// 		{
+// 			i = 0;
+// 			while (big->key[i] == NULL || move->key[i] == NULL)
+// 			{
+// 				if (big->key[i] < move->key[i])
+// 				{
+				
+// 				}
+// 				i++;
+// 			}
+// 			move = move->next;
+// 		}
+// 	}
+// }
+
+void print_export(t_env *env_lst)
 {
 	t_env *print_lst;
 
-	(void)cmd;
-	print_lst = *env_lst;
+	print_lst = env_lst;
+	//sort_export(&env_lst);
+			// print로 빼버리기
+	while (print_lst)
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(print_lst->key, 1);
+
+		if(print_lst->env_flag == 1)
+		{
+			ft_putstr_fd("=", 1);
+			if(print_lst->value == NULL)
+				ft_putstr_fd("\"\"", 1);
+			ft_putstr_fd(print_lst->value, 1);	
+		}
+		ft_putstr_fd("\n", 1);
+	//두가지를 구분하기 위함 플래그
+		print_lst = print_lst->next;
+	}
+
+}
+
+void exe_export(t_env **env_lst, t_cmd *cmd)
+{
 
 	if (cmd->argv[1])
 	{
 		if (add_export(env_lst, cmd))
 			return ; // 탐색의 과정도 필요할 듯
+		//정렬하여서 출력하기
 	}
 	else
 	{
-		while (print_lst)
-		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(print_lst->key, 1);
-
-			if(print_lst->env_flag == 1)
-			{
-				ft_putstr_fd("=", 1);
-				if(print_lst->value == NULL)
-					ft_putstr_fd("\"hello\"", 1);
-				ft_putstr_fd(print_lst->value, 1);	
-			}
-			ft_putstr_fd("\n", 1);
-		//두가지를 구분하기 위함 플래그
-			print_lst = print_lst->next;
-		}
+		print_export(*env_lst); // 정렬을 하고 출력을 하기
 	}
+	// 	//print로 빼버리기
+	// 	while (print_lst)
+	// 	{
+	// 		ft_putstr_fd("declare -x ", 1);
+	// 		ft_putstr_fd(print_lst->key, 1);
+
+	// 		if(print_lst->env_flag == 1)
+	// 		{
+	// 			ft_putstr_fd("=", 1);
+	// 			if(print_lst->value == NULL)
+	// 				ft_putstr_fd("\"\"", 1);
+	// 			ft_putstr_fd(print_lst->value, 1);	
+	// 		}
+	// 		ft_putstr_fd("\n", 1);
+	// 	//두가지를 구분하기 위함 플래그
+	// 		print_lst = print_lst->next;
+	// 	}
+	// }
 	//정렬하는 과정 여기서 쯤 필요할 듯
 }
 
+void exe_unset(t_env **env_lst, t_cmd *cmd)
+{
+	t_env *prev_env;
+	t_env *move;
+	(void)env_lst;
+	(void)cmd;
+	
+	printf("%s %s\n", cmd->argv[0], cmd->argv[1]);
 
-void exe(t_cmd *cmd, char **env, t_env *env_lst)
+	prev_env = NULL;
+	// prev_env->next = *env_lst;
+	move = *env_lst;
+	while (move)
+	{	
+		if (ft_strncmp(move->key, cmd->argv[1], ft_strlen(cmd->argv[1])) == 0)
+		{
+			printf("check : %s %s\n", move->key, move->value);
+			if (prev_env == NULL)
+			{
+				printf("NULL ? %s %s\n", move->key, move->value);
+				(*env_lst) = (*env_lst)->next;
+				// prev_env = move->next;
+			}
+			else
+			{
+				printf("else : %s %s\n", move->key, move->value);
+				prev_env->next = move->next;
+				
+			}
+			// move->next = NULL;
+			// free(move);
+			break;
+		}
+		prev_env = move;
+		move = move->next;
+	}	
+}
+
+void exe_cd(t_cmd *cmd)
+{
+	int result = 0;
+	char *user;
+	char *path;
+
+	user = getenv("USER");
+	path = ft_strjoin("/Users/", user);
+	
+	if(cmd->argv[1])
+	{
+		if(ft_strchr(cmd->argv[1],'~'))
+		{
+			chdir(path);
+		}
+		else
+		{
+			result = chdir(cmd->argv[1]);
+			if( result == 0 )
+			{
+				printf( "이동 성공" );
+			}
+			else if( result == -1 )
+			{
+				perror( "이동 실패 - " );
+			}
+		}
+	}
+}
+
+void exe(t_cmd *cmd, char **env, t_env **env_lst)
 {
 	if (ft_strncmp((cmd->argv[0]), "pwd", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
 		exe_pwd();
@@ -476,26 +596,30 @@ void exe(t_cmd *cmd, char **env, t_env *env_lst)
 	{
 		// 만약에 이 과정이 없고 export를 한다면 export가 출력이 안되지 않을까? 
 		// if / else if 외부로 빼는 것을 해야하는 것 아닌가
-		print_env(env_lst);
+		print_env(*env_lst);
 	}
 	else if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 && ft_strlen(cmd->argv[0]) == 6)
 	{
 		//아스키 코드순서대로 정렬하는 것이 필요하다
-		exe_export(&env_lst, cmd);
-		//정렬과정
+		
+		exe_export(env_lst, cmd);
+		
+		//정렬과정 이거는 조금 어려워 보임..
 	}
+	else if (ft_strncmp((cmd->argv[0]), "unset", 5) == 0 && ft_strlen(cmd->argv[0]) == 5)
+	{
+		exe_unset(env_lst, cmd);
+	}
+	else if (ft_strncmp((cmd->argv[0]), "cd", 5) == 0 && ft_strlen(cmd->argv[0]) == 2)
+	{
+		exe_cd(cmd);
+	}
+
 	else
 		exe_made(cmd, env);
 	
 	//env_lst 를 free해주거나 꺼내거나
 }
-
-
-
-
-
-
-
 
 
 int	main(int argc, char **argv, char **envp)
@@ -521,8 +645,8 @@ int	main(int argc, char **argv, char **envp)
 				return (EXIT_FAILURE);
 			if (ft_strlen(line) > 0)
 			{
-				exe(cmd, env, env_lst);
-				add_history(line);
+				exe (cmd, env, &env_lst);
+				add_history (line);
 			}
 		}
 		free(line);
