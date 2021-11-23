@@ -379,20 +379,59 @@ void export_split(t_env *lst, char **argv)
 
 }
 
-void add_export(t_env **env_lst, t_cmd *cmd)
+int duplicate_search(t_env *env_lst, t_env *lst)
+{
+	//a만 들어가면 일단 들어는 가져 a
+	//a=, a=dadsa 이런식으로 들어가면 다 엎어
+
+
+	while(env_lst)
+	{	
+		if(ft_strncmp(env_lst->key, lst->key, ft_strlen(lst->key)) == 0)
+		{
+			printf("key ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
+			if (lst->env_flag == 0)
+				return (1);
+			else
+			{
+				// printf("before\t");
+				// printf("env\tkey ; %s  value : %s  env_flag :%d\n", env_lst->key, env_lst->value, env_lst->env_flag);
+				// printf("lst\tkey ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
+				env_lst->value = lst->value;
+				env_lst->env_flag = 1;
+				// printf("after\t");
+				// printf("env\tkey ; %s  value : %s  env_flag :%d\n", env_lst->key, env_lst->value, env_lst->env_flag);
+				// printf("lst\tkey ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
+				return (1);
+			}
+		}
+		env_lst = env_lst->next;
+	}
+	return (0);
+}
+
+int add_export(t_env **env_lst, t_cmd *cmd)
 {
 	t_env *lst;
 
 	create_list(&lst);
-	export_split(lst, cmd->argv);	
+	export_split(lst, cmd->argv);
+	if (duplicate_search(*env_lst, lst))
+	{
+			return (1);
+		// printf("out");
+		// printf("key ; %s  value : %s  env_flag :%d\n", (*env_lst)->key, (*env_lst)->value, (*env_lst)->env_flag);
+		// printf("key ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
+		// free(lst);
+	}
+
+//printf("key ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
 	add_node(lst, env_lst);
 
+	return (0);
 }
 
-// int duplicat_search(env_lst, cmd)
-// {
-	
-// }
+
 
 void exe_export(t_env **env_lst, t_cmd *cmd)
 {
@@ -403,9 +442,8 @@ void exe_export(t_env **env_lst, t_cmd *cmd)
 
 	if (cmd->argv[1])
 	{
-		// if (duplicate_search(env_lst, cmd))
-		// 	return ;
-		add_export(env_lst, cmd); // 탐색의 과정도 필요할 듯
+		if (add_export(env_lst, cmd))
+			return ; // 탐색의 과정도 필요할 듯
 	}
 	else
 	{
