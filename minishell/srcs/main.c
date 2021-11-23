@@ -588,6 +588,21 @@ void exe_cd(t_cmd *cmd)
 	}
 }
 
+void exe_echo(t_cmd *cmd)
+{
+	int i;
+	i = 1;
+
+	while(cmd->argv[i])
+	{
+		ft_putstr_fd(cmd->argv[i], 1);
+		ft_putstr_fd(" ", 1);
+		++i;
+	}
+	ft_putstr_fd("\n", 1);
+	
+}
+
 void exe(t_cmd *cmd, char **env, t_env **env_lst)
 {
 	if (ft_strncmp((cmd->argv[0]), "pwd", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
@@ -607,14 +622,12 @@ void exe(t_cmd *cmd, char **env, t_env **env_lst)
 		//정렬과정 이거는 조금 어려워 보임..
 	}
 	else if (ft_strncmp((cmd->argv[0]), "unset", 5) == 0 && ft_strlen(cmd->argv[0]) == 5)
-	{
 		exe_unset(env_lst, cmd);
-	}
+	
 	else if (ft_strncmp((cmd->argv[0]), "cd", 5) == 0 && ft_strlen(cmd->argv[0]) == 2)
-	{
 		exe_cd(cmd);
-	}
-
+	else if (ft_strncmp((cmd->argv[0]), "echo", 4) == 0 && ft_strlen(cmd->argv[0]) == 4)
+		exe_echo(cmd);
 	else
 		exe_made(cmd, env);
 	
