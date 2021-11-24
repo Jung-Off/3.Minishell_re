@@ -67,6 +67,7 @@ typedef struct s_env
 	char				*key;
 	char				*value;
 	struct s_env 		*next;
+	int					idx;
 	int					env_flag;
 }						t_env;
 
@@ -100,10 +101,28 @@ t_redirect	*create_redir(char *line);
 void		redir_add_back(t_redirect **lst, t_redirect *new);
 void		redir_clear(t_redirect **lst);
 
-//ft_env.c
+//exe_env.c
 void env_split(t_env *lst, char *env);
 void exe_env(char **envp, t_env **env_lst);
 void print_env(t_env *env_lst);
 
+//exe_cd.c
+void exe_cd(t_cmd *cmd);
+
+//exe_echo.c
+int echo_option_chk(char *option);
+void exe_echo(t_cmd *cmd);
+
+//exe_export.c
+//void	create_list(t_env **lst);
+//void add_node(t_env *add_lst, t_env **env_lst);
+void export_split(t_env *lst, char **argv);
+int duplicate_search(t_env *env_lst, t_env *lst);
+int add_export(t_env **env_lst, t_cmd *cmd);
+void print_export(t_env *env_lst);
+void exe_export(t_env **env_lst, t_cmd *cmd);
+
+//exe_pwd.c
+void exe_pwd(void);
 
 #endif

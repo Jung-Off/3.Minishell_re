@@ -57,8 +57,6 @@ void exe_env(char **envp, t_env **env_lst)
 	}
 }
 
-
-
 void print_env(t_env *env_lst)
 {
 	while (env_lst)

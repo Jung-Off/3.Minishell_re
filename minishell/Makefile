@@ -32,7 +32,12 @@ SRC			= error.c \
 			  replace.c \
 			  utils_cmd.c \
 			  utils_redir.c \
-			  ft_env.c
+				exe_env.c \
+				exe_cd.c \
+				exe_echo.c \
+				exe_pwd.c \
+				exe_export.c
+
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRC))
 OBJS		= $(addprefix $(OBJS_DIR), $(SRC:.c=.o))
