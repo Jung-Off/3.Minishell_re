@@ -98,10 +98,39 @@ int duplicate_search(t_env *env_lst, t_env *lst)
 	return (0);
 }
 
+int judge_cmd(char *cmd_option)
+{
+	int i;
+	int judge;
+
+	judge = 0;
+	i = 0;
+	while (cmd_option[i] && !judge)
+	{
+		if (ft_isdigit(cmd_option[i]))
+		{
+			ft_putchar_fd(cmd_option[i], 1);
+			judge = 1;
+		}
+		if (ft_isalpha(cmd_option[i]))
+			break;
+		++i;
+	}
+	return (judge);
+}
 
 int add_export(t_env **env_lst, t_cmd *cmd)
 {
 	t_env *lst;
+
+	if (judge_cmd(cmd->argv[1]))
+	{
+		ft_putstr_fd("export :", 1);
+		ft_putstr_fd(cmd->argv[1], 1);
+		ft_putstr_fd(": not a valid identifier", 1);
+		ft_putstr_fd("\n", 1);
+		return (1);
+	}
 
 	create_list(&lst);
 	export_split(lst, cmd->argv);
