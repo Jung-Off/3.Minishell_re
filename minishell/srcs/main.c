@@ -376,7 +376,7 @@ void exe(t_cmd *cmd, char **env, t_env **env_lst)
 		exe_unset(env_lst, cmd);
 	
 	else if (ft_strncmp((cmd->argv[0]), "cd", 5) == 0 && ft_strlen(cmd->argv[0]) == 2)
-		exe_cd(cmd);
+		exe_cd(cmd, *env_lst);
 	else if (ft_strncmp((cmd->argv[0]), "echo", 4) == 0 && ft_strlen(cmd->argv[0]) == 4)
 		exe_echo(cmd);
 	else
@@ -405,7 +405,7 @@ int	main(int argc, char **argv, char **envp)
 		exit_function(line);
 		if(line)
 		{
-			if (parse_line(&cmd, line, envp))
+			if (parse_line(&cmd, line, env_lst))
 				return (EXIT_FAILURE);
 			if (ft_strlen(line) > 0)
 			{

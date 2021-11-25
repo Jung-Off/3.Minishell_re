@@ -85,10 +85,10 @@ int			parse_command(t_cmd **cmd, char *cmd_str);
 // parse_line.c
 int			pass_quotes(char **input);
 int			split_line(char **cmd, char **line);
-int			parse_line(t_cmd **cmd_lst, char *line, char **envp);
+int			parse_line(t_cmd **cmd_lst, char *line, t_env *env);
 
 // replace.c
-int			replace(t_cmd *cmd, char **envp);
+int			replace(t_cmd *cmd, t_env *env);
 
 // utils_cmd.c
 t_cmd		*create_cmd(void);
@@ -107,7 +107,7 @@ void exe_env(char **envp, t_env **env_lst);
 void print_env(t_env *env_lst);
 
 //exe_cd.c
-void exe_cd(t_cmd *cmd);
+void exe_cd(t_cmd *cmd, t_env *env_lst);
 
 //exe_echo.c
 int echo_option_chk(char *option);

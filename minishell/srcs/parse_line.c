@@ -50,7 +50,7 @@ int	split_line(char **cmd, char **line)
 	return (EXIT_SUCCESS);
 }
 
-int	parse_line(t_cmd **cmd_lst, char *line, char **envp)
+int	parse_line(t_cmd **cmd_lst, char *line, t_env *env)
 {
 	t_cmd	*new_cmd;
 	char	*cmd;
@@ -69,7 +69,7 @@ int	parse_line(t_cmd **cmd_lst, char *line, char **envp)
 		cmd_add_back(cmd_lst, new_cmd);
 		if (parse_command(&new_cmd, cmd))
 			return (EXIT_FAILURE);
-		if (replace(new_cmd, envp))
+		if (replace(new_cmd, env))
 			return (EXIT_FAILURE);
 		if (error_check(new_cmd))
 			return (error_handler("syntax error near unexpected token"));

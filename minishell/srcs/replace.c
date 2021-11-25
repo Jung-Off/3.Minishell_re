@@ -55,12 +55,13 @@ int	add_char(char **str, char ch)
 	return (EXIT_SUCCESS);
 }
 
-int	get_env(char **res, char *str, char **envp, int *idx)
+int	get_env(char **res, char *str, t_env *env, int *idx)
 {
 	int		key_size;
 	char	*key;
 	char	*val;
 	char	*join;
+	t_env	*p;
 
 	if (*str == '?' && (*idx)++)
 	{
@@ -76,14 +77,24 @@ int	get_env(char **res, char *str, char **envp, int *idx)
 		key_size++;
 	key = ft_substr(str, 0, key_size);
 	val = NULL;
-	while (*envp)
+	p = env;
+	while (p)
 	{
 		if (key_size == 0)
 			val = "$";
-		else if (ft_strncmp(*envp, key, ft_strlen(key)) == 0)
-			val = getenv(*envp);
-		envp++;
+		else if (ft_strncmp(p->key, key, ft_strlen(p->key)) == 0
+			&& ft_strncmp(p->key, key, ft_strlen(key)) == 0)
+			val = p->value;
+		p = p->next;
 	}
+	// while (*envp)
+	// {
+	// 	if (key_size == 0)
+	// 		val = "$";
+	// 	else if (ft_strncmp(*envp, key, ft_strlen(key)) == 0)
+	// 		val = getenv(*envp);
+	// 	envp++;
+	// }
 	join = sh_strjoin(*res, val);
 	free(*res);
 	*res = join;
@@ -92,7 +103,7 @@ int	get_env(char **res, char *str, char **envp, int *idx)
 	return (EXIT_SUCCESS);
 }
 
-int	replace_env(char **str, char **envp)
+int	replace_env(char **str, t_env *env)
 {
 	int		i;
 	int		quote;
@@ -110,7 +121,7 @@ int	replace_env(char **str, char **envp)
 		else if ((*str)[i] == QUOTE[quote])
 			quote = NONE;
 		else if ((*str)[i] == '$' && quote != SINGLE)
-			get_env(&new_str, &((*str)[i + 1]), envp, &i);
+			get_env(&new_str, &((*str)[i + 1]), env, &i);
 		else if ((*str)[i] != QUOTE[quote])
 			add_char(&new_str, (*str)[i]);
 		i++;
@@ -120,7 +131,7 @@ int	replace_env(char **str, char **envp)
 	return (EXIT_SUCCESS);
 }
 
-int	replace(t_cmd *cmd, char **envp)
+int	replace(t_cmd *cmd, t_env *env)
 {
 	char		**p;
 	t_redirect	*rp;
@@ -128,13 +139,13 @@ int	replace(t_cmd *cmd, char **envp)
 	p = cmd->argv;
 	while (*p)
 	{
-		replace_env(p, envp);
+		replace_env(p, env);
 		p++;
 	}
 	rp = cmd->redirect;
 	while (rp)
 	{
-		replace_env(&(rp->file), envp);
+		replace_env(&(rp->file), env);
 		rp = rp->next;
 	}
 	return (EXIT_SUCCESS);
