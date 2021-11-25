@@ -327,10 +327,14 @@ void exe_unset(t_env **env_lst, t_cmd *cmd)
 
 	prev_env = NULL;
 	// prev_env->next = *env_lst;
-	move = *env_lst;
+	int i = 0;
+	while (cmd->argv[i])
+	{
+		move = *env_lst;
 	while (move)
 	{	
-		if (ft_strncmp(move->key, cmd->argv[1], ft_strlen(cmd->argv[1])) == 0)
+		if (ft_strncmp(move->key, cmd->argv[i], ft_strlen(cmd->argv[i])) == 0
+		&& ft_strncmp(move->key, cmd->argv[i], ft_strlen(move->key)) == 0)
 		{
 			printf("check : %s %s\n", move->key, move->value);
 			if (prev_env == NULL)
@@ -350,6 +354,8 @@ void exe_unset(t_env **env_lst, t_cmd *cmd)
 		}
 		prev_env = move;
 		move = move->next;
+	}
+		i++;
 	}	
 }
 

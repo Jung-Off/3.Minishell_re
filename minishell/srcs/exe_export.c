@@ -27,11 +27,11 @@ static void add_node(t_env *add_lst, t_env **env_lst)
 	}
 }
 
-void export_split(t_env *lst, char **argv)
+void export_split(t_env *lst, char *argv)
 {
 	char **export_oneline;
 
-	export_oneline = ft_split(argv[1], '=');
+	export_oneline = ft_split(argv, '=');
 
 	int i = 0;
 	while(export_oneline[i])
@@ -42,7 +42,7 @@ void export_split(t_env *lst, char **argv)
 	lst->key = export_oneline[0];
 	
 	
-	if(ft_strchr(argv[1], '='))
+	if(ft_strchr(argv, '='))
 	{
 		lst->value = export_oneline[1];
 		lst->env_flag = 1;
@@ -119,21 +119,21 @@ int judge_cmd(char *cmd_option)
 	return (judge);
 }
 
-int add_export(t_env **env_lst, t_cmd *cmd)
+int add_export(t_env **env_lst, char *cmd)
 {
 	t_env *lst;
 
-	if (judge_cmd(cmd->argv[1]))
+	if (judge_cmd(cmd))
 	{
 		ft_putstr_fd("export :", 1);
-		ft_putstr_fd(cmd->argv[1], 1);
+		ft_putstr_fd(cmd, 1);
 		ft_putstr_fd(": not a valid identifier", 1);
 		ft_putstr_fd("\n", 1);
 		return (1);
 	}
 
 	create_list(&lst);
-	export_split(lst, cmd->argv);
+	export_split(lst, cmd);
 	if (duplicate_search(*env_lst, lst))
 	{
 			return (1);
@@ -270,12 +270,15 @@ void print_export(t_env *env_lst)
 
 void exe_export(t_env **env_lst, t_cmd *cmd)
 {
-
+	int i = 1;
 	if (cmd->argv[1])
 	{
-		if (add_export(env_lst, cmd))
-			return ; // 탐색의 과정도 필요할 듯
-		//정렬하여서 출력하기
+		while(cmd->argv[i])
+		{
+			add_export(env_lst, cmd->argv[i]);
+			 // 탐색의 과정도 필요할 듯
+			++i;
+		}//정렬하여서 출력하기
 	}
 	else
 	{

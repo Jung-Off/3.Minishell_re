@@ -116,9 +116,9 @@ void exe_echo(t_cmd *cmd);
 //exe_export.c
 //void	create_list(t_env **lst);
 //void add_node(t_env *add_lst, t_env **env_lst);
-void export_split(t_env *lst, char **argv);
+void export_split(t_env *lst, char *argv);
 int duplicate_search(t_env *env_lst, t_env *lst);
-int add_export(t_env **env_lst, t_cmd *cmd);
+int add_export(t_env **env_lst, char *cmd);
 void print_export(t_env *env_lst);
 void exe_export(t_env **env_lst, t_cmd *cmd);
 
