@@ -1,18 +1,20 @@
 
 #include "../includes/minishell.h"
 
-int search_lst(t_cmd *cmd, t_env *env_lst)
+char	*search_home(t_env *env_lst)
 {
 	while (env_lst)
 	{
-		if (ft_strncmp(env_lst->key, cmd->argv[0], ft_strlen(cmd->argv[0])
-			&& ft_strncmp(env_lst->key, cmd->argv[0], ft_strlen(env_lst->key)) == 0))
-		{
-			return (0);
-		}
+		if (ft_strncmp(env_lst->key, "HOME", ft_strlen("HOME")) == 0
+			&& ft_strncmp(env_lst->key, "HOME", ft_strlen(env_lst->key)) == 0)
+			{
+				ft_putstr_fd(env_lst->key, 1);
+			ft_putstr_fd("\n", 1);
+			return (env_lst->value);
+			}
 		env_lst = env_lst->next;
 	}
-	return (1);
+	return (0);
 }
 
 void exe_cd(t_cmd *cmd, t_env *env_lst)
@@ -27,15 +29,19 @@ void exe_cd(t_cmd *cmd, t_env *env_lst)
 
 	//printf("%s , %s\n",cmd->argv[0], cmd->argv[1]);
 	
-	if (!cmd->argv[1] && search_lst(cmd, env_lst))
+	if (!cmd->argv[1])
 	{
-		ft_putstr_fd("bash: cd: HOME not set", 1);
-		ft_putstr_fd("\n", 1);
-		return ;
+		if (!search_home(env_lst))
+		{
+			ft_putstr_fd("minishell: cd: HOME not set", 1);
+			ft_putstr_fd("\n", 1);
+			return ;
+		}
+		chdir(search_home(env_lst));
 	}
 	if(cmd->argv[1])
 	{
-		if(ft_strchr(cmd->argv[1],'~'))
+		if(ft_strchr(cmd->argv[1], '~'))
 		{
 			if(ft_strlen(cmd->argv[1]) > 1)
 			{
