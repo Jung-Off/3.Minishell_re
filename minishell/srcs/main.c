@@ -343,7 +343,6 @@ void exe_unset(t_env **env_lst, t_cmd *cmd)
 			{
 				printf("else : %s %s\n", move->key, move->value);
 				prev_env->next = move->next;
-				
 			}
 			// move->next = NULL;
 			// free(move);

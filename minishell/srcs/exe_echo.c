@@ -42,7 +42,7 @@ void exe_echo(t_cmd *cmd)
 		if(cmd->argv[i])
 			ft_putstr_fd(" ", 1);
 	}
-	if(!option)
+	if (!option)
 		ft_putstr_fd("\n", 1);
 	
 }

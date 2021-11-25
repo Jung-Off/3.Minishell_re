@@ -24,6 +24,9 @@ void exe_cd(t_cmd *cmd)
 				chdir(joins);
 			}
 			else
+			//cd __ > home 을 탐색
+			//cd
+			//getenv("HOME"); unset하고 나서는 없어야됨
 				chdir(home);
 		}
 		else

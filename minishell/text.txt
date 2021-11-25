@@ -1,0 +1,979 @@
+20 USER
+11 PATH
+6 LOGNAME
+15 SSH_AUTH_SOCK
+1 HOME
+13 SHELL
+25 __CF_USER_TEXT_ENCODING
+19 TMPDIR
+22 XPC_SERVICE_NAME
+21 XPC_FLAGS
+2 HOMEBREW_CACHE
+3 HOMEBREW_TEMP
+5 LESS
+7 LSCOLORS
+8 MAIL
+9 OLDPWD
+10 PAGER
+12 PWD
+14 SHLVL
+23 ZSH
+17 TERM_PROGRAM
+18 TERM_PROGRAM_VERSION
+4 LANG
+0 COLORTERM
+16 TERM
+24 _
+minishell$ 
+➜  minishell git:(master) ✗ make re
+make -C ./libft/ clean
+rm -rf ./objs/
+gcc -Wall -Werror -Wextra  -c srcs/error.c -o objs/error.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/execute.c -o objs/execute.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/main.c -o objs/main.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_command.c -o objs/parse_command.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_line.c -o objs/parse_line.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/replace.c -o objs/replace.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_cmd.c -o objs/utils_cmd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_redir.c -o objs/utils_redir.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_env.c -o objs/exe_env.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_cd.c -o objs/exe_cd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_echo.c -o objs/exe_echo.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_pwd.c -o objs/exe_pwd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_export.c -o objs/exe_export.o -I ./includes/
+srcs/exe_export.c:206:15: error: use of undeclared identifier 'env'
+    env_lst = env->next;
+              ^
+1 error generated.
+make: *** [objs/exe_export.o] Error 1
+➜  minishell git:(master) ✗ 
+➜  minishell git:(master) ✗ make re
+make -C ./libft/ clean
+rm -rf ./objs/
+gcc -Wall -Werror -Wextra  -c srcs/error.c -o objs/error.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/execute.c -o objs/execute.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/main.c -o objs/main.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_command.c -o objs/parse_command.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_line.c -o objs/parse_line.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/replace.c -o objs/replace.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_cmd.c -o objs/utils_cmd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_redir.c -o objs/utils_redir.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_env.c -o objs/exe_env.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_cd.c -o objs/exe_cd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_echo.c -o objs/exe_echo.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_pwd.c -o objs/exe_pwd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_export.c -o objs/exe_export.o -I ./includes/
+make -C ./libft/
+gcc -Wall -Werror -Wextra  -o minishell ./objs/error.o ./objs/execute.o ./objs/main.o ./objs/parse_command.o ./objs/parse_line.o ./objs/replace.o ./objs/utils_cmd.o ./objs/utils_redir.o ./objs/exe_env.o ./objs/exe_cd.o ./objs/exe_echo.o ./objs/exe_pwd.o ./objs/exe_export.o -I ./includes/ -L./libft/ -lft -lreadline -I/Users/jiwchoi/.brew/opt/readline/include
+➜  minishell git:(master) ✗ ./minishell 
+minishell$ export
+declare -x USER=jji
+declare -x PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+declare -x LOGNAME=jji
+declare -x SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+declare -x HOME=/Users/jji
+declare -x SHELL=/bin/zsh
+declare -x __CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+declare -x TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+declare -x XPC_SERVICE_NAME=0
+declare -x XPC_FLAGS=0x0
+declare -x HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+declare -x HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+declare -x LESS=-R
+declare -x LSCOLORS=Gxfxcxdxbxegedabagacad
+declare -x MAIL=jji@student.42seoul.kr
+declare -x OLDPWD=/Users/jji/3.Minishell_re
+declare -x PAGER=less
+declare -x PWD=/Users/jji/3.Minishell_re/minishell
+declare -x SHLVL=1
+declare -x ZSH=/Users/jji/.oh-my-zsh
+declare -x TERM_PROGRAM=vscode
+declare -x TERM_PROGRAM_VERSION=1.39.2
+declare -x LANG=en_US.UTF-8
+declare -x COLORTERM=truecolor
+declare -x TERM=xterm-256color
+declare -x _=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ 
+➜  minishell git:(master) ✗ make re
+make -C ./libft/ clean
+rm -rf ./objs/
+gcc -Wall -Werror -Wextra  -c srcs/error.c -o objs/error.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/execute.c -o objs/execute.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/main.c -o objs/main.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_command.c -o objs/parse_command.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_line.c -o objs/parse_line.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/replace.c -o objs/replace.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_cmd.c -o objs/utils_cmd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_redir.c -o objs/utils_redir.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_env.c -o objs/exe_env.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_cd.c -o objs/exe_cd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_echo.c -o objs/exe_echo.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_pwd.c -o objs/exe_pwd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_export.c -o objs/exe_export.o -I ./includes/
+make -C ./libft/
+gcc -Wall -Werror -Wextra  -o minishell ./objs/error.o ./objs/execute.o ./objs/main.o ./objs/parse_command.o ./objs/parse_line.o ./objs/replace.o ./objs/utils_cmd.o ./objs/utils_redir.o ./objs/exe_env.o ./objs/exe_cd.o ./objs/exe_echo.o ./objs/exe_pwd.o ./objs/exe_export.o -I ./includes/ -L./libft/ -lft -lreadline -I/Users/jiwchoi/.brew/opt/readline/include
+➜  minishell git:(master) ✗ ./minishell 
+minishell$ export
+20declare -x USER=jji
+11declare -x PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+6declare -x LOGNAME=jji
+15declare -x SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+1declare -x HOME=/Users/jji
+13declare -x SHELL=/bin/zsh
+25declare -x __CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+19declare -x TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+22declare -x XPC_SERVICE_NAME=0
+21declare -x XPC_FLAGS=0x0
+2declare -x HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+3declare -x HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+5declare -x LESS=-R
+7declare -x LSCOLORS=Gxfxcxdxbxegedabagacad
+8declare -x MAIL=jji@student.42seoul.kr
+9declare -x OLDPWD=/Users/jji/3.Minishell_re
+10declare -x PAGER=less
+12declare -x PWD=/Users/jji/3.Minishell_re/minishell
+14declare -x SHLVL=1
+23declare -x ZSH=/Users/jji/.oh-my-zsh
+17declare -x TERM_PROGRAM=vscode
+18declare -x TERM_PROGRAM_VERSION=1.39.2
+4declare -x LANG=en_US.UTF-8
+0declare -x COLORTERM=truecolor
+16declare -x TERM=xterm-256color
+24declare -x _=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ 
+➜  minishell git:(master) ✗ make re
+make -C ./libft/ clean
+rm -rf ./objs/
+gcc -Wall -Werror -Wextra  -c srcs/error.c -o objs/error.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/execute.c -o objs/execute.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/main.c -o objs/main.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_command.c -o objs/parse_command.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_line.c -o objs/parse_line.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/replace.c -o objs/replace.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_cmd.c -o objs/utils_cmd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_redir.c -o objs/utils_redir.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_env.c -o objs/exe_env.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_cd.c -o objs/exe_cd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_echo.c -o objs/exe_echo.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_pwd.c -o objs/exe_pwd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_export.c -o objs/exe_export.o -I ./includes/
+srcs/exe_export.c:213:1: error: extraneous closing brace ('}')
+}
+^
+1 error generated.
+make: *** [objs/exe_export.o] Error 1
+➜  minishell git:(master) ✗ 
+➜  minishell git:(master) ✗ make re
+make -C ./libft/ clean
+rm -rf ./objs/
+gcc -Wall -Werror -Wextra  -c srcs/error.c -o objs/error.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/execute.c -o objs/execute.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/main.c -o objs/main.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_command.c -o objs/parse_command.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_line.c -o objs/parse_line.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/replace.c -o objs/replace.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_cmd.c -o objs/utils_cmd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_redir.c -o objs/utils_redir.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_env.c -o objs/exe_env.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_cd.c -o objs/exe_cd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_echo.c -o objs/exe_echo.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_pwd.c -o objs/exe_pwd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_export.c -o objs/exe_export.o -I ./includes/
+make -C ./libft/
+gcc -Wall -Werror -Wextra  -o minishell ./objs/error.o ./objs/execute.o ./objs/main.o ./objs/parse_command.o ./objs/parse_line.o ./objs/replace.o ./objs/utils_cmd.o ./objs/utils_redir.o ./objs/exe_env.o ./objs/exe_cd.o ./objs/exe_echo.o ./objs/exe_pwd.o ./objs/exe_export.o -I ./includes/ -L./libft/ -lft -lreadline -I/Users/jiwchoi/.brew/opt/readline/include
+➜  minishell git:(master) ✗ ./minishell 
+minishell$ export
+^C
+➜  minishell git:(master) ✗ 
+➜  minishell git:(master) ✗ make re
+make -C ./libft/ clean
+rm -rf ./objs/
+gcc -Wall -Werror -Wextra  -c srcs/error.c -o objs/error.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/execute.c -o objs/execute.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/main.c -o objs/main.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_command.c -o objs/parse_command.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_line.c -o objs/parse_line.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/replace.c -o objs/replace.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_cmd.c -o objs/utils_cmd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_redir.c -o objs/utils_redir.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_env.c -o objs/exe_env.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_cd.c -o objs/exe_cd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_echo.c -o objs/exe_echo.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_pwd.c -o objs/exe_pwd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_export.c -o objs/exe_export.o -I ./includes/
+make -C ./libft/
+gcc -Wall -Werror -Wextra  -o minishell ./objs/error.o ./objs/execute.o ./objs/main.o ./objs/parse_command.o ./objs/parse_line.o ./objs/replace.o ./objs/utils_cmd.o ./objs/utils_redir.o ./objs/exe_env.o ./objs/exe_cd.o ./objs/exe_echo.o ./objs/exe_pwd.o ./objs/exe_export.o -I ./includes/ -L./libft/ -lft -lreadline -I/Users/jiwchoi/.brew/opt/readline/include
+➜  minishell git:(master) ✗ ./minishell export
+minishell$ export
+0declare -x COLORTERM=truecolor
+1declare -x HOME=/Users/jji
+2declare -x HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+3declare -x HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+4declare -x LANG=en_US.UTF-8
+5declare -x LESS=-R
+6declare -x LOGNAME=jji
+7declare -x LSCOLORS=Gxfxcxdxbxegedabagacad
+8declare -x MAIL=jji@student.42seoul.kr
+9declare -x OLDPWD=/Users/jji/3.Minishell_re
+10declare -x PAGER=less
+11declare -x PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+12declare -x PWD=/Users/jji/3.Minishell_re/minishell
+13declare -x SHELL=/bin/zsh
+14declare -x SHLVL=1
+15declare -x SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+16declare -x TERM=xterm-256color
+17declare -x TERM_PROGRAM=vscode
+18declare -x TERM_PROGRAM_VERSION=1.39.2
+19declare -x TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+20declare -x USER=jji
+21declare -x XPC_FLAGS=0x0
+22declare -x XPC_SERVICE_NAME=0
+23declare -x ZSH=/Users/jji/.oh-my-zsh
+24declare -x _=/Users/jji/3.Minishell_re/minishell/./minishell
+25declare -x __CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+minishell$ 
+➜  minishell git:(master) ✗ make re
+make -C ./libft/ clean
+rm -rf ./objs/
+gcc -Wall -Werror -Wextra  -c srcs/error.c -o objs/error.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/execute.c -o objs/execute.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/main.c -o objs/main.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_command.c -o objs/parse_command.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_line.c -o objs/parse_line.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/replace.c -o objs/replace.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_cmd.c -o objs/utils_cmd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_redir.c -o objs/utils_redir.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_env.c -o objs/exe_env.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_cd.c -o objs/exe_cd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_echo.c -o objs/exe_echo.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_pwd.c -o objs/exe_pwd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_export.c -o objs/exe_export.o -I ./includes/
+make -C ./libft/
+gcc -Wall -Werror -Wextra  -o minishell ./objs/error.o ./objs/execute.o ./objs/main.o ./objs/parse_command.o ./objs/parse_line.o ./objs/replace.o ./objs/utils_cmd.o ./objs/utils_redir.o ./objs/exe_env.o ./objs/exe_cd.o ./objs/exe_echo.o ./objs/exe_pwd.o ./objs/exe_export.o -I ./includes/ -L./libft/ -lft -lreadline -I/Users/jiwchoi/.brew/opt/readline/include
+➜  minishell git:(master) ✗ ./minishell export
+minishell$ export
+declare -x COLORTERM=truecolor
+declare -x HOME=/Users/jji
+declare -x HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+declare -x HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+declare -x LANG=en_US.UTF-8
+declare -x LESS=-R
+declare -x LOGNAME=jji
+declare -x LSCOLORS=Gxfxcxdxbxegedabagacad
+declare -x MAIL=jji@student.42seoul.kr
+declare -x OLDPWD=/Users/jji/3.Minishell_re
+declare -x PAGER=less
+declare -x PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+declare -x PWD=/Users/jji/3.Minishell_re/minishell
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+declare -x TERM=xterm-256color
+declare -x TERM_PROGRAM=vscode
+declare -x TERM_PROGRAM_VERSION=1.39.2
+declare -x TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+declare -x USER=jji
+declare -x XPC_FLAGS=0x0
+declare -x XPC_SERVICE_NAME=0
+declare -x ZSH=/Users/jji/.oh-my-zsh
+declare -x _=/Users/jji/3.Minishell_re/minishell/./minishell
+declare -x __CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+minishell$ 
+➜  minishell git:(master) ✗ git add .
+➜  minishell git:(master) ✗ git commit -m "[211124_export]order"
+[master 727d357] [211124_export]order
+ 58 files changed, 389 insertions(+), 294 deletions(-)
+ create mode 100644 minishell/libft/ft_atoi.o
+ create mode 100644 minishell/libft/ft_bzero.o
+ create mode 100644 minishell/libft/ft_calloc.o
+ create mode 100644 minishell/libft/ft_isalnum.o
+ create mode 100644 minishell/libft/ft_isalpha.o
+ create mode 100644 minishell/libft/ft_isascii.o
+ create mode 100644 minishell/libft/ft_isdigit.o
+ create mode 100644 minishell/libft/ft_isprint.o
+ create mode 100644 minishell/libft/ft_itoa.o
+ create mode 100644 minishell/libft/ft_memccpy.o
+ create mode 100644 minishell/libft/ft_memchr.o
+ create mode 100644 minishell/libft/ft_memcmp.o
+ create mode 100644 minishell/libft/ft_memcpy.o
+ create mode 100644 minishell/libft/ft_memmove.o
+ create mode 100644 minishell/libft/ft_memset.o
+ create mode 100644 minishell/libft/ft_putchar_fd.o
+ create mode 100644 minishell/libft/ft_putendl_fd.o
+ create mode 100644 minishell/libft/ft_putnbr_fd.o
+ create mode 100644 minishell/libft/ft_putstr_fd.o
+ create mode 100644 minishell/libft/ft_split.o
+ create mode 100644 minishell/libft/ft_strchr.o
+ create mode 100644 minishell/libft/ft_strdup.o
+ create mode 100644 minishell/libft/ft_strjoin.o
+ create mode 100644 minishell/libft/ft_strlcat.o
+ create mode 100644 minishell/libft/ft_strlcpy.o
+ create mode 100644 minishell/libft/ft_strlen.o
+ create mode 100644 minishell/libft/ft_strmapi.o
+ create mode 100644 minishell/libft/ft_strncmp.o
+ create mode 100644 minishell/libft/ft_strnstr.o
+ create mode 100644 minishell/libft/ft_strrchr.o
+ create mode 100644 minishell/libft/ft_strtrim.o
+ create mode 100644 minishell/libft/ft_substr.o
+ create mode 100644 minishell/libft/ft_tolower.o
+ create mode 100644 minishell/libft/ft_toupper.o
+ create mode 100644 minishell/libft/libft.a
+ create mode 100755 minishell/minishell
+ create mode 100644 minishell/objs/error.o
+ create mode 100644 minishell/objs/exe_cd.o
+ create mode 100644 minishell/objs/exe_echo.o
+ create mode 100644 minishell/objs/exe_env.o
+ create mode 100644 minishell/objs/exe_export.o
+ create mode 100644 minishell/objs/exe_pwd.o
+ create mode 100644 minishell/objs/execute.o
+ create mode 100644 minishell/objs/main.o
+ create mode 100644 minishell/objs/parse_command.o
+ create mode 100644 minishell/objs/parse_line.o
+ create mode 100644 minishell/objs/replace.o
+ create mode 100644 minishell/objs/utils_cmd.o
+ create mode 100644 minishell/objs/utils_redir.o
+ create mode 100644 minishell/srcs/exe_cd.c
+ create mode 100644 minishell/srcs/exe_echo.c
+ rename minishell/srcs/{ft_env.c => exe_env.c} (99%)
+ create mode 100644 minishell/srcs/exe_export.c
+ create mode 100644 minishell/srcs/exe_pwd.c
+➜  minishell git:(master) ✗ git push
+Enumerating objects: 74, done.
+Counting objects: 100% (74/74), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (64/64), done.
+Writing objects: 100% (65/65), 42.33 KiB | 6.05 MiB/s, done.
+Total 65 (delta 27), reused 0 (delta 0)
+remote: Resolving deltas: 100% (27/27), completed with 5 local objects.
+To https://github.com/lewis941001/3.Minishell_re.git
+   2234e66..727d357  master -> master
+➜  minishell git:(master) ✗ make re
+make -C ./libft/ clean
+rm -rf ./objs/
+gcc -Wall -Werror -Wextra  -c srcs/error.c -o objs/error.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/execute.c -o objs/execute.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/main.c -o objs/main.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_command.c -o objs/parse_command.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/parse_line.c -o objs/parse_line.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/replace.c -o objs/replace.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_cmd.c -o objs/utils_cmd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/utils_redir.c -o objs/utils_redir.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_env.c -o objs/exe_env.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_cd.c -o objs/exe_cd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_echo.c -o objs/exe_echo.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_pwd.c -o objs/exe_pwd.o -I ./includes/
+gcc -Wall -Werror -Wextra  -c srcs/exe_export.c -o objs/exe_export.o -I ./includes/
+make -C ./libft/
+gcc -Wall -Werror -Wextra  -o minishell ./objs/error.o ./objs/execute.o ./objs/main.o ./objs/parse_command.o ./objs/parse_line.o ./objs/replace.o ./objs/utils_cmd.o ./objs/utils_redir.o ./objs/exe_env.o ./objs/exe_cd.o ./objs/exe_echo.o ./objs/exe_pwd.o ./objs/exe_export.o -I ./includes/ -L./libft/ -lft -lreadline -I/Users/jiwchoi/.brew/opt/readline/include
+➜  minishell git:(master) ✗ ./minishell 
+minishell$ pwd
+/Users/jji/3.Minishell_re/minishell
+minishell$ env
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=/Users/jji
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ env 123
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=/Users/jji
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ export a
+____a____0
+minishell$ export
+declare -x COLORTERM=truecolor
+declare -x HOME=/Users/jji
+declare -x HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+declare -x HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+declare -x LANG=en_US.UTF-8
+declare -x LESS=-R
+declare -x LOGNAME=jji
+declare -x LSCOLORS=Gxfxcxdxbxegedabagacad
+declare -x MAIL=jji@student.42seoul.kr
+declare -x OLDPWD=/Users/jji/3.Minishell_re
+declare -x PAGER=less
+declare -x PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+declare -x PWD=/Users/jji/3.Minishell_re/minishell
+declare -x SHELL=/bin/zsh
+declare -x SHLVL=1
+declare -x SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+declare -x TERM=xterm-256color
+declare -x TERM_PROGRAM=vscode
+declare -x TERM_PROGRAM_VERSION=1.39.2
+declare -x TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+declare -x USER=jji
+declare -x XPC_FLAGS=0x0
+declare -x XPC_SERVICE_NAME=0
+declare -x ZSH=/Users/jji/.oh-my-zsh
+declare -x _=/Users/jji/3.Minishell_re/minishell/./minishell
+declare -x __CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+declare -x a
+minishell$ export _a
+_____a____0
+minishell$ export
+declare -x COLORTERM=truecolor
+declare -x HOME=/Users/jji
+declare -x HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+declare -x HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+declare -x LANG=en_US.UTF-8
+declare -x LESS=-R
+declare -x LOGNAME=jji
+declare -x LSCOLORS=Gxfxcxdxbxegedabagacad
+declare -x MAIL=jji@student.42seoul.kr
+declare -x OLDPWD=/Users/jji/3.Minishell_re
+declare -x PAGER=less
+declare -x PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+declare -x PWD=/Users/jji/3.Minishell_re/minishell
+declare -x SHELL=/bin/zsh
+declare -x _a
+minishell$ export 1abc
+____1abc____0
+minishell$ export
+declare -x 1abc
+declare -x COLORTERM=truecolor
+declare -x HOME=/Users/jji
+declare -x HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+declare -x HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+declare -x LANG=en_US.UTF-8
+declare -x LESS=-R
+declare -x LOGNAME=jji
+declare -x LSCOLORS=Gxfxcxdxbxegedabagacad
+declare -x MAIL=jji@student.42seoul.kr
+declare -x OLDPWD=/Users/jji/3.Minishell_re
+minishell$ export abc
+____abc____0
+minishell$ export a b c
+____a____0
+key ; a  value : (null)  env_flag :0
+minishell$ env
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=/Users/jji
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ export
+declare -x 1abc
+declare -x COLORTERM=truecolor
+declare -x HOME=/Users/jji
+declare -x HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+declare -x HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+declare -x LANG=en_US.UTF-8
+declare -x LESS=-R
+declare -x LOGNAME=jji
+declare -x abc
+minishell$ cd 
+cd , (null)
+minishell$ pwd
+/Users/jji/3.Minishell_re/minishell
+minishell$ ls -la
+total 144
+drwxr-xr-x  11 jji  2020_seoul    374 Nov 24 17:18 .
+drwxr-xr-x  10 jji  2020_seoul    340 Nov 24 14:32 ..
+-rw-r--r--@  1 jji  2020_seoul   6148 Nov 22 16:44 .DS_Store
+-rw-r--r--   1 jji  2020_seoul   1920 Nov 24 14:44 Makefile
+-rw-r--r--   1 jji  2020_seoul    209 Nov 23 17:45 README.md
+drwxr-xr-x   3 jji  2020_seoul    102 Nov 19 16:15 includes
+drwxr-xr-x  86 jji  2020_seoul   2924 Nov 24 17:18 libft
+-rwxr-xr-x   1 jji  2020_seoul  53288 Nov 24 17:18 minishell
+drwxr-xr-x  15 jji  2020_seoul    510 Nov 24 17:18 objs
+drwxr-xr-x  15 jji  2020_seoul    510 Nov 24 14:39 srcs
+-rw-r--r--   1 jji  2020_seoul      0 Nov 22 15:45 test.txt
+minishell$ cd ./
+./.DS_Store ./libft     ./minishell ./README.md ./test.txt 
+./includes  ./Makefile  ./objs      ./srcs     
+minishell$ cd ./
+./.DS_Store ./libft     ./minishell ./README.md ./test.txt 
+./includes  ./Makefile  ./objs      ./srcs     
+minishell$ cd ./srcs/
+cd , ./srcs/
+이동 성공minishell$ pwd
+/Users/jji/3.Minishell_re/minishell/srcs
+minishell$ cd /Users 
+error.c         exe_env.c       execute.c       parse_line.c    utils_redir.c  
+exe_cd.c        exe_export.c    main.c          replace.c      
+exe_echo.c      exe_pwd.c       parse_command.c utils_cmd.c    
+minishell$ cd /Users/
+/Users/.localized  /Users/hyojekim    /Users/jislim      /Users/seowlee    
+/Users/bchoi       /Users/hyojpark    /Users/jiwkim      /Users/seungiki   
+/Users/bocal       /Users/hyuncho     /Users/jiwlee      /Users/seuyoo     
+/Users/cgim        /Users/hyunjuyo    /Users/jiyokim     /Users/Shared     
+/Users/chaepark    /Users/jaehchoi    /Users/jji         /Users/sjin       
+/Users/chanjeon    /Users/jaehwkim    /Users/juhur       /Users/skim       
+/Users/chanykim    /Users/jaejlee     /Users/jukoo       /Users/slee       
+/Users/chjang      /Users/jaeyjeon    /Users/junghyki    /Users/soahn      
+/Users/chsong      /Users/jakang      /Users/junhalee    /Users/sojeon     
+/Users/deepthought /Users/jankim      /Users/junkang     /Users/sujlee     
+/Users/dkoo        /Users/jchoi       /Users/kyulee      /Users/sunhkim    
+/Users/donglee     /Users/jeekim      /Users/mchun       /Users/taeheoki   
+/Users/ejchoi      /Users/jeohong     /Users/minjukan    /Users/tpark      
+/Users/esim        /Users/jeonpark    /Users/mysong      /Users/yechoi     
+/Users/gipark      /Users/jiha        /Users/nahkim      /Users/yego       
+/Users/gnam        /Users/jiholee     /Users/nkang       /Users/yejchoi    
+/Users/hjoo        /Users/jihong      /Users/saelee      /Users/yichoi     
+/Users/hojo        /Users/jihuhan     /Users/sangkyki    /Users/yjung      
+/Users/honkim      /Users/jihyukim    /Users/scheon      /Users/yonglee    
+/Users/hrha        /Users/jin-lee     /Users/seapark     /Users/yoojlee    
+/Users/huchoi      /Users/jinbkim     /Users/sehong      /Users/young-ch   
+/Users/hyahn       /Users/jinhan      /Users/seokim      /Users/younkim    
+/Users/hyeko       /Users/jinkim      /Users/seongpch    /Users/yunhlee    
+minishell$ cd /Users/
+/Users/.localized  /Users/hyojekim    /Users/jislim      /Users/seowlee    
+/Users/bchoi       /Users/hyojpark    /Users/jiwkim      /Users/seungiki   
+/Users/bocal       /Users/hyuncho     /Users/jiwlee      /Users/seuyoo     
+/Users/cgim        /Users/hyunjuyo    /Users/jiyokim     /Users/Shared     
+/Users/chaepark    /Users/jaehchoi    /Users/jji         /Users/sjin       
+/Users/chanjeon    /Users/jaehwkim    /Users/juhur       /Users/skim       
+/Users/chanykim    /Users/jaejlee     /Users/jukoo       /Users/slee       
+/Users/chjang      /Users/jaeyjeon    /Users/junghyki    /Users/soahn      
+/Users/chsong      /Users/jakang      /Users/junhalee    /Users/sojeon     
+/Users/deepthought /Users/jankim      /Users/junkang     /Users/sujlee     
+/Users/dkoo        /Users/jchoi       /Users/kyulee      /Users/sunhkim    
+/Users/donglee     /Users/jeekim      /Users/mchun       /Users/taeheoki   
+/Users/ejchoi      /Users/jeohong     /Users/minjukan    /Users/tpark      
+/Users/esim        /Users/jeonpark    /Users/mysong      /Users/yechoi     
+/Users/gipark      /Users/jiha        /Users/nahkim      /Users/yego       
+/Users/gnam        /Users/jiholee     /Users/nkang       /Users/yejchoi    
+/Users/hjoo        /Users/jihong      /Users/saelee      /Users/yichoi     
+/Users/hojo        /Users/jihuhan     /Users/sangkyki    /Users/yjung      
+/Users/honkim      /Users/jihyukim    /Users/scheon      /Users/yonglee    
+/Users/hrha        /Users/jin-lee     /Users/seapark     /Users/yoojlee    
+/Users/huchoi      /Users/jinbkim     /Users/sehong      /Users/young-ch   
+/Users/hyahn       /Users/jinhan      /Users/seokim      /Users/younkim    
+/Users/hyeko       /Users/jinkim      /Users/seongpch    /Users/yunhlee    
+minishell$ cd /Users/jji 
+error.c         exe_env.c       execute.c       parse_line.c    utils_redir.c  
+exe_cd.c        exe_export.c    main.c          replace.c      
+exe_echo.c      exe_pwd.c       parse_command.c utils_cmd.c    
+minishell$ cd /Users/jji/
+/Users/jji/.bash_history           /Users/jji/.viminfo               
+/Users/jji/.brew                   /Users/jji/.vscode                
+/Users/jji/.brewconfig.zsh         /Users/jji/.zcompdump-c3r2s7-5.7.1
+/Users/jji/.cargo                  /Users/jji/.zcompdump-c8r4s6-5.7.1
+/Users/jji/.CFUserTextEncoding     /Users/jji/.zsh_history           
+/Users/jji/.DocumentRevisions-V100 /Users/jji/.zshenv                
+/Users/jji/.DS_Store               /Users/jji/.zshrc                 
+/Users/jji/.fseventsd              /Users/jji/3.Minishell_re         
+/Users/jji/.gitconfig              /Users/jji/42header               
+/Users/jji/.lesshst                /Users/jji/Applications           
+/Users/jji/.lldb                   /Users/jji/Desktop                
+/Users/jji/.mono                   /Users/jji/Documents              
+/Users/jji/.oh-my-zsh              /Users/jji/Downloads              
+/Users/jji/.profile                /Users/jji/goinfre                
+/Users/jji/.rustup                 /Users/jji/Library                
+/Users/jji/.ssh                    /Users/jji/Movies                 
+/Users/jji/.TemporaryItems         /Users/jji/Music                  
+/Users/jji/.Trash                  /Users/jji/Pictures               
+/Users/jji/.vim                    /Users/jji/Public                 
+minishell$ cd /Users/jji/goinfre 
+error.c         exe_env.c       execute.c       parse_line.c    utils_redir.c  
+exe_cd.c        exe_export.c    main.c          replace.c      
+exe_echo.c      exe_pwd.c       parse_command.c utils_cmd.c    
+minishell$ cd /Users/jji/goinfre 
+cd , /Users/jji/goinfre
+이동 성공minishell$ pwd
+/goinfre/jji
+minishell$ pwd
+/goinfre/jji
+minishell$ ls
+minishell$ ls -la
+total 0
+drwx------  2 jji   2020_seoul   64 Nov 24 14:12 .
+drwxrwxrwt  8 root  wheel       256 Nov 24 14:12 ..
+minishell$ pwd
+/goinfre/jji
+minishell$ ls
+minishell$ cd /Users/
+/Users/.localized  /Users/hyojekim    /Users/jislim      /Users/seowlee    
+/Users/bchoi       /Users/hyojpark    /Users/jiwkim      /Users/seungiki   
+/Users/bocal       /Users/hyuncho     /Users/jiwlee      /Users/seuyoo     
+/Users/cgim        /Users/hyunjuyo    /Users/jiyokim     /Users/Shared     
+/Users/chaepark    /Users/jaehchoi    /Users/jji         /Users/sjin       
+/Users/chanjeon    /Users/jaehwkim    /Users/juhur       /Users/skim       
+/Users/chanykim    /Users/jaejlee     /Users/jukoo       /Users/slee       
+/Users/chjang      /Users/jaeyjeon    /Users/junghyki    /Users/soahn      
+/Users/chsong      /Users/jakang      /Users/junhalee    /Users/sojeon     
+/Users/deepthought /Users/jankim      /Users/junkang     /Users/sujlee     
+/Users/dkoo        /Users/jchoi       /Users/kyulee      /Users/sunhkim    
+/Users/donglee     /Users/jeekim      /Users/mchun       /Users/taeheoki   
+/Users/ejchoi      /Users/jeohong     /Users/minjukan    /Users/tpark      
+/Users/esim        /Users/jeonpark    /Users/mysong      /Users/yechoi     
+/Users/gipark      /Users/jiha        /Users/nahkim      /Users/yego       
+/Users/gnam        /Users/jiholee     /Users/nkang       /Users/yejchoi    
+/Users/hjoo        /Users/jihong      /Users/saelee      /Users/yichoi     
+/Users/hojo        /Users/jihuhan     /Users/sangkyki    /Users/yjung      
+/Users/honkim      /Users/jihyukim    /Users/scheon      /Users/yonglee    
+/Users/hrha        /Users/jin-lee     /Users/seapark     /Users/yoojlee    
+/Users/huchoi      /Users/jinbkim     /Users/sehong      /Users/young-ch   
+/Users/hyahn       /Users/jinhan      /Users/seokim      /Users/younkim    
+/Users/hyeko       /Users/jinkim      /Users/seongpch    /Users/yunhlee    
+minishell$ cd /Users/jji /
+/.DS_Store        /Applications     /iSCSI            /System          
+/.file            /bin              /Library          /tmp             
+/.fseventsd       /cores            /nfs              /Users           
+/.Spotlight-V100  /dev              /opt              /usr             
+/.Trashes         /etc              /private          /var             
+/.vol             /exam             /sbin             /Volumes         
+/.VolumeIcon.icns /goinfre          /sgoinfre        
+minishell$ cd /Users/jji /Library 
+cd , /Users/jji
+이동 성공minishell$ pwd
+/Users/jji
+minishell$ cd /Users/jji/Library/
+cd , /Users/jji/Library/
+이동 성공minishell$ pwd
+/Users/jji/Library
+minishell$ cd ..
+cd , ..
+이동 성공mi
+minishell$ pwd
+/Users/jji
+minishell$ cd /Users/jji/goinfre 
+cd , /Users/jji/goinfre
+이동 성공minishell$ pwd
+/goinfre/jji
+minishell$ env
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=/Users/jji
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ unset HOME
+unset HOME
+check : HOME /Users/jji
+else : HOME /Users/jji
+minishell$ env
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ cd
+cd , (null)
+minishell$ pwd
+/goinfre/jji
+minishell$ cd ~
+cd , ~
+minishell$ pwd
+/Users/jji
+minishell$ cd /Users/jji/Library/
+cd , /Users/jji/Library/
+이동 성공minishell$ pwd
+/Users/jji/Library
+minishell$ cd ~
+cd , ~
+minishell$ pwd
+/Users/jji
+minishell$ 
+➜  minishell git:(master) ✗ ./minishell
+minishell$ export HOME=123
+____HOME____0
+____123____1
+key ; HOME  value : 123  env_flag :1
+minishell$ env
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=123
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ cd 
+cd , (null)
+minishell$ cd ~
+cd , ~
+minishell$ pwd
+/Users/jji
+minishell$ env
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=123
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ 
+➜  minishell git:(master) ✗ ./minishell 
+minishell$ echo "$HOME" '$HOME' $HOME 
+/tmp/jji/Homebrew/Temp $HOME /tmp/jji/Homebrew/Temp
+minishell$ echo "$HOME is dode" '$HOME' $HOME
+/tmp/jji/Homebrew/Temp is dode $HOME /tmp/jji/Homebrew/Temp
+minishell$ echo "$HOME '$HOME' " '$HOME' $HOME
+/tmp/jji/Homebrew/Temp '/tmp/jji/Homebrew/Temp'  $HOME /tmp/jji/Homebrew/Temp
+minishell$ 
+➜  minishell git:(master) ✗ ./minishell
+minishell$ env
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=/Users/jji
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ echo "$HOME '$HOME' " '$HOME' $HOME
+/tmp/jji/Homebrew/Temp '/tmp/jji/Homebrew/Temp'  $HOME /tmp/jji/Homebrew/Temp
+minishell$ env "$HOME"
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=/Users/jji
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+minishell$ echo "$HOME"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$LOGNAME"
+jji
+minishell$ echo "$PWD"
+/Users/jji/3.Minishell_re/minishell
+minishell$ echo "$HOME"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$HOMEBREW_CACHE"
+/tmp/jji/Homebrew/Caches
+minishell$ echo "HOMEBREW_TEMP"
+HOMEBREW_TEMP
+minishell$ echo "$HOMEBREW_TEMP"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$HOME"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$HOMEBREW_"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$HOMEBREW"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$HOMEBRE"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$HOMEB"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$H"
+/tmp/jji/Homebrew/Temp
+minishell$ echo "$a"
+
+minishell$ echo "$A"
+
+minishell$ echo "$B"
+
+minishell$ echo "$X"
+0x0
+minishell$ echo "$L"
+en_US.UTF-8
+minishell$ export abc123
+____abc123____0
+minishell$ export abc=123
+____abc____0
+____123____1
+key ; abc  value : 123  env_flag :1
+minishell$ env
+USER=jji
+PATH=/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/Users/jji/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+LOGNAME=jji
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yzvok6oj8b/Listeners
+HOME=/Users/jji
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x18FDB:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cgvc0033yv/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+HOMEBREW_CACHE=/tmp/jji/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/jji/Homebrew/Temp
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MAIL=jji@student.42seoul.kr
+OLDPWD=/Users/jji/3.Minishell_re
+PAGER=less
+PWD=/Users/jji/3.Minishell_re/minishell
+SHLVL=1
+ZSH=/Users/jji/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+_=/Users/jji/3.Minishell_re/minishell/./minishell
+abc123=123
+minishell$ echo $abc
+
+minishell$ echo $abc123
+
+minishell$ 
+➜  minishell git:(master) ✗ 

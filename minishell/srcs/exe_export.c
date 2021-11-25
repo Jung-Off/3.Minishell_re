@@ -58,22 +58,39 @@ int duplicate_search(t_env *env_lst, t_env *lst)
 
 	while(env_lst)
 	{	
-		if(ft_strncmp(env_lst->key, lst->key, ft_strlen(lst->key)) == 0)
+		if (ft_strlen(env_lst->key) <= ft_strlen(lst->key))
 		{
-			printf("key ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
-			if (lst->env_flag == 0)
-				return (1);
-			else
+			if(ft_strncmp(env_lst->key, lst->key, ft_strlen(lst->key)) == 0)
 			{
+				printf("key ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
+				if (lst->env_flag == 0)
+					return (1);
+				else
+				{
 				// printf("before\t");
 				// printf("env\tkey ; %s  value : %s  env_flag :%d\n", env_lst->key, env_lst->value, env_lst->env_flag);
 				// printf("lst\tkey ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
-				env_lst->value = lst->value;
-				env_lst->env_flag = 1;
+					env_lst->value = lst->value;
+					env_lst->env_flag = 1;
 				// printf("after\t");
 				// printf("env\tkey ; %s  value : %s  env_flag :%d\n", env_lst->key, env_lst->value, env_lst->env_flag);
 				// printf("lst\tkey ; %s  value : %s  env_flag :%d\n", lst->key, lst->value, lst->env_flag);
-				return (1);
+					return (1);
+				}
+			}
+		}
+		else
+		{
+			if(ft_strncmp(lst->key, env_lst->key, ft_strlen(env_lst->key)) == 0)
+			{
+				if (lst->env_flag == 0)
+					return (1);
+				else
+				{
+					env_lst->value = lst->value;
+					env_lst->env_flag = 1;
+					return (1);
+				}
 			}
 		}
 		env_lst = env_lst->next;
@@ -181,7 +198,7 @@ void print_export(t_env *env_lst)
     //     ft_putstr_fd("\n", 1);
     //     print_lst = print_lst->next;
     // }
-int i = 0;
+    int i = 0;
     while(env_lst)
     {
         print_lst = first_lst;
@@ -190,7 +207,7 @@ int i = 0;
 	{
         if (print_lst->idx == i)
         {
-            //ft_putnbr_fd(print_lst->idx, 1);
+            ft_putnbr_fd(print_lst->idx, 1);
 		    ft_putstr_fd("declare -x ", 1);
 		    ft_putstr_fd(print_lst->key, 1);
             if(print_lst->env_flag == 1)
@@ -203,11 +220,20 @@ int i = 0;
 		    ft_putstr_fd("\n", 1);
 	//두가지를 구분하기 위함 플래그
         }
+		
         print_lst = print_lst->next;
 	}
+	// print_lst->idx = 0;
     ++i;
     env_lst = env_lst->next;
     }
+
+	while(first_lst)
+	{
+		first_lst->idx = 0;
+		first_lst = first_lst->next;
+	}
+
 
 }
 
