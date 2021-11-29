@@ -23,6 +23,7 @@
 # include <sys/stat.h> // ~stat
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <fcntl.h>
 
 # include "../libft/libft.h"
 
