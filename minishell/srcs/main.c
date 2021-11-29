@@ -102,6 +102,7 @@ char *exe_parse(char **env, char *command_split)
 	return (0);
 }
 
+
 int exe_just(t_cmd *cmd_lst, char **env)
 {
 	char *env_path;
@@ -267,53 +268,6 @@ int exe_just(t_cmd *cmd_lst, char **env)
 // 	}
 // }
 
-void exe_made(t_cmd *cmd, char **env)
-{
-	pid_t pid[cmd_num(cmd)];
-	int i = 0;
-	int in = 0;
-	int out = 1;
-	char *env_path;
-	int status;
-
-	if ((cmd)->next == NULL)
-	{
-		exe_just(cmd, env);
-		return ;
-	}
-	while (cmd)
-	{
-		if((cmd)->next != NULL)
-		{
-			pipe((cmd)->fd);
-			out = (cmd)->fd[1];
-		}
-		env_path = exe_parse(env, (cmd)->argv[0]);
-		pid[i] = fork();
-		if(pid[i] == 0)
-		{
-			if(in != 0)
-			{	
-				dup2(in, 0);
-				close(in);
-			}
-			if (out != 1 && (cmd)->next != NULL)
-			{
-				dup2(out, 1);
-				close(out);
-			}
-			execve(env_path, (cmd)->argv, NULL);
-		}
-		else if(pid[i] > 0)
-		{
-			waitpid(pid[i], &status, 0);
-		}
-		close(out); // 마지막일때는 굳이 할 필요는 없는 듯?
-		in = (cmd)->fd[0];
-		(cmd) = (cmd)->next;
-		++i;
-	}
-}
 
 
 void exe_unset(t_env **env_lst, t_cmd *cmd)
@@ -359,37 +313,151 @@ void exe_unset(t_env **env_lst, t_cmd *cmd)
 	}	
 }
 
+void exe_exit(t_cmd *cmd)
+{
+	if (cmd->argv[1])
+	{
+		write(1, cmd->argv[1], ft_strlen(cmd->argv[1]));
+		write(1, "\n", 1);
+	}
+}
 
-void exe(t_cmd *cmd, char **env, t_env **env_lst)
+int is_built(char *cmd)
+{
+	if ((ft_strncmp((cmd), "pwd", 3) == 0 && ft_strlen(cmd) == 3)
+	|| (ft_strncmp((cmd), "env", 3) == 0 && ft_strlen(cmd) == 3)
+	|| (ft_strncmp((cmd), "export", 6) == 0 && ft_strlen(cmd) == 6)
+	|| (ft_strncmp((cmd), "unset", 5) == 0 && ft_strlen(cmd) == 5)
+	|| (ft_strncmp((cmd), "cd", 2) == 0 && ft_strlen(cmd) == 2)
+	|| (ft_strncmp((cmd), "echo", 4) == 0 && ft_strlen(cmd) == 4)
+	|| (ft_strncmp((cmd), "exit", 4) == 0 && ft_strlen(cmd) == 4))
+		return (1);
+	return (0);
+}
+
+void exe_builtin(t_cmd *cmd, t_env **env_lst)
 {
 	if (ft_strncmp((cmd->argv[0]), "pwd", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
 		exe_pwd();
 	else if (ft_strncmp((cmd->argv[0]), "env", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
-	{
-		// 만약에 이 과정이 없고 export를 한다면 export가 출력이 안되지 않을까? 
-		// if / else if 외부로 빼는 것을 해야하는 것 아닌가
 		print_env(*env_lst);
-	}
 	else if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 && ft_strlen(cmd->argv[0]) == 6)
-	{
-		//아스키 코드순서대로 정렬하는 것이 필요하다
-		
 		exe_export(env_lst, cmd);
-		
-		//정렬과정 이거는 조금 어려워 보임..
-	}
 	else if (ft_strncmp((cmd->argv[0]), "unset", 5) == 0 && ft_strlen(cmd->argv[0]) == 5)
 		exe_unset(env_lst, cmd);
-	
-	else if (ft_strncmp((cmd->argv[0]), "cd", 5) == 0 && ft_strlen(cmd->argv[0]) == 2)
+	else if (ft_strncmp((cmd->argv[0]), "cd", 2) == 0 && ft_strlen(cmd->argv[0]) == 2)
 		exe_cd(cmd, *env_lst);
 	else if (ft_strncmp((cmd->argv[0]), "echo", 4) == 0 && ft_strlen(cmd->argv[0]) == 4)
 		exe_echo(cmd);
-	else
-		exe_made(cmd, env);
-	
-	//env_lst 를 free해주거나 꺼내거나
+	else if (ft_strncmp((cmd->argv[0]), "exit", 4) == 0 && ft_strlen(cmd->argv[0]) == 4)
+		exe_exit(cmd);
 }
+
+void exe_process(t_cmd **cmd, char **env, t_env **env_list)
+{
+	pid_t pid;
+	// int i = 0;
+	int in = 0;
+	int out = 1;
+	char *env_path;
+	int status;
+
+	// if ((*cmd)->next == NULL)
+	// {
+	// 	exe_just(*cmd, env);
+	// 	return ;
+	// }
+
+	int flag = cmd_num(*cmd);
+	while (*cmd)
+	{
+		if (is_built((*cmd)->argv[0]) && flag == 1) //명령어가 하나이고, 명령어 길이가 1이다.
+		{
+			printf("only builtin\n");
+			exe_builtin(*cmd, env_list);
+			(*cmd) = (*cmd)->next;
+		}
+		else
+		{
+			if ((*cmd)->next != NULL)		//다음이 있다.
+			{
+				printf("here pipe\n");
+				pipe((*cmd)->fd);
+				out = (*cmd)->fd[1];
+			}
+			env_path = exe_parse(env, (*cmd)->argv[0]);
+			pid = fork();
+			if (pid == 0)
+			{
+				printf("cmd: %s\n", (*cmd)->argv[0]);
+				if (in != 0) // 처음 빼고 , 파이프 있을 때
+				{	
+					dup2(in, 0);
+					close(in);
+				}
+				if (out != 1 && (*cmd)->next != NULL) // 마지막에 빼고, 파이프 있을 때
+				{
+					dup2(out, 1);
+					close(out);
+				}
+
+				// func
+				if (is_built((*cmd)->argv[0])) //내가 만든 함수
+				{
+					printf("here_is_built\n");
+					exe_builtin(*cmd, env_list); //실행
+					exit(0);					//종료
+				}
+				else
+				{
+					if (execve(env_path, (*cmd)->argv, NULL) == -1)
+						perror("cmd not found");
+				}
+			}
+			else if (pid > 0)
+			{
+				waitpid(pid, &status, 0);
+			}
+			// here !		//ls //ls | cat
+			// printf("here_end\n");
+			if((*cmd)->next != NULL) //마지막이면 close 해주면 안됨
+				close(out); // 마지막일때는 굳이 할 필요는 없는 듯?
+			in = (*cmd)->fd[0]; //연결하는 과정은 있든 없든 상관없음
+			printf("here_end\n");
+			(*cmd) = (*cmd)->next; //다음으로 넘기기
+			// ++i;
+		}
+	}
+	// printf("here\n");
+}
+
+// void exe(t_cmd *cmd, char **env, t_env **env_lst)
+// {
+// 	while(cmd)
+// 	{	
+// 		if (!made_built(cmd->argv[0]))
+// 			exe_made(&cmd, env);
+// 		else
+// 		{	
+// 			if (ft_strncmp((cmd->argv[0]), "pwd", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
+// 				exe_pwd();
+// 			else if (ft_strncmp((cmd->argv[0]), "env", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
+// 				print_env(*env_lst);
+// 			else if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 && ft_strlen(cmd->argv[0]) == 6)
+// 				exe_export(env_lst, cmd);
+// 			else if (ft_strncmp((cmd->argv[0]), "unset", 5) == 0 && ft_strlen(cmd->argv[0]) == 5)
+// 				exe_unset(env_lst, cmd);
+// 			else if (ft_strncmp((cmd->argv[0]), "cd", 2) == 0 && ft_strlen(cmd->argv[0]) == 2)
+// 				exe_cd(cmd, *env_lst);
+// 			else if (ft_strncmp((cmd->argv[0]), "echo", 4) == 0 && ft_strlen(cmd->argv[0]) == 4)
+// 				exe_echo(cmd);
+// 			else if (ft_strncmp((cmd->argv[0]), "exit", 4) == 0 && ft_strlen(cmd->argv[0]) == 4)
+// 				exe_exit(cmd);
+// 		}
+// 		cmd = cmd->next;
+// 	}
+// 	//env_lst 를 free해주거나 꺼내거나
+// }
 
 
 int	main(int argc, char **argv, char **envp)
@@ -408,14 +476,14 @@ int	main(int argc, char **argv, char **envp)
 	while(1)
 	{
 		line = readline("minishell$ ");
-		exit_function(line);
+		//exit_function(line);
 		if(line)
 		{
 			if (parse_line(&cmd, line, env_lst))
 				return (EXIT_FAILURE);
 			if (ft_strlen(line) > 0)
 			{
-				exe (cmd, env, &env_lst);
+				exe_process(&cmd, env, &env_lst);
 				add_history (line);
 			}
 		}

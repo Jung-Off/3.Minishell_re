@@ -231,32 +231,31 @@ void print_export(t_env *env_lst)
     while(env_lst)
     {
         print_lst = first_lst;
-        
-    while (print_lst)
-	{
-        if (print_lst->idx == i)
-        {
-            ft_putnbr_fd(print_lst->idx, 1);
-		    ft_putstr_fd("declare -x ", 1);
-		    ft_putstr_fd(print_lst->key, 1);
-            if(print_lst->env_flag == 1)
-		    {
-			    ft_putstr_fd("=", 1);
-			    if(print_lst->value == NULL)
-				    ft_putstr_fd("\"\"", 1);
-			    ft_putstr_fd(print_lst->value, 1);	
-		    }
-		    ft_putstr_fd("\n", 1);
-	//두가지를 구분하기 위함 플래그
-        }
-		
-        print_lst = print_lst->next;
-	}
+        while (print_lst)
+		{
+        	if (print_lst->idx == i)
+				{
+				ft_putnbr_fd(print_lst->idx, 1);
+				ft_putstr_fd("declare -x ", 1);
+				ft_putstr_fd(print_lst->key, 1);
+				if(print_lst->env_flag == 1)
+				{
+					ft_putstr_fd("=", 1);
+					if(print_lst->value == NULL)
+						ft_putstr_fd("\"\"", 1);
+					ft_putstr_fd(print_lst->value, 1);	
+				}
+				ft_putstr_fd("\n", 1);
+		//두가지를 구분하기 위함 플래그
+        		}
+			print_lst = print_lst->next;
+		}
 	// print_lst->idx = 0;
-    ++i;
-    env_lst = env_lst->next;
+    	++i;
+    	env_lst = env_lst->next;
     }
 
+	//다시 순서 0으로 만들어 주기!
 	while(first_lst)
 	{
 		first_lst->idx = 0;

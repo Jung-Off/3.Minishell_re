@@ -9,8 +9,8 @@ char	*search_home(t_env *env_lst)
 			&& ft_strncmp(env_lst->key, "HOME", ft_strlen(env_lst->key)) == 0)
 			{
 				ft_putstr_fd(env_lst->key, 1);
-			ft_putstr_fd("\n", 1);
-			return (env_lst->value);
+				ft_putstr_fd("\n", 1);
+				return (env_lst->value);
 			}
 		env_lst = env_lst->next;
 	}
