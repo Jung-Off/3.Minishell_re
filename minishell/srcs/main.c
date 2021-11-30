@@ -260,8 +260,10 @@ void exe_builtin(t_cmd *cmd, t_env **env_lst)
 
 void redirect_change(t_redirect *redirect)
 {
-	// int i = 0;
+	int i = 0;
 	char *new_input;
+	int fd_in = dup(STDIN_FILENO);
+	
 	while(redirect)
 	{
 		int fd0;
@@ -273,28 +275,22 @@ void redirect_change(t_redirect *redirect)
 		}
 		else if (redirect->type == REDIRECT_INPUT_DOUBLE) // <<
 		{
+			unlink("./temp/tmp");
 			int fd1 = open("./temp/tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	
 			while (42)
 			{
-				//여기에 어떠한 신호를 주어야 realine을 다시 부를 수 있을 거 같음
-				//여기서 종료가 됨
-					//printf("\n");
-					// rl_on_new_line();
-					// rl_replace_line("", 0);
-					// rl_redisplay();
+				if (i > 0)
+					dup2(fd_in, STDIN_FILENO);
 				new_input = readline("");
 				if (!ft_strncmp(new_input, redirect->file, ft_strlen(redirect->file)))
 				{
-					ft_putnbr_fd(fd1, 1);
 					break ;
 				}
-				write(fd1, new_input, ft_strlen(new_input));
-				write(fd1, "\n", 1);
+				ft_putendl_fd(new_input, fd1);
 				free(new_input);
 			}
 			close(fd1);
-	
 			fd1 = open("./temp/tmp", O_RDONLY, 0644);
 			dup2(fd1, STDIN_FILENO);
 			close(fd1);
@@ -311,6 +307,7 @@ void redirect_change(t_redirect *redirect)
 			dup2(fd1, STDOUT_FILENO);
 			close(fd1);
 		}
+		++i;
 		redirect = redirect->next;
 	}
 }
