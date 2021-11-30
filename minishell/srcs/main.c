@@ -12,6 +12,54 @@
 
 #include "minishell.h"
 
+void    switch_echoctl(int sig)
+{
+    struct termios  conf;
+    ioctl(ttyslot(), TIOCGETA, &conf);
+    if (sig == TURN_OFF)
+        conf.c_lflag &= ~(ECHOCTL);
+    else if (sig == TURN_ON)
+        conf.c_lflag |= ECHOCTL;
+    ioctl(ttyslot(), TIOCSETA, &conf);
+}
+
+void    sig_restart(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		(void)sig;
+	}
+}
+void    blocking_ctrl_c(int sig)
+{
+    write(STDOUT_FILENO, "\n", 1);
+    (void)sig;
+}
+void    blocking_back_slash(int sig)
+{
+    ft_putstr_fd("Quit: 3\n", STDOUT_FILENO);
+    (void)sig;
+}
+
+void    emit_signal(int sig)
+{
+    if (sig == 1)
+    {
+        signal(SIGINT, sig_restart);
+        signal(SIGQUIT, SIG_IGN);
+    }
+    if (sig == 2)
+    {
+        switch_echoctl(TURN_ON);
+        signal(SIGINT, blocking_ctrl_c);
+        signal(SIGQUIT, blocking_back_slash);
+    }
+}
+
 void	test_print(t_cmd *cmd, char *line)
 {
 	int	i;
@@ -133,142 +181,6 @@ int exe_just(t_cmd *cmd_lst, char **env)
 	
 	return (1);
 }
-
-// void exe_main(t_cmd *cmd, char **env)
-// {
-// 	if (cmd->next == NULL)
-// 	{
-// 		exe_just(cmd, env);
-// 		return ;
-// 	}
-// 	char *env_path;
-// 	int status;
-// 	pid_t pid1;
-
-// 	//fd[1] write
-// 	//fd[0] read
-// 	int in = 0;
-// 	int out = 1;
-	
-// 	env_path = exe_parse(env, cmd->argv[0]);
-
-// 	pipe(cmd->fd);
-// 	out = cmd->fd[1];
-
-// 	pid1 = fork();	
-// 	if(pid1 == 0)
-// 	{
-// 		if (in != 0)
-// 		{
-// 			dup2 (in, 0);
-// 			close (in);
-// 		}
-// 		if (out != 1)
-// 		{
-// 			dup2 (out, 1);
-// 			close (out);
-// 		}
-// 		// close(cmd->fd[0]);
-// 		// dup2(cmd->fd[1], STDOUT_FILENO);
-// 		// close(cmd->fd[1]);
-// 		execve(env_path, cmd->argv, NULL);
-// 	}
-// 	else
-// 	{
-// 		// close(cmd->fd[0]);
-// 		// close(cmd->fd[1]);
-// 		waitpid(pid1, &status, 0);
-// 	}
-// 	close(cmd->fd[1]);
-// 	in = cmd->fd[0];
-
-// 	t_cmd *cmd_next = cmd->next;
-
-// 	// printf("%s", *(cmd->argv));
-// 	pid1 = fork();
-
-// 	env_path = exe_parse(env, cmd->next->argv[0]);
-// 	if(pid1 == 0)
-// 	{	
-// 		if (in != 0)
-// 		{
-// 			dup2 (in, 0);
-// 			close (in);
-// 		}
-// 		if (out != 1)
-// 		{
-// 			dup2 (out, 1);
-// 			close (out);
-// 		}
-// 		dprintf(1, "here\n");
-// 		execve(env_path, cmd_next->argv, NULL);
-// 	}
-// 	else 
-// 	{
-// 		// dup2(fd_out, 1);
-// 		waitpid(pid1, &status, 0);
-// 	}
-	
-// }
-
-// void exe_main(t_cmd *cmd, char **env)
-// {
-
-// 	if (cmd->next == NULL)
-// 	{
-// 		exe_just(cmd, env);
-// 		return ;
-// 	}
-//     pid_t pid, wpid;
-//     int status;
-// 	char *env_path;
-//     int in;
-//     int out;
-//     int fd[2];
-//     in = 0;
-//     out = 1;
-	
-//     while(cmd != NULL)
-//     {
-//         if (cmd->next != NULL)
-//         {
-//             pipe(fd);
-//             out = fd[1];
-//         }
-// 		env_path = exe_parse(env, cmd->argv[0]);
-//         pid = fork();
-//         if (pid == -1)
-//             exit(EXIT_FAILURE);
-//         else if (pid == 0)
-//         {
-//             if (in != 0)
-//             {
-//                 dup2 (in, 0);
-//                 close (in);
-//             }
-//             if (out != 1)
-//             {
-//                 dup2 (out, 1);
-//                 close (out);
-//             }
-//             if (execve(env_path, cmd->argv, NULL) == -1)
-//                 perror("Could not execve");
-//             exit(EXIT_SUCCESS);
-//         }
-//         else if (pid > 0)
-//         {
-//             //do {
-//                 wpid = waitpid(pid, &status, WUNTRACED);
-//             //} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-//         }
-//         close(fd[1]);
-//         in = fd[0];
-//         // move current position
-// 		cmd = cmd->next;
-// 	}
-// }
-
-
 
 void exe_unset(t_env **env_lst, t_cmd *cmd)
 {
@@ -431,9 +343,12 @@ void exe_process(t_cmd **cmd, char **env, t_env **env_list)
 	// 	return ;
 	// }
 
+	//^C를 넣기 위함
+	if (!(*cmd)->redirect) // cat grep
+		emit_signal(2);
 	int flag = cmd_num(*cmd);
 	while (*cmd)
-	{
+	{		
 		if (is_built((*cmd)->argv[0]) && flag == 1 && !(*cmd)->redirect) //명령어가 하나이고, 명령어 길이가 1이다.
 		{
 			printf("only builtin\n");
@@ -501,36 +416,6 @@ void exe_process(t_cmd **cmd, char **env, t_env **env_list)
 	// printf("here\n");
 }
 
-// void exe(t_cmd *cmd, char **env, t_env **env_lst)
-// {
-// 	while(cmd)
-// 	{	
-// 		if (!made_built(cmd->argv[0]))
-// 			exe_made(&cmd, env);
-// 		else
-// 		{	
-// 			if (ft_strncmp((cmd->argv[0]), "pwd", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
-// 				exe_pwd();
-// 			else if (ft_strncmp((cmd->argv[0]), "env", 3) == 0 && ft_strlen(cmd->argv[0]) == 3)
-// 				print_env(*env_lst);
-// 			else if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 && ft_strlen(cmd->argv[0]) == 6)
-// 				exe_export(env_lst, cmd);
-// 			else if (ft_strncmp((cmd->argv[0]), "unset", 5) == 0 && ft_strlen(cmd->argv[0]) == 5)
-// 				exe_unset(env_lst, cmd);
-// 			else if (ft_strncmp((cmd->argv[0]), "cd", 2) == 0 && ft_strlen(cmd->argv[0]) == 2)
-// 				exe_cd(cmd, *env_lst);
-// 			else if (ft_strncmp((cmd->argv[0]), "echo", 4) == 0 && ft_strlen(cmd->argv[0]) == 4)
-// 				exe_echo(cmd);
-// 			else if (ft_strncmp((cmd->argv[0]), "exit", 4) == 0 && ft_strlen(cmd->argv[0]) == 4)
-// 				exe_exit(cmd);
-// 		}
-// 		cmd = cmd->next;
-// 	}
-// 	//env_lst 를 free해주거나 꺼내거나
-// }
-
-//g_exit = 0;
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -542,13 +427,25 @@ int	main(int argc, char **argv, char **envp)
 	cmd = NULL;
 	t_env *env_lst = NULL;
 	
+
+	
 	exe_env(envp, &env_lst);
 	env = find_envp_path();
+
+
 	while(1)
 	{
+		switch_echoctl(TURN_OFF);
+		//^C을 끄기위함
+		emit_signal(1);		
 		line = readline("minishell$ ");
-		//exit_function(line);
-		if(line)
+		if (!line)
+		{
+			write(STDOUT_FILENO, "exit\n", 5);
+			exit(EXIT_SUCCESS);
+		}
+		//exit_function(line); 기가막히게 문제가 생기네
+		if (line)
 		{
 			if (parse_line(&cmd, line, env_lst))
 				return (EXIT_FAILURE);

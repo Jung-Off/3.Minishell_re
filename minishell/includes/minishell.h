@@ -23,7 +23,10 @@
 # include <sys/stat.h> // ~stat
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <fcntl.h>
+#include <termios.h>
+#include <sys/ioctl.h>
 
 # include "../libft/libft.h"
 
@@ -45,6 +48,9 @@
 # define QUOTE "\0\'\""
 
 # define MAXSIZE		1024
+
+# define TURN_ON	1
+# define TURN_OFF	0
 
 typedef int		t_bool;
 
@@ -71,6 +77,7 @@ typedef struct s_env
 	int					idx;
 	int					env_flag;
 }						t_env;
+
 
 // error.c
 int			error_handler(char *err_msg);

@@ -44,11 +44,11 @@ OBJS		= $(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 
 $(TARGET) : $(OBJS)
 	make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -I $(INCS_DIR) -L$(LIBFT_DIR) -lft -lreadline -I/Users/jiwchoi/.brew/opt/readline/include
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -I $(INCS_DIR) -L$(LIBFT_DIR) -lft -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include 
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	@mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS_DIR) -I ~/.brew/opt/readline/include 
 
 all : $(TARGET)
 
