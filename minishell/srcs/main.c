@@ -14,13 +14,28 @@
 
 void    switch_echoctl(int sig)
 {
-    struct termios  conf;
+    struct termios  new_term;
+	//struct termios  org_term;
+	
+	tcgetattr(STDIN_FILENO, &new_term);
+	if (sig == TURN_OFF)
+		new_term.c_lflag &= ~ECHOCTL;
+	else
+		new_term.c_lflag |= ECHOCTL;
+		
+	new_term.c_cc[VMIN] = 1;  
+	new_term.c_cc[VTIME] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
+
+
+	/*
     ioctl(ttyslot(), TIOCGETA, &conf);
     if (sig == TURN_OFF)
-        conf.c_lflag &= ~(ECHOCTL);
+        conf.c_lflag &= ~(ECHOCTL); //신호를 끈다 // 아무것도 입력 안했을 때
     else if (sig == TURN_ON)
-        conf.c_lflag |= ECHOCTL;
+        conf.c_lflag |= ECHOCTL;	//신호를 켠다 // cat, grep 입력을 하였을 때
     ioctl(ttyslot(), TIOCSETA, &conf);
+	*/
 }
 
 void    sig_restart(int sig)
@@ -45,20 +60,31 @@ void    blocking_back_slash(int sig)
     (void)sig;
 }
 
+//신호 전환기
 void    emit_signal(int sig)
 {
     if (sig == 1)
     {
-        signal(SIGINT, sig_restart);
-        signal(SIGQUIT, SIG_IGN);
+        signal(SIGINT, sig_restart);	//다시 시작하기 위함
+        signal(SIGQUIT, SIG_IGN);	//무시하기 위함
     }
     if (sig == 2)
     {
-        switch_echoctl(TURN_ON);
-        signal(SIGINT, blocking_ctrl_c);
-        signal(SIGQUIT, blocking_back_slash);
+		//cat 할 때는 출력이 되도록
+        switch_echoctl(TURN_ON);	//신호 켜줘서 출력이 되도록
+        signal(SIGINT, blocking_ctrl_c);	// 개행 출력 되도록
+        signal(SIGQUIT, blocking_back_slash);	//Quit : 3출력 되도록
     }
 }
+
+//터미널 환경을 바꿔줘
+
+// void reset_input_mode(void)
+// {
+// 		tcsetattr(STDIN_FILENO, TCSANOW, &org_term);  // STDIN에 기존의 터미널 속성을 바로 적용
+// }
+
+
 
 void	test_print(t_cmd *cmd, char *line)
 {
@@ -435,8 +461,10 @@ int	main(int argc, char **argv, char **envp)
 
 	while(1)
 	{
+		//*
 		switch_echoctl(TURN_OFF);
 		//^C을 끄기위함
+		//*
 		emit_signal(1);		
 		line = readline("minishell$ ");
 		if (!line)
