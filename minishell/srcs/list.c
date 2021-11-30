@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_pwd.c                                          :+:      :+:    :+:   */
+/*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jji <jji@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/30 20:47:11 by jji               #+#    #+#             */
-/*   Updated: 2021/11/30 20:47:12 by jji              ###   ########.fr       */
+/*   Created: 2021/11/30 20:37:37 by jji               #+#    #+#             */
+/*   Updated: 2021/11/30 20:37:39 by jji              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exe_pwd(void)
+void	create_list(t_env **lst)
 {
-	char	*buf;
-	char	*ret;
+	*lst = malloc(sizeof(t_env));
+	(*lst)->key = NULL;
+	(*lst)->value = NULL;
+	(*lst)->next = NULL;
+	(*lst)->env_flag = 0;
+}
 
-	buf = NULL;
-	ret = getcwd(0, MAXSIZE);
-	if (ret == NULL)
-		return ;
-	// 오류처리 하기
-	ft_putstr_fd(ret, 1);
-	ft_putstr_fd("\n", 1);
-	free(ret);
-	return ;
+void	add_node(t_env *add_lst, t_env **env_lst)
+{
+	t_env	*move;
+
+	move = *env_lst;
+	if (*env_lst == NULL)
+		*env_lst = add_lst;
+	else
+	{
+		while (move->next)
+			move = move->next;
+		move->next = add_lst;
+	}
 }

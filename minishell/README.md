@@ -11,5 +11,5 @@
 //최대한 이것 해결하는 방향으로 간다
 exit
 
-종료 시그널 c, d, \
-일반 상황 cat.grep quit
+# 종료 시그널 c, d, \
+# 일반 상황 cat.grep quit

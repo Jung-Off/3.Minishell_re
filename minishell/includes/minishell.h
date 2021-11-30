@@ -52,6 +52,9 @@
 # define TURN_ON	1
 # define TURN_OFF	0
 
+# define OMIT 1
+# define N_OMIT 0
+
 typedef int		t_bool;
 
 typedef struct s_redirect
@@ -132,5 +135,9 @@ void exe_export(t_env **env_lst, t_cmd *cmd);
 
 //exe_pwd.c
 void exe_pwd(void);
+
+//list.c
+void	create_list(t_env **lst);
+void	add_node(t_env *add_lst, t_env **env_lst);
 
 #endif

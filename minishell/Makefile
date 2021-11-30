@@ -36,7 +36,8 @@ SRC			= error.c \
 				exe_cd.c \
 				exe_echo.c \
 				exe_pwd.c \
-				exe_export.c
+				exe_export.c \
+				list.c
 
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRC))
