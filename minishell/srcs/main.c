@@ -283,10 +283,8 @@ void redirect_change(t_redirect *redirect)
 				if (i > 0)
 					dup2(fd_in, STDIN_FILENO);
 				new_input = readline("");
-				if (!ft_strncmp(new_input, redirect->file, ft_strlen(redirect->file)))
-				{
+				if (ft_strncmp(new_input, redirect->file, ft_strlen(redirect->file)) == 0 && ft_strncmp(new_input, redirect->file, ft_strlen(new_input)) == 0)
 					break ;
-				}
 				ft_putendl_fd(new_input, fd1);
 				free(new_input);
 			}
