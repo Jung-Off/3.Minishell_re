@@ -13,4 +13,7 @@
 exit
 echo $?
 
-norm / 여러가지 test케이스 해결하기
+norm : redirect.c exe_process.c
+free해결하기
+/ 여러가지 test케이스 해결하기
+슬랙에 보내놓은 문제들 확인하기

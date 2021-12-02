@@ -12,6 +12,18 @@
 
 #include "../includes/minishell.h"
 
+char	**find_envp_path(void)
+{
+	char	**envp_path;
+	char	*path;
+
+	path = getenv("PATH");
+	if (path == NULL)
+		printf("Failed to get path\n");
+	envp_path = ft_split(path, ':');
+	return (envp_path);
+}
+
 void	env_split(t_env *lst, char *env)
 {
 	char	**env_oneline;
@@ -20,19 +32,6 @@ void	env_split(t_env *lst, char *env)
 	lst->key = env_oneline[0];
 	lst->value = env_oneline[1];
 	lst->env_flag = 1;
-}
-
-void	exe_env(char **envp, t_env **env_lst)
-{
-	t_env	*lst;
-
-	while (*envp)
-	{
-		create_list(&lst);
-		env_split(lst, envp[0]);
-		add_node(lst, env_lst);
-		++envp;
-	}
 }
 
 void	print_env(t_env *env_lst)
@@ -47,5 +46,18 @@ void	print_env(t_env *env_lst)
 			ft_putstr_fd("\n", 1);
 		}	
 		env_lst = env_lst->next;
+	}
+}
+
+void	make_envlst(char **envp, t_env **env_lst)
+{
+	t_env	*lst;
+
+	while (*envp)
+	{
+		create_list(&lst);
+		env_split(lst, envp[0]);
+		add_node(lst, env_lst);
+		++envp;
 	}
 }

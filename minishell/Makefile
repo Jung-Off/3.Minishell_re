@@ -25,19 +25,26 @@ SRCS_DIR	= ./srcs/
 OBJS_DIR	= ./objs/
 
 SRC			= error.c \
-			  execute.c \
 			  main.c \
 			  parse_command.c \
 			  parse_line.c \
 			  replace.c \
 			  utils_cmd.c \
 			  utils_redir.c \
+			  	signal.c \
+				redirect.c \
+				exe_process.c \
 				exe_env.c \
 				exe_cd.c \
 				exe_echo.c \
 				exe_pwd.c \
 				exe_export.c \
-				list.c
+				exe_unset.c \
+				exe_exit.c \
+				utils.c \
+				builtin.c \
+				list.c \
+				add_export.c
 
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRC))

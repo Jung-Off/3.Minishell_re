@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.c                                             :+:      :+:    :+:   */
+/*   exe_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jji <jji@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/30 20:37:37 by jji               #+#    #+#             */
-/*   Updated: 2021/11/30 20:37:39 by jji              ###   ########.fr       */
+/*   Created: 2021/12/02 15:51:17 by jji               #+#    #+#             */
+/*   Updated: 2021/12/02 15:51:17 by jji              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	create_list(t_env **lst)
+int exit_function(char *line)
 {
-	*lst = malloc(sizeof(t_env));
-	(*lst)->key = NULL;
-	(*lst)->value = NULL;
-	(*lst)->next = NULL;
-	(*lst)->idx = 0;
-	(*lst)->env_flag = 0;
+	if (ft_strncmp(line, "exit", 4) == 0 && ft_strlen(line) == 4)
+	{	
+		free(line);
+		exit (1);
+	}
+	return (0);
 }
 
-void	add_node(t_env *add_lst, t_env **env_lst)
+void exe_exit(t_cmd *cmd)
 {
-	t_env	*move;
-
-	move = *env_lst;
-	if (*env_lst == NULL)
-		*env_lst = add_lst;
-	else
+	if (cmd->argv[1])
 	{
-		while (move->next)
-			move = move->next;
-		move->next = add_lst;
+		write(1, cmd->argv[1], ft_strlen(cmd->argv[1]));
+		write(1, "\n", 1);
 	}
 }
