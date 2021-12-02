@@ -6,7 +6,7 @@
 /*   By: jiwchoi <jiwchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 15:32:13 by jiwchoi           #+#    #+#             */
-/*   Updated: 2021/11/14 20:00:14 by jiwchoi          ###   ########.fr       */
+/*   Updated: 2021/12/02 18:23:00 by jji              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void		sig_restart(int sig);
 void		switch_echoctl(int sig);
 
 //redirect.c
-void		redirect_change(t_redirect *redirect);
+int			redirect_change(t_redirect *redirect, t_env *env_lst);
 
 //exe_process.c
 void		exe_process(t_cmd **cmd, char **env, t_env **env_list);

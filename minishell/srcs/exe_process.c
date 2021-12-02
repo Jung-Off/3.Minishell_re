@@ -47,15 +47,15 @@ void exe_process(t_cmd **cmd, char **env, t_env **env_list)
 	int flag = cmd_num(*cmd);
 	while (*cmd)
 	{	
-		if (cmd_ok(env, (*cmd)->argv[0]))
-		{
-			ft_putstr_fd("bash: ", 1);
-			ft_putstr_fd((*cmd)->argv[0], 1);
-			ft_putstr_fd(": command not found\n", 1);
-			// if ((*cmd)->next != NULL)
-				(*cmd) = (*cmd)->next;
-			continue;//명령어가 맞는지 확인하는 부분이 필요한듯
-		}
+		// if (cmd_ok(env, (*cmd)->argv[0]) || !(ft_strncmp(((*cmd)->argv[0]), "export", 6) == 0 && ft_strlen((*cmd)->argv[0]) == 6)) //여기서 export 걸림
+		// {
+		// 	ft_putstr_fd("bash: ", 1);
+		// 	ft_putstr_fd((*cmd)->argv[0], 1);
+		// 	ft_putstr_fd(": command not found\n", 1);
+		// 	// if ((*cmd)->next != NULL)
+		// 		(*cmd) = (*cmd)->next;
+		// 	continue;//명령어가 맞는지 확인하는 부분이 필요한듯
+		// }
 		if (is_built((*cmd)->argv[0]) && flag == 1 && !(*cmd)->redirect) //명령어가 하나이고, 명령어 길이가 1이다.
 		{
 			printf("only builtin\n");
@@ -75,7 +75,10 @@ void exe_process(t_cmd **cmd, char **env, t_env **env_list)
 			if (pid == 0)
 			{
 				if ((*cmd)->redirect > 0)
-					redirect_change((*cmd)->redirect);
+				{
+					if(redirect_change((*cmd)->redirect, *env_list))	
+						exit(0);
+				}
 				if (in != 0) // 처음 빼고 , 파이프 있을 때
 				{	
 					dup2(in, 0);
