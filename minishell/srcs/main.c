@@ -39,6 +39,18 @@ int	exe(t_cmd *cmd, char *line, t_env *env_lst, char **env)
 	return (0);
 }
 
+void free_env(t_env *env_lst)
+{
+	t_env *temp;
+
+	while (env_lst)
+	{
+		temp = env_lst->next;
+		free(env_lst);
+		env_lst = temp;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -63,5 +75,6 @@ int	main(int argc, char **argv, char **envp)
 			exe(cmd, line, env_lst, env);
 		main_clear(&line, cmd);
 	}
+	free_env(env_lst);
 	return (EXIT_SUCCESS);
 }
