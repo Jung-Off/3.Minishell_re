@@ -27,10 +27,16 @@ int cmd_ok(char **env, char *cmd)
 		free(env_path);
 		env_path = ft_strjoin(add_slash, cmd);
 		if (stat(env_path, &buf) == 0)
-			return (0);
+		{
+			// ft_putstr_fd("found", 1);
+			// ft_putstr_fd(env_path, 1);
+			return (1);
+		}
 		++i;
 	}
-	return (1);
+	// ft_putstr_fd("not_found", 1);
+	// ft_putstr_fd(env_path, 1);
+	return (0);
 }
 
 void exe_process(t_cmd **cmd, char **env, t_env **env_list)
@@ -46,16 +52,22 @@ void exe_process(t_cmd **cmd, char **env, t_env **env_list)
 		emit_signal(N_OMIT);
 	int flag = cmd_num(*cmd);
 	while (*cmd)
-	{	
-		// if (cmd_ok(env, (*cmd)->argv[0]) || !(ft_strncmp(((*cmd)->argv[0]), "export", 6) == 0 && ft_strlen((*cmd)->argv[0]) == 6)) //여기서 export 걸림
-		// {
-		// 	ft_putstr_fd("bash: ", 1);
-		// 	ft_putstr_fd((*cmd)->argv[0], 1);
-		// 	ft_putstr_fd(": command not found\n", 1);
-		// 	// if ((*cmd)->next != NULL)
-		// 		(*cmd) = (*cmd)->next;
-		// 	continue;//명령어가 맞는지 확인하는 부분이 필요한듯
-		// }
+	{	//빌트인이면 통과, 외부함수면 통과, 그경로에 없으면 실행
+		if (!(cmd_ok(env, (*cmd)->argv[0]) || is_built((*cmd)->argv[0]))) //여기서 export 걸림
+		//찾으면 1					//빌트인이면 1
+		//못찾으면 0				// 아니면 0
+		{
+			// ft_putstr_fd("front : ", 1);
+			// ft_putnbr_fd(cmd_ok(env, (*cmd)->argv[0]), 1);
+			// ft_putstr_fd(" back : ", 1);
+			// ft_putnbr_fd(is_built((*cmd)->argv[0]), 1);
+			ft_putstr_fd("minishell: ", 1);
+			ft_putstr_fd((*cmd)->argv[0], 1);
+			ft_putstr_fd(": command not found\n", 1);
+			// if ((*cmd)->next != NULL)
+				(*cmd) = (*cmd)->next;
+			continue;//명령어가 맞는지 확인하는 부분이 필요한듯
+		}
 		if (is_built((*cmd)->argv[0]) && flag == 1 && !(*cmd)->redirect) //명령어가 하나이고, 명령어 길이가 1이다.
 		{
 			printf("only builtin\n");
