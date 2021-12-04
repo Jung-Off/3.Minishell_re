@@ -134,7 +134,7 @@ int			env_rank(t_env *env_lst, t_env *move_lst);
 //add_export.c
 int			init_envlst(t_env *env_lst, t_env *lst);
 int			duplicate_search(t_env *env_lst, t_env *lst);
-void		export_split(t_env *lst, char *argv);
+int			export_split(t_env *lst, char *argv);
 int			judge_cmd(char *cmd_option);
 int			add_export(t_env **env_lst, char *cmd);
 

@@ -44,24 +44,39 @@ env_lst->key, ft_strlen(env_lst->key)) == 0)
 	return (0);
 }
 
-void	export_split(t_env *lst, char *argv)
+int	export_split(t_env *lst, char *argv)
 {
 	char	**export_oneline;
 	int		i;
 
 	i = 0;
+
 	export_oneline = ft_split(argv, '=');
-	while (export_oneline[i])
-	{
-		printf("____%s____%d\n", export_oneline[i], i);
-		++i;
+	// while (export_oneline[i])
+	// {
+	// 	printf("____%s____%d\n", export_oneline[i], i);
+	// 	++i;
+	// }
+	if(export_oneline == NULL || export_oneline[0] == NULL)
+	{	
+		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 1);
+		return (1);
 	}
-	lst->key = export_oneline[0];
-	if (ft_strchr(argv, '='))
-	{
-		lst->value = export_oneline[1];
-		lst->env_flag = 1;
+	if (ft_strncmp(argv, "=", 1) == 0)
+	{	
+		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 1);
+		return (1);
 	}
+	else
+	{
+		lst->key = export_oneline[0];
+		if (ft_strchr(argv, '='))
+		{
+			lst->value = export_oneline[1];
+			lst->env_flag = 1;
+		}
+	}
+	return (0);
 }
 
 int	judge_cmd(char *cmd_option)
@@ -98,7 +113,8 @@ int	add_export(t_env **env_lst, char *cmd)
 		return (1);
 	}
 	create_list(&lst);
-	export_split(lst, cmd);
+	if (export_split(lst, cmd))
+		return (1);
 	if (duplicate_search(*env_lst, lst))
 		return (1);
 	add_node(lst, env_lst);
