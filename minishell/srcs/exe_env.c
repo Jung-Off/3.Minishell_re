@@ -65,7 +65,7 @@ void	print_env(t_env *env_lst, t_cmd *cmd)
 			ft_putstr_fd(env_lst->value, 1);
 			ft_putstr_fd("\n", 1);
 		}
-		printf("----------------------\n");
+		//printf("----------------------\n");
 		env_lst = env_lst->next;
 	}
 	g_exit_code = 0;

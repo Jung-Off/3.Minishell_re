@@ -143,7 +143,7 @@ void		make_envlst(char **envp, t_env **env_lst);
 void		free_double(char **env_oneline);
 
 //exe_exit.c
-void		exit_code_change(t_cmd *cmd, int idx);
+void		exit_code_change(t_cmd *cmd);
 void		exe_exit(t_cmd *cmd);
 void		ft_error(int is_exit, char *cmd, char *err_msg, int exit_code);
 void		parse_error(int is_exit, int exit_code);

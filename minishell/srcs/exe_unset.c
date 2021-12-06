@@ -15,11 +15,11 @@
 void	exe_unset(t_env **env_lst, t_cmd *cmd)
 {
 	t_env	*prev_env;
-	t_env	*m;
+	t_env	*m = *env_lst;
 	int		i;
 
 	prev_env = NULL;
-	i = 0;
+	i = 1;
 	while (cmd->argv[i])
 	{
 		m = *env_lst;
@@ -29,14 +29,20 @@ void	exe_unset(t_env **env_lst, t_cmd *cmd)
 	&& ft_strncmp(m->key, cmd->argv[i], ft_strlen(m->key)) == 0)
 			{
 				if (prev_env == NULL)
-					(*env_lst) = (*env_lst)->next;
+				{
+					printf("%s %s %p", m->key, cmd->argv[i], prev_env);
+					prev_env = m;
+					m = m->next;
+					free(prev_env);
+				}
 				else
 					prev_env->next = m->next;
-				break ;
+				break;
 			}
 			prev_env = m;
 			m = m->next;
 		}
 		i++;
 	}
+	*env_lst = m;
 }

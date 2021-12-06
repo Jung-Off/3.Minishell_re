@@ -30,13 +30,10 @@ void	ft_error(int is_exit, char *cmd, char *err_msg, int exit_code)
 		exit (g_exit_code);
 }
 
-void	exit_code_change(t_cmd *cmd, int idx)
+void	exit_code_change(t_cmd *cmd)
 {
-	if (idx == 1)
-	{
 		g_exit_code = ft_atoi(cmd->argv[1]);
 		exit(g_exit_code % 256);
-	}
 }
 
 void	exe_exit(t_cmd *cmd)
@@ -45,21 +42,27 @@ void	exe_exit(t_cmd *cmd)
 	int	j;
 
 	i = 1;
+	if (cmd->argv[1] == NULL)
+		exit(0);
 	while (cmd->argv[i])
 	{
 		j = 0;
 		if (i >= 2)
 		{
+			ft_putstr_fd("exit\n", 1);
 			ft_error(0, "exit ", "too many arguments\n", 1);
-			break ;
+			return ;
 		}
 		while (cmd->argv[i][j])
 		{
 			if (ft_isdigit(cmd->argv[i][j]) == 0)
+			{	
+				ft_putstr_fd("exit\n", 1);
 				ft_error(1, "exit", " numeric argument required\n", 255);
+			}
 			++j;
 		}
 		++i;
 	}
-	exit_code_change(cmd, i);
+	exit_code_change(cmd);
 }
