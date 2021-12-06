@@ -81,6 +81,16 @@ typedef struct s_env
 	int					env_flag;
 }						t_env;
 
+typedef struct s_data
+{
+	int					idx;
+	char				*new;
+	int					fd_in;
+	int					fd0;
+	int					fd1;
+}						t_data;
+
+
 // error.c
 int			error_handler(char *err_msg);
 t_bool		error_check(t_cmd *cmd);
@@ -155,7 +165,15 @@ void		blocking_ctrl_c(int sig);
 void		sig_restart(int sig);
 void		switch_echoctl(int sig);
 
+//redirect_utils.c
+void	init_data(t_data *data);
+int	input_file_check(t_redirect *redirect, t_env *env_lst);
+
 //redirect.c
+void	redirect_input_single(t_redirect *redirect, t_data data);
+void	redircet_input_double(t_redirect *redir, t_data data);
+void	redirect_ouput_single(t_redirect *redirect, t_data data);
+void	redirect_output_double(t_redirect *redirect, t_data data);
 int			redirect_change(t_redirect *redirect, t_env *env_lst);
 
 //exe_process.c
