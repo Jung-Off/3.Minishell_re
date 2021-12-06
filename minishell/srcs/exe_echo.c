@@ -37,7 +37,8 @@ void	exe_echo(t_cmd *cmd)
 
 	i = 1;
 	option = 0;
-	printf("%s %s\n", cmd->argv[0], cmd->argv[1]);
+	// printf("%s %s\n", cmd->argv[0], cmd->argv[1]);
+	// printf("%s %s\n", cmd->argv[0],)
 	if (cmd->argv[1])
 		option = echo_option_chk(cmd->argv[1]);
 	if (option)
@@ -51,4 +52,5 @@ void	exe_echo(t_cmd *cmd)
 	}
 	if (!option)
 		ft_putstr_fd("\n", 1);
+	g_exit_code = 0;
 }

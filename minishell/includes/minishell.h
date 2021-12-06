@@ -57,6 +57,8 @@
 
 typedef int		t_bool;
 
+int g_exit_code;
+
 typedef struct s_redirect
 {
 	int					type;
@@ -125,7 +127,7 @@ void		redir_clear(t_redirect **lst);
 //exe_env.c
 char		**find_envp_path(void);
 void		env_split(t_env *lst, char *env);
-void		print_env(t_env *env_lst);
+void		print_env(t_env *env_lst, t_cmd *cmd);
 void		make_envlst(char **envp, t_env **env_lst);
 
 //exe_cd.c
@@ -186,6 +188,8 @@ void		exe_builtin(t_cmd *cmd, t_env **env_lst);
 //exe_exit.c
 int			exit_function(char *line);
 void		exe_exit(t_cmd *cmd);
+void		ft_error(int is_exit, char *cmd, char *err_msg, int exit_code);
+void 		parse_error(int is_exit, int exit_code);
 
 //main.c
 int			cmd_num(t_cmd *cmd);

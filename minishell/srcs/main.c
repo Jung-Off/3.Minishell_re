@@ -18,6 +18,7 @@ void	init_argument(t_cmd **cmd, t_env **env_lst, int argc, char **argv)
 	*env_lst = NULL;
 	(void)argc;
 	(void)argv;
+	g_exit_code = 0;
 }
 
 void	main_clear(char **line, t_cmd *cmd)

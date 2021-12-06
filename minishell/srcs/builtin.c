@@ -32,7 +32,7 @@ void	exe_builtin(t_cmd *cmd, t_env **env_lst)
 		exe_pwd();
 	else if (ft_strncmp((cmd->argv[0]), "env", 3) == 0 \
 	&& ft_strlen(cmd->argv[0]) == 3)
-		print_env(*env_lst);
+		print_env(*env_lst, cmd);
 	else if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 \
 	&& ft_strlen(cmd->argv[0]) == 6)
 		exe_export(env_lst, cmd);

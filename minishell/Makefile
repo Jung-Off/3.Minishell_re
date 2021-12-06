@@ -44,7 +44,8 @@ SRC			= error.c \
 				utils.c \
 				builtin.c \
 				list.c \
-				add_export.c
+				add_export.c \
+				redirect_utils.c
 
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRC))

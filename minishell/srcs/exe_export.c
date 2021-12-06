@@ -112,4 +112,5 @@ void	exe_export(t_env **env_lst, t_cmd *cmd)
 	}
 	else
 		before_print_export(*env_lst);
+	g_exit_code = 0;
 }

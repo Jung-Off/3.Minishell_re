@@ -59,12 +59,14 @@ int	export_split(t_env *lst, char *argv)
 	// }
 	if(export_oneline == NULL || export_oneline[0] == NULL)
 	{	
-		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 1);
+		ft_error(0, "export: `='", "not a valid identifier\n", 1);
+		// ft_putstr_fd("bash: export: `=': not a valid identifier\n", 1);
 		return (1);
 	}
 	if (ft_strncmp(argv, "=", 1) == 0)
 	{	
-		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 1);
+		ft_error(0, "export: `='", "not a valid identifier\n", 1);
+		// ft_putstr_fd("bash: export: `=': not a valid identifier\n", 1);
 		return (1);
 	}
 	else
@@ -106,9 +108,10 @@ int	add_export(t_env **env_lst, char *cmd)
 
 	if (judge_cmd(cmd))
 	{
-		ft_putstr_fd("export :", 1);
-		ft_putstr_fd(cmd, 1);
-		ft_putstr_fd(": not a valid identifier", 1);
+		// ft_putstr_fd("export :", 1);
+		// ft_putstr_fd(cmd, 1);
+		// ft_putstr_fd(": not a valid identifier", 1);
+		ft_error(0, cmd, ": not a valid identifier", 1);
 		ft_putstr_fd("\n", 1);
 		return (1);
 	}

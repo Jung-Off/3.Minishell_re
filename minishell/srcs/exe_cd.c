@@ -42,8 +42,7 @@ void	exe_cd(t_cmd *cmd, t_env *env_lst)
 	{
 		if (!search_home(env_lst))
 		{
-			ft_putstr_fd("minishell: cd: HOME not set", 1);
-			ft_putstr_fd("\n", 1);
+			ft_error(0, "cd ", "HOME not set\n", 1);
 			return ;
 		}
 		chdir(search_home(env_lst));
@@ -64,14 +63,9 @@ void	exe_cd(t_cmd *cmd, t_env *env_lst)
 		else
 		{
 			result = chdir(cmd->argv[1]);
-			if (result == 0 )
-			{
-				printf("이동 성공\n");
-				//exit code
-			}
-			else if (result == -1 )
-				perror("이동 실패 -\n");
-				//exit code
+			if (result == -1 )
+				ft_error(0, "cd ", "No such file or directory\n", 1);
 		}
 	}
+	g_exit_code = 0;
 }

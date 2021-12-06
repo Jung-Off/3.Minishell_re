@@ -34,8 +34,13 @@ void	env_split(t_env *lst, char *env)
 	lst->env_flag = 1;
 }
 
-void	print_env(t_env *env_lst)
+void	print_env(t_env *env_lst, t_cmd *cmd)
 {
+	if (cmd->argv[1])
+	{	
+		ft_error(0, cmd->argv[0], " No such file or directory\n", 127);
+		return ;
+	}
 	while (env_lst)
 	{
 		if (env_lst->env_flag)
@@ -47,6 +52,7 @@ void	print_env(t_env *env_lst)
 		}	
 		env_lst = env_lst->next;
 	}
+	g_exit_code = 0;
 }
 
 void	make_envlst(char **envp, t_env **env_lst)

@@ -12,21 +12,49 @@
 
 #include "../includes/minishell.h"
 
-int exit_function(char *line)
+void parse_error(int is_exit, int exit_code)
 {
-	if (ft_strncmp(line, "exit", 4) == 0 && ft_strlen(line) == 4)
-	{	
-		free(line);
-		exit (1);
-	}
-	return (0);
+	g_exit_code = exit_code;
+	if (is_exit)
+		exit (g_exit_code);
+}
+
+void ft_error(int is_exit, char *cmd, char *err_msg, int exit_code)
+{
+	write(1, "minishell: ", 11);
+	write(1, cmd, ft_strlen(cmd));
+	write(1, ":", 1);
+	write(1, err_msg, ft_strlen(err_msg));
+	g_exit_code = exit_code;
+	if (is_exit)
+		exit (g_exit_code);
 }
 
 void exe_exit(t_cmd *cmd)
 {
-	if (cmd->argv[1])
+	int i;
+	int j;
+
+	i = 1;
+	while (cmd->argv[i])
 	{
-		write(1, cmd->argv[1], ft_strlen(cmd->argv[1]));
-		write(1, "\n", 1);
+		j = 0;
+		if (i >= 2)
+		{
+			ft_error(0, "exit ", "too many arguments\n", 1);
+			break;
+		}
+		while (cmd->argv[i][j])
+		{
+			if (ft_isdigit(cmd->argv[i][j]))
+				ft_error(1, "exit", " numeric argument required\n" , 255);
+			++j;
+		}
+		++i;
+	}
+	if (i == 1)
+	{
+		g_exit_code = ft_atoi(cmd->argv[1]);
+		exit(g_exit_code % 256);
 	}
 }
