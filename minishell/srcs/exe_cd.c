@@ -39,6 +39,7 @@ void	init_cd(t_cd *cd)
 	cd->result = 0;
 	cd->home = getenv("HOME");
 	cd->path = ft_strjoin(cd->home, "/");
+	// free(cd->home);
 	cd->joins = NULL;
 	cd->result = 0;
 }
@@ -57,7 +58,11 @@ void	exe_cd(t_cmd *cmd, t_env *env_lst)
 			if (ft_strlen(cmd->argv[1]) > 1)
 			{
 				cd.joins = ft_strjoin(cd.path, &cmd->argv[1][2]);
+				//free(&cmd->argv[1][2]);
+				//이부분은 나중에 한번에 해줄수도 있으니까 일단 보류!
+				free(cd.path);
 				chdir(cd.joins);
+				free(cd.joins);
 			}
 			else
 				chdir(cd.home);

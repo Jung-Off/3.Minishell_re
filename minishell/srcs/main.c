@@ -29,7 +29,7 @@ void	main_clear(char **line, t_cmd *cmd)
 }
 
 int	exe(t_cmd *cmd, char *line, t_env *env_lst, char **env)
-{			
+{	
 	if (parse_line(&cmd, line, env_lst))
 		return (EXIT_FAILURE);
 	if (ft_strlen(line) > 0)
@@ -56,7 +56,7 @@ void	free_env(t_env **env_lst)
 
 int	main(int argc, char **argv, char **envp)
 {
-	//char	*line;
+	char	*line;
 	t_cmd	*cmd;
 	char	**env;
 	t_env	*env_lst;
@@ -64,20 +64,20 @@ int	main(int argc, char **argv, char **envp)
 	init_argument(&cmd, &env_lst, argc, argv);
 	make_envlst(envp, &env_lst);
 	env = find_envp_path();
-	// while (1)
-	// {
-	// 	switch_echoctl(TURN_OFF);
-	// 	emit_signal(OMIT);
-	// 	line = readline("minishell$ ");
-	// 	if (!line)
-	// 	{
-	// 		write(STDOUT_FILENO, "exit\n", 5);
-	// 		exit(EXIT_SUCCESS);
-	// 	}
-	// 	if (line)
-	// 		exe(cmd, line, env_lst, env);
-	// 	main_clear(&line, cmd);
-	// }
+	while (1)
+	{
+		switch_echoctl(TURN_OFF);
+		emit_signal(OMIT);
+		line = readline("minishell$ ");
+		if (!line)
+		{
+			write(STDOUT_FILENO, "exit\n", 5);
+			exit(EXIT_SUCCESS);
+		}
+		if (line)
+			exe(cmd, line, env_lst, env);
+		main_clear(&line, cmd);
+	}
 	free_env(&env_lst);
 	while(1);
 	return (EXIT_SUCCESS);

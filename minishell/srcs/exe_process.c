@@ -60,12 +60,14 @@ void	exe_process(t_cmd **cmd, char **env, t_env **env_list)
 {
 	t_exe	exe_data;
 
+	(void)env;
 	init_exe(&exe_data, *cmd);
 	redirect_signal(cmd);
 	while (*cmd)
 	{	
 		if (is_built((*cmd)->argv[0]) && exe_data.n == 1 && !(*cmd)->redirect)
 			exe_builtin(*cmd, env_list);
+	///////
 		else
 		{
 			pipe_setting(cmd, &exe_data);
@@ -76,6 +78,7 @@ void	exe_process(t_cmd **cmd, char **env, t_env **env_list)
 			else if (exe_data.pid > 0)
 			{	
 				waitpid(exe_data.pid, &exe_data.status, 0);
+				free(exe_data.env_path);
 				g_exit_code = WEXITSTATUS(exe_data.status);
 			}
 			ready_next_process(cmd, &exe_data);

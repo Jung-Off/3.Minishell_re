@@ -39,8 +39,10 @@ char	*exe_parse(char **env, char *command_split)
 		add_slash = ft_strjoin(env_path, "/");
 		free(env_path);
 		env_path = ft_strjoin(add_slash, command_split);
+		free(add_slash);
 		if (stat(env_path, &buf) == 0)
 			return (env_path);
+		free(env_path);
 		++i;
 	}
 	printf("not invalid command\n");
