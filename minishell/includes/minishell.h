@@ -57,7 +57,7 @@
 
 typedef int		t_bool;
 
-int g_exit_code;
+int				g_exit_code;
 
 typedef struct s_redirect
 {
@@ -92,13 +92,95 @@ typedef struct s_data
 	int					fd1;
 }						t_data;
 
+typedef struct s_exe
+{
+	pid_t				pid;
+	int					in;
+	int					out;
+	int					status;
+	char				*env_path;
+	int					n;
+}						t_exe;
+
+typedef struct s_cd
+{
+	int					result;
+	char				*home;
+	char				*path;
+	char				*joins;
+}						t_cd;
+
+//add_export.c
+int			init_envlst(t_env *env_lst, t_env *lst);
+int			duplicate_search(t_env *env_lst, t_env *lst);
+int			export_split(t_env *lst, char *argv);
+int			judge_cmd(char *cmd_option);
+int			add_export(t_env **env_lst, char *cmd);
+
+//builtin.c
+int			is_built(char *cmd);
+void		exe_builtin(t_cmd *cmd, t_env **env_lst);
 
 // error.c
 int			error_handler(char *err_msg);
 t_bool		error_check(t_cmd *cmd);
 
-// execute.c
-int			execute(t_cmd *cmd, char **envp, int fd_in);
+//exe_cd.c
+char		*search_home(t_env *env_lst);
+void		exe_cd_space(t_env *env_lst);
+void		init_cd(t_cd *cd);
+void		exe_cd(t_cmd *cmd, t_env *env_lst);
+
+//exe_echo.c
+int			echo_option_chk(char *option);
+void		exe_echo(t_cmd *cmd);
+
+//exe_env.c
+char		**find_envp_path(void);
+void		env_split(t_env *lst, char *env);
+void		print_env(t_env *env_lst, t_cmd *cmd);
+void		make_envlst(char **envp, t_env **env_lst);
+
+//exe_exit.c
+void		exit_code_change(t_cmd *cmd, int idx);
+void		exe_exit(t_cmd *cmd);
+void		ft_error(int is_exit, char *cmd, char *err_msg, int exit_code);
+void		parse_error(int is_exit, int exit_code);
+
+//exe_export.c
+void		sort_export(t_env *env_lst);
+void		before_print_export(t_env *env_lst);
+void		print_export(t_env *env_lst);
+void		exe_export(t_env **env_lst, t_cmd *cmd);
+int			env_rank(t_env *env_lst, t_env *move_lst);
+
+//exe_process_utils.c
+void		init_exe(t_exe *exe_data, t_cmd *cmd);
+void		redirect_signal(t_cmd **cmd);
+int			cmd_ok(char **env, char *cmd);
+
+//exe_process.c
+void		exe_process(t_cmd **cmd, char **env, t_env **env_list);
+void		child_process(t_cmd **cmd, char **env, \
+		t_env **env_list, t_exe exe_data);
+void		pipe_setting(t_cmd **cmd, t_exe *exe_data);
+void		ready_next_process(t_cmd **cmd, t_exe *exe_data);
+
+//exe_pwd.c
+void		exe_pwd(void);
+
+//exe_unset.c
+void		exe_unset(t_env **env_lst, t_cmd *cmd);
+
+//list.c
+void		create_list(t_env **lst);
+void		add_node(t_env *add_lst, t_env **env_lst);
+
+//main.c
+void		init_argument(t_cmd **cmd, t_env **env_lst, int argc, char **argv);
+void		main_clear(char **line, t_cmd *cmd);
+void		main_clear(char **line, t_cmd *cmd);
+void		free_env(t_env *env_lst);
 
 // parse_command.c
 int			split_redirect(char **input);
@@ -110,8 +192,26 @@ int			pass_quotes(char **input);
 int			split_line(char **cmd, char **line);
 int			parse_line(t_cmd **cmd_lst, char *line, t_env *env);
 
+//redirect_utils.c
+void		init_data(t_data *data);
+int			input_file_check(t_redirect *redirect, t_env *env_lst);
+
+//redirect.c
+void		redirect_input_single(t_redirect *redirect, t_data data);
+void		redircet_input_double(t_redirect *redir, t_data data);
+void		redirect_ouput_single(t_redirect *redirect, t_data data);
+void		redirect_output_double(t_redirect *redirect, t_data data);
+int			redirect_change(t_redirect *redirect, t_env *env_lst);
+
 // replace.c
 int			replace(t_cmd *cmd, t_env *env);
+
+//signal.c
+void		emit_signal(int sig);
+void		blocking_back_slash(int sig);
+void		blocking_ctrl_c(int sig);
+void		sig_restart(int sig);
+void		switch_echoctl(int sig);
 
 // utils_cmd.c
 t_cmd		*create_cmd(void);
@@ -124,76 +224,8 @@ t_redirect	*create_redir(char *line);
 void		redir_add_back(t_redirect **lst, t_redirect *new);
 void		redir_clear(t_redirect **lst);
 
-//exe_env.c
-char		**find_envp_path(void);
-void		env_split(t_env *lst, char *env);
-void		print_env(t_env *env_lst, t_cmd *cmd);
-void		make_envlst(char **envp, t_env **env_lst);
-
-//exe_cd.c
-void		exe_cd(t_cmd *cmd, t_env *env_lst);
-
-//exe_echo.c
-int			echo_option_chk(char *option);
-void		exe_echo(t_cmd *cmd);
-
-//exe_export.c
-void		before_print_export(t_env *env_lst);
-void		print_export(t_env *env_lst);
-void		exe_export(t_env **env_lst, t_cmd *cmd);
-int			env_rank(t_env *env_lst, t_env *move_lst);
-
-//add_export.c
-int			init_envlst(t_env *env_lst, t_env *lst);
-int			duplicate_search(t_env *env_lst, t_env *lst);
-int			export_split(t_env *lst, char *argv);
-int			judge_cmd(char *cmd_option);
-int			add_export(t_env **env_lst, char *cmd);
-
-//exe_unset.c
-void		exe_unset(t_env **env_lst, t_cmd *cmd);
-
-//exe_pwd.c
-void		exe_pwd(void);
-
-//list.c
-void		create_list(t_env **lst);
-void		add_node(t_env *add_lst, t_env **env_lst);
-
-//signal.c
-void		emit_signal(int sig);
-void		blocking_back_slash(int sig);
-void		blocking_ctrl_c(int sig);
-void		sig_restart(int sig);
-void		switch_echoctl(int sig);
-
-//redirect_utils.c
-void	init_data(t_data *data);
-int	input_file_check(t_redirect *redirect, t_env *env_lst);
-
-//redirect.c
-void	redirect_input_single(t_redirect *redirect, t_data data);
-void	redircet_input_double(t_redirect *redir, t_data data);
-void	redirect_ouput_single(t_redirect *redirect, t_data data);
-void	redirect_output_double(t_redirect *redirect, t_data data);
-int			redirect_change(t_redirect *redirect, t_env *env_lst);
-
-//exe_process.c
-void		exe_process(t_cmd **cmd, char **env, t_env **env_list);
-
-//builtin.c
-int			is_built(char *cmd);
-void		exe_builtin(t_cmd *cmd, t_env **env_lst);
-
-//exe_exit.c
-int			exit_function(char *line);
-void		exe_exit(t_cmd *cmd);
-void		ft_error(int is_exit, char *cmd, char *err_msg, int exit_code);
-void 		parse_error(int is_exit, int exit_code);
-
 //main.c
 int			cmd_num(t_cmd *cmd);
 char		*exe_parse(char **env, char *command_split);
-void		init_argument(t_cmd **cmd, t_env **env_lst, int argc, char **argv);
 
 #endif

@@ -21,7 +21,6 @@ void	exe_pwd(void)
 	ret = getcwd(0, MAXSIZE);
 	if (ret == NULL)
 		return ;
-
 	ft_putstr_fd(ret, 1);
 	ft_putstr_fd("\n", 1);
 	free(ret);

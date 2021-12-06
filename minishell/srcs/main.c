@@ -40,9 +40,9 @@ int	exe(t_cmd *cmd, char *line, t_env *env_lst, char **env)
 	return (0);
 }
 
-void free_env(t_env *env_lst)
+void	free_env(t_env *env_lst)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	while (env_lst)
 	{

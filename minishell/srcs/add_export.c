@@ -50,23 +50,15 @@ int	export_split(t_env *lst, char *argv)
 	int		i;
 
 	i = 0;
-
 	export_oneline = ft_split(argv, '=');
-	// while (export_oneline[i])
-	// {
-	// 	printf("____%s____%d\n", export_oneline[i], i);
-	// 	++i;
-	// }
-	if(export_oneline == NULL || export_oneline[0] == NULL)
+	if (export_oneline == NULL || export_oneline[0] == NULL)
 	{	
 		ft_error(0, "export: `='", "not a valid identifier\n", 1);
-		// ft_putstr_fd("bash: export: `=': not a valid identifier\n", 1);
 		return (1);
 	}
 	if (ft_strncmp(argv, "=", 1) == 0)
 	{	
 		ft_error(0, "export: `='", "not a valid identifier\n", 1);
-		// ft_putstr_fd("bash: export: `=': not a valid identifier\n", 1);
 		return (1);
 	}
 	else
@@ -108,9 +100,6 @@ int	add_export(t_env **env_lst, char *cmd)
 
 	if (judge_cmd(cmd))
 	{
-		// ft_putstr_fd("export :", 1);
-		// ft_putstr_fd(cmd, 1);
-		// ft_putstr_fd(": not a valid identifier", 1);
 		ft_error(0, cmd, " not a valid identifier", 1);
 		ft_putstr_fd("\n", 1);
 		return (1);
@@ -121,6 +110,5 @@ int	add_export(t_env **env_lst, char *cmd)
 	if (duplicate_search(*env_lst, lst))
 		return (1);
 	add_node(lst, env_lst);
-	// g_exit_code = 0;
 	return (0);
 }

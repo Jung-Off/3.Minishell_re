@@ -63,7 +63,6 @@ int	get_env(char **res, char *str, t_env *env, int *idx)
 	char	*join;
 	t_env	*p;
 
-
 	if (!ft_strncmp("?", str, 1))
 	{
 		*res = ft_itoa(g_exit_code);
@@ -96,14 +95,6 @@ int	get_env(char **res, char *str, t_env *env, int *idx)
 			val = p->value;
 		p = p->next;
 	}
-	// while (*envp)
-	// {
-	// 	if (key_size == 0)
-	// 		val = "$";
-	// 	else if (ft_strncmp(*envp, key, ft_strlen(key)) == 0)
-	// 		val = getenv(*envp);
-	// 	envp++;
-	// }
 	join = sh_strjoin(*res, val);
 	free(*res);
 	*res = join;
@@ -137,7 +128,6 @@ int	replace_env(char **str, t_env *env)
 	}
 	free(*str);
 	*str = new_str;
-	printf("%s\n", *str);
 	return (EXIT_SUCCESS);
 }
 

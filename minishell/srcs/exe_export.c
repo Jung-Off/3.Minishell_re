@@ -107,7 +107,7 @@ void	exe_export(t_env **env_lst, t_cmd *cmd)
 		while (cmd->argv[i])
 		{
 			if (add_export(env_lst, cmd->argv[i]))
-				break;
+				break ;
 			++i;
 		}
 	}

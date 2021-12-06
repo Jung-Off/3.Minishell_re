@@ -18,52 +18,54 @@ char	*search_home(t_env *env_lst)
 	{
 		if (ft_strncmp(env_lst->key, "HOME", ft_strlen("HOME")) == 0
 			&& ft_strncmp(env_lst->key, "HOME", ft_strlen(env_lst->key)) == 0)
-		{
-			ft_putstr_fd(env_lst->key, 1);
-			ft_putstr_fd("\n", 1);
 			return (env_lst->value);
-		}
 		env_lst = env_lst->next;
 	}
 	return (0);
 }
 
+void	exe_cd_space(t_env *env_lst)
+{
+	if (!search_home(env_lst))
+	{
+		ft_error(0, "cd ", "HOME not set\n", 1);
+		return ;
+	}
+	chdir(search_home(env_lst));
+}
+
+void	init_cd(t_cd *cd)
+{
+	cd->result = 0;
+	cd->home = getenv("HOME");
+	cd->path = ft_strjoin(cd->home, "/");
+	cd->joins = NULL;
+	cd->result = 0;
+}
+
 void	exe_cd(t_cmd *cmd, t_env *env_lst)
 {
-	int		result;
-	char	*home;
-	char	*path;
-	char	*joins;
+	t_cd	cd;
 
-	result = 0;
-	home = getenv("HOME");
-	path = ft_strjoin(home, "/");
+	init_cd(&cd);
 	if (!cmd->argv[1])
-	{
-		if (!search_home(env_lst))
-		{
-			ft_error(0, "cd ", "HOME not set\n", 1);
-			return ;
-		}
-		chdir(search_home(env_lst));
-	}
+		exe_cd_space(env_lst);
 	if (cmd->argv[1])
 	{
 		if (ft_strchr(cmd->argv[1], '~'))
 		{
 			if (ft_strlen(cmd->argv[1]) > 1)
 			{
-				joins = ft_strjoin(path, &cmd->argv[1][2]);
-				printf("\t%s\n", joins);
-				chdir(joins);
+				cd.joins = ft_strjoin(cd.path, &cmd->argv[1][2]);
+				chdir(cd.joins);
 			}
 			else
-				chdir(home);
+				chdir(cd.home);
 		}
 		else
 		{
-			result = chdir(cmd->argv[1]);
-			if (result == -1 )
+			cd.result = chdir(cmd->argv[1]);
+			if (cd.result == -1 )
 				ft_error(0, "cd ", "No such file or directory\n", 1);
 		}
 	}

@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 int	error_handler(char *err_msg)
 {
 	(void)err_msg;

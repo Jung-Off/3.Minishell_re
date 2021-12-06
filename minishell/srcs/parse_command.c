@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 int	split_redirect(char **input)
 {
 	int		redirect;
