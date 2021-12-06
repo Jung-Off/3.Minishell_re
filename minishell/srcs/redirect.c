@@ -72,6 +72,32 @@ void redirect_output_double(t_redirect *redirect, t_data data)
 	dup2(data.fd1, STDOUT_FILENO);
 	close(data.fd1);
 }
+
+int input_file_check(t_redirect *redirect, t_env *env_lst)
+{
+	struct stat	buf;
+	while(env_lst)
+	{
+		if ((ft_strncmp(env_lst->key, "PWD", 3) && ft_strncmp("PWD", env_lst->key, 3)) == 0)
+		{
+
+			char *pwd = ft_strdup(env_lst->value);
+			char *add_slash = ft_strjoin(pwd, "/");
+			free(pwd);
+			char *env_path = ft_strjoin(add_slash, redirect->file);
+			if (stat(env_path, &buf)) //찾지 못했다.
+			{
+				ft_putstr_fd("minishell: ", 1);
+				ft_putstr_fd(redirect->file, 1);
+				ft_putstr_fd(": No such file or directory\n", 1);
+				return (1);
+			}
+		}
+		env_lst = env_lst->next;
+	}
+	return (0);
+}
+
 int redirect_change(t_redirect *redirect, t_env *env_lst)
 {
 	t_data data;
@@ -88,26 +114,28 @@ int redirect_change(t_redirect *redirect, t_env *env_lst)
 	{	
 		if (redirect->type == REDIRECT_INPUT_SINGLE) // <
 		{
-			struct stat	buf;
-			while(env_lst)
-			{
-				if ((ft_strncmp(env_lst->key, "PWD", 3) && ft_strncmp("PWD", env_lst->key, 3)) == 0)
-				{
+			// struct stat	buf;
+			// while(env_lst)
+			// {
+			// 	if ((ft_strncmp(env_lst->key, "PWD", 3) && ft_strncmp("PWD", env_lst->key, 3)) == 0)
+			// 	{
 
-					char *pwd = ft_strdup(env_lst->value);
-					char *add_slash = ft_strjoin(pwd, "/");
-					free(pwd);
-					char *env_path = ft_strjoin(add_slash, redirect->file);
-					if (stat(env_path, &buf)) //찾지 못했다.
-					{
-						ft_putstr_fd("minishell: ", 1);
-						ft_putstr_fd(redirect->file, 1);
-						ft_putstr_fd(": No such file or directory\n", 1);
-						return (1);
-					}
-				}
-				env_lst = env_lst->next;
-			}
+			// 		char *pwd = ft_strdup(env_lst->value);
+			// 		char *add_slash = ft_strjoin(pwd, "/");
+			// 		free(pwd);
+			// 		char *env_path = ft_strjoin(add_slash, redirect->file);
+			// 		if (stat(env_path, &buf)) //찾지 못했다.
+			// 		{
+			// 			ft_putstr_fd("minishell: ", 1);
+			// 			ft_putstr_fd(redirect->file, 1);
+			// 			ft_putstr_fd(": No such file or directory\n", 1);
+			// 			return (1);
+			// 		}
+			// 	}
+			// 	env_lst = env_lst->next;
+			// }
+			if (input_file_check(redirect, env_lst))
+				return (1);
 			redirect_input_single(redirect, data);
 			// fd0 = open(redirect->file, O_RDONLY, 0644);
 			// dup2(fd0, STDIN_FILENO);
