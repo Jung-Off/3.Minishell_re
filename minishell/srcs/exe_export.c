@@ -106,11 +106,11 @@ void	exe_export(t_env **env_lst, t_cmd *cmd)
 	{
 		while (cmd->argv[i])
 		{
-			add_export(env_lst, cmd->argv[i]);
+			if (add_export(env_lst, cmd->argv[i]))
+				break;
 			++i;
 		}
 	}
 	else
 		before_print_export(*env_lst);
-	g_exit_code = 0;
 }

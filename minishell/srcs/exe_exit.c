@@ -46,7 +46,7 @@ void exe_exit(t_cmd *cmd)
 		}
 		while (cmd->argv[i][j])
 		{
-			if (ft_isdigit(cmd->argv[i][j]))
+			if (ft_isdigit(cmd->argv[i][j]) == 0)
 				ft_error(1, "exit", " numeric argument required\n" , 255);
 			++j;
 		}

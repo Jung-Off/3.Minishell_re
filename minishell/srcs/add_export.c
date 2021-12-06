@@ -111,7 +111,7 @@ int	add_export(t_env **env_lst, char *cmd)
 		// ft_putstr_fd("export :", 1);
 		// ft_putstr_fd(cmd, 1);
 		// ft_putstr_fd(": not a valid identifier", 1);
-		ft_error(0, cmd, ": not a valid identifier", 1);
+		ft_error(0, cmd, " not a valid identifier", 1);
 		ft_putstr_fd("\n", 1);
 		return (1);
 	}
@@ -121,5 +121,6 @@ int	add_export(t_env **env_lst, char *cmd)
 	if (duplicate_search(*env_lst, lst))
 		return (1);
 	add_node(lst, env_lst);
+	// g_exit_code = 0;
 	return (0);
 }
