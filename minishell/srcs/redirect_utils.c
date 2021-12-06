@@ -42,6 +42,8 @@ int	input_file_check(t_redirect *redirect, t_env *env_lst)
 				ft_putstr_fd("minishell: ", 1);
 				ft_putstr_fd(redirect->file, 1);
 				ft_putstr_fd(": No such file or directory\n", 1);
+				//free
+				free(env_path);
 				return (1);
 			}
 		}

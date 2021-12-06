@@ -140,6 +140,7 @@ char		**find_envp_path(void);
 void		env_split(t_env *lst, char *env);
 void		print_env(t_env *env_lst, t_cmd *cmd);
 void		make_envlst(char **envp, t_env **env_lst);
+void		free_double(char **env_oneline);
 
 //exe_exit.c
 void		exit_code_change(t_cmd *cmd, int idx);
@@ -180,7 +181,7 @@ void		add_node(t_env *add_lst, t_env **env_lst);
 void		init_argument(t_cmd **cmd, t_env **env_lst, int argc, char **argv);
 void		main_clear(char **line, t_cmd *cmd);
 void		main_clear(char **line, t_cmd *cmd);
-void		free_env(t_env *env_lst);
+void		free_env(t_env **env_lst);
 
 // parse_command.c
 int			split_redirect(char **input);

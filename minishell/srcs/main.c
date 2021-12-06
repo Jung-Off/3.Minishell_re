@@ -40,21 +40,23 @@ int	exe(t_cmd *cmd, char *line, t_env *env_lst, char **env)
 	return (0);
 }
 
-void	free_env(t_env *env_lst)
+void	free_env(t_env **env_lst)
 {
 	t_env	*temp;
 
-	while (env_lst)
+	while (*env_lst)
 	{
-		temp = env_lst->next;
-		free(env_lst);
-		env_lst = temp;
+		temp = (*env_lst)->next;
+		free((*env_lst)->key);
+		free((*env_lst)->value);
+		free(*env_lst);
+		*env_lst = temp;
 	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
+	//char	*line;
 	t_cmd	*cmd;
 	char	**env;
 	t_env	*env_lst;
@@ -62,20 +64,21 @@ int	main(int argc, char **argv, char **envp)
 	init_argument(&cmd, &env_lst, argc, argv);
 	make_envlst(envp, &env_lst);
 	env = find_envp_path();
-	while (1)
-	{
-		switch_echoctl(TURN_OFF);
-		emit_signal(OMIT);
-		line = readline("minishell$ ");
-		if (!line)
-		{
-			write(STDOUT_FILENO, "exit\n", 5);
-			exit(EXIT_SUCCESS);
-		}
-		if (line)
-			exe(cmd, line, env_lst, env);
-		main_clear(&line, cmd);
-	}
-	free_env(env_lst);
+	// while (1)
+	// {
+	// 	switch_echoctl(TURN_OFF);
+	// 	emit_signal(OMIT);
+	// 	line = readline("minishell$ ");
+	// 	if (!line)
+	// 	{
+	// 		write(STDOUT_FILENO, "exit\n", 5);
+	// 		exit(EXIT_SUCCESS);
+	// 	}
+	// 	if (line)
+	// 		exe(cmd, line, env_lst, env);
+	// 	main_clear(&line, cmd);
+	// }
+	free_env(&env_lst);
+	while(1);
 	return (EXIT_SUCCESS);
 }
