@@ -14,6 +14,8 @@
 
 int	is_built(char *cmd)
 {
+	if (cmd == NULL)
+		return (0);
 	if ((ft_strncmp((cmd), "pwd", 3) == 0 && ft_strlen(cmd) == 3) \
 	|| (ft_strncmp((cmd), "env", 3) == 0 && ft_strlen(cmd) == 3) \
 	|| (ft_strncmp((cmd), "export", 6) == 0 && ft_strlen(cmd) == 6) \

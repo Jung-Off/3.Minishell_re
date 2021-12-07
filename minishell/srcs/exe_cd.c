@@ -54,8 +54,6 @@ void	go_to_path(t_cmd *cmd, t_cd cd)
 	if (ft_strlen(cmd->argv[1]) > 1)
 	{
 		cd.joins = ft_strjoin(cd.path, &cmd->argv[1][2]);
-		//free(&cmd->argv[1][2]);
-		//이부분은 나중에 한번에 해줄수도 있으니까 일단 보류!
 		free(cd.path);
 		chdir(cd.joins);
 		free(cd.joins);

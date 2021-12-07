@@ -33,6 +33,8 @@ char	*exe_parse(char **env, char *command_split)
 	struct stat	buf;
 
 	i = 0;
+	if (is_built(command_split))
+		return (0);
 	while (env[i])
 	{
 		env_path = ft_strdup(env[i]);

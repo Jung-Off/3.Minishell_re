@@ -30,11 +30,11 @@ void	main_clear(char **line, t_cmd **cmd)
 
 int	exe(t_cmd **cmd, char *line, t_env **env_lst, char **env)
 {	
-	t_cmd *temp;
+	t_cmd	*temp;
 
 	if (parse_line(cmd, line, *env_lst))
 		return (EXIT_FAILURE);
-	temp = *cmd;	
+	temp = *cmd;
 	if (ft_strlen(line) > 0)
 	{
 		exe_process(cmd, env, env_lst);
