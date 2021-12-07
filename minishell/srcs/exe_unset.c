@@ -12,52 +12,67 @@
 
 #include "../includes/minishell.h"
 
+void	init_unset(t_unset *unset, t_env *env_lst)
+{
+	unset->temp = NULL;
+	unset->m = NULL;
+	unset->first = env_lst;
+	unset->prev_env = NULL;
+	unset->i = 1;
+}
 
+void	first_unset(t_unset *unset, t_env **env_lst)
+{
+	unset->temp = *env_lst;
+	*env_lst = (*env_lst)->next;
+	unset->first = *env_lst;
+	free(unset->temp->key);
+	free(unset->temp->value);
+	free(unset->temp);
+}
+
+void	etc_unset(t_unset *unset)
+{
+	unset->temp = unset->prev_env->next;
+	unset->prev_env->next = unset->m->next;
+	free(unset->temp->key);
+	free(unset->temp->value);
+	free(unset->temp);
+}
+
+int	delete_unset(t_unset unset, t_cmd *cmd)
+{
+	if (ft_strncmp(unset.m->key, cmd->argv[unset.i], \
+	ft_strlen(cmd->argv[unset.i])) == 0 \
+	&& ft_strncmp(unset.m->key, cmd->argv[unset.i], \
+	ft_strlen(unset.m->key)) == 0)
+		return (1);
+	return (0);
+}
 
 t_env	*exe_unset(t_env **env_lst, t_cmd *cmd)
 {
-	t_env	*prev_env;
-	t_env	*m;
-	t_env	*first;
-	t_env	*temp;
-	int		i;
+	t_unset	unset;
 
-	temp = NULL;
-	first = *env_lst;
-	prev_env = NULL;
-	i = 1;
-	while (cmd->argv[i])
+	init_unset(&unset, *env_lst);
+	while (cmd->argv[unset.i])
 	{
-		m = *env_lst;
-		while (m)
+		unset.m = *env_lst;
+		while (unset.m)
 		{	
-			if (ft_strncmp(m->key, cmd->argv[i], ft_strlen(cmd->argv[i])) == 0 \
-	&& ft_strncmp(m->key, cmd->argv[i], ft_strlen(m->key)) == 0)
+			if (delete_unset(unset, cmd))
 			{
-				if (prev_env == NULL)
-				{
-					temp = *env_lst;
-					*env_lst = (*env_lst)->next;
-					first = *env_lst;
-					free(temp->key);
-					free(temp->value);
-					free(temp);
-				}
+				if (unset.prev_env == NULL)
+					first_unset(&unset, env_lst);
 				else
-				{
-					temp = prev_env->next;
-					prev_env->next = m->next;
-					free(temp->key);
-					free(temp->value);
-					free(temp);
-				}
-				break;
+					etc_unset(&unset);
+				break ;
 			}
-			prev_env = m;
-			m = m->next;
+			unset.prev_env = unset.m;
+			unset.m = unset.m->next;
 		}
-		i++;
+		unset.i++;
 	}
-	(*env_lst) = first;
-	return (first);
+	(*env_lst) = unset.first;
+	return (unset.first);
 }

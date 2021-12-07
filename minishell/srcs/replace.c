@@ -66,7 +66,6 @@ int	get_env(char **res, char *str, t_env *env, int *idx)
 	if (!ft_strncmp("?", str, 1))
 	{
 		*res = ft_itoa(g_exit_code);
-		printf("%s\n", *res);
 		g_exit_code = 0;
 		(*idx)++;
 		return (EXIT_SUCCESS);

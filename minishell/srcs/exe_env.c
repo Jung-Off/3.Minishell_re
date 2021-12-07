@@ -24,11 +24,11 @@ char	**find_envp_path(void)
 	return (envp_path);
 }
 
-///
-void free_double(char **env_oneline)
+void	free_double(char **env_oneline)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (env_oneline[i])
 	{
 		free(env_oneline[i]);
@@ -37,7 +37,6 @@ void free_double(char **env_oneline)
 	free(env_oneline);
 }
 
-///
 void	env_split(t_env *lst, char *env)
 {
 	char	**env_oneline;
@@ -65,7 +64,6 @@ void	print_env(t_env *env_lst, t_cmd *cmd)
 			ft_putstr_fd(env_lst->value, 1);
 			ft_putstr_fd("\n", 1);
 		}
-		//printf("----------------------\n");
 		env_lst = env_lst->next;
 	}
 	g_exit_code = 0;

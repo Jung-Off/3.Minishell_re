@@ -21,6 +21,13 @@ void	init_data(t_data *data)
 	data->fd1 = 0;
 }
 
+void	file_error(t_redirect *redirect)
+{
+	ft_putstr_fd("minishell: ", 1);
+	ft_putstr_fd(redirect->file, 1);
+	ft_putstr_fd(": No such file or directory\n", 1);
+}
+
 int	input_file_check(t_redirect *redirect, t_env *env_lst)
 {
 	struct stat	buf;
@@ -39,10 +46,7 @@ int	input_file_check(t_redirect *redirect, t_env *env_lst)
 			env_path = ft_strjoin(add_slash, redirect->file);
 			if (stat(env_path, &buf))
 			{
-				ft_putstr_fd("minishell: ", 1);
-				ft_putstr_fd(redirect->file, 1);
-				ft_putstr_fd(": No such file or directory\n", 1);
-				//free
+				file_error(redirect);
 				free(env_path);
 				return (1);
 			}

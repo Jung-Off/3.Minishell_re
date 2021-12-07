@@ -79,6 +79,5 @@ int	main(int argc, char **argv, char **envp)
 		main_clear(&line, cmd);
 	}
 	free_env(&env_lst);
-	while(1);
 	return (EXIT_SUCCESS);
 }

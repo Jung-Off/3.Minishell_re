@@ -110,6 +110,15 @@ typedef struct s_cd
 	char				*joins;
 }						t_cd;
 
+typedef struct s_unset
+{
+	t_env	*prev_env;
+	t_env	*m;
+	t_env	*first;
+	t_env	*temp;
+	int		i;
+}				t_unset;
+
 //add_export.c
 int			init_envlst(t_env *env_lst, t_env *lst);
 int			duplicate_search(t_env *env_lst, t_env *lst);
@@ -127,9 +136,10 @@ t_bool		error_check(t_cmd *cmd);
 
 //exe_cd.c
 char		*search_home(t_env *env_lst);
-void		exe_cd_space(t_env *env_lst);
+void		exe_cd_space(t_env *env_lst, t_cd cd);
 void		init_cd(t_cd *cd);
 void		exe_cd(t_cmd *cmd, t_env *env_lst);
+void		go_to_path(t_cmd *cmd, t_cd cd);
 
 //exe_echo.c
 int			echo_option_chk(char *option);
@@ -147,6 +157,7 @@ void		exit_code_change(t_cmd *cmd);
 void		exe_exit(t_cmd *cmd);
 void		ft_error(int is_exit, char *cmd, char *err_msg, int exit_code);
 void		parse_error(int is_exit, int exit_code);
+void		exit_utils(int exit_exe, char *err_msg, int exit_code);
 
 //exe_export.c
 void		sort_export(t_env *env_lst);
@@ -171,7 +182,10 @@ void		ready_next_process(t_cmd **cmd, t_exe *exe_data);
 void		exe_pwd(void);
 
 //exe_unset.c
+void		init_unset(t_unset *unset, t_env *env_lst);
 t_env		*exe_unset(t_env **env_lst, t_cmd *cmd);
+void		first_unset(t_unset *unset, t_env **env_lst);
+void		etc_unset(t_unset *unset);
 
 //list.c
 void		create_list(t_env **lst);
@@ -195,6 +209,7 @@ int			parse_line(t_cmd **cmd_lst, char *line, t_env *env);
 
 //redirect_utils.c
 void		init_data(t_data *data);
+void		file_error(t_redirect *redirect);
 int			input_file_check(t_redirect *redirect, t_env *env_lst);
 
 //redirect.c
