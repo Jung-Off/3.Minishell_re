@@ -47,6 +47,5 @@ char	*exe_parse(char **env, char *command_split)
 		free(env_path);
 		++i;
 	}
-	printf("not invalid command\n");
 	return (0);
 }
