@@ -12,12 +12,18 @@
 
 #include "../includes/minishell.h"
 
-void	exe_unset(t_env **env_lst, t_cmd *cmd)
+
+
+t_env	*exe_unset(t_env **env_lst, t_cmd *cmd)
 {
 	t_env	*prev_env;
-	t_env	*m = *env_lst;
+	t_env	*m;
+	t_env	*first;
+	t_env	*temp;
 	int		i;
 
+	temp = NULL;
+	first = *env_lst;
 	prev_env = NULL;
 	i = 1;
 	while (cmd->argv[i])
@@ -30,13 +36,21 @@ void	exe_unset(t_env **env_lst, t_cmd *cmd)
 			{
 				if (prev_env == NULL)
 				{
-					printf("%s %s %p", m->key, cmd->argv[i], prev_env);
-					prev_env = m;
-					m = m->next;
-					free(prev_env);
+					temp = *env_lst;
+					*env_lst = (*env_lst)->next;
+					first = *env_lst;
+					free(temp->key);
+					free(temp->value);
+					free(temp);
 				}
 				else
+				{
+					temp = prev_env->next;
 					prev_env->next = m->next;
+					free(temp->key);
+					free(temp->value);
+					free(temp);
+				}
 				break;
 			}
 			prev_env = m;
@@ -44,5 +58,6 @@ void	exe_unset(t_env **env_lst, t_cmd *cmd)
 		}
 		i++;
 	}
-	*env_lst = m;
+	(*env_lst) = first;
+	return (first);
 }

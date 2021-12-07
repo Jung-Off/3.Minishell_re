@@ -171,7 +171,7 @@ void		ready_next_process(t_cmd **cmd, t_exe *exe_data);
 void		exe_pwd(void);
 
 //exe_unset.c
-void		exe_unset(t_env **env_lst, t_cmd *cmd);
+t_env		*exe_unset(t_env **env_lst, t_cmd *cmd);
 
 //list.c
 void		create_list(t_env **lst);

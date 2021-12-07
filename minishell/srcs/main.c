@@ -28,13 +28,13 @@ void	main_clear(char **line, t_cmd *cmd)
 	cmd_clear(&cmd);
 }
 
-int	exe(t_cmd *cmd, char *line, t_env *env_lst, char **env)
+int	exe(t_cmd *cmd, char *line, t_env **env_lst, char **env)
 {	
-	if (parse_line(&cmd, line, env_lst))
+	if (parse_line(&cmd, line, *env_lst))
 		return (EXIT_FAILURE);
 	if (ft_strlen(line) > 0)
 	{
-		exe_process(&cmd, env, &env_lst);
+		exe_process(&cmd, env, env_lst);
 		add_history (line);
 	}
 	return (0);
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(EXIT_SUCCESS);
 		}
 		if (line)
-			exe(cmd, line, env_lst, env);
+			exe(cmd, line, &env_lst, env);
 		main_clear(&line, cmd);
 	}
 	free_env(&env_lst);
