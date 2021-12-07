@@ -21,22 +21,26 @@ void	init_argument(t_cmd **cmd, t_env **env_lst, int argc, char **argv)
 	g_exit_code = 0;
 }
 
-void	main_clear(char **line, t_cmd *cmd)
+void	main_clear(char **line, t_cmd **cmd)
 {
 	free(*line);
 	*line = NULL;
-	cmd_clear(&cmd);
+	cmd_clear(cmd);
 }
 
-int	exe(t_cmd *cmd, char *line, t_env **env_lst, char **env)
+int	exe(t_cmd **cmd, char *line, t_env **env_lst, char **env)
 {	
-	if (parse_line(&cmd, line, *env_lst))
+	t_cmd *temp;
+
+	if (parse_line(cmd, line, *env_lst))
 		return (EXIT_FAILURE);
+	temp = *cmd;	
 	if (ft_strlen(line) > 0)
 	{
-		exe_process(&cmd, env, env_lst);
+		exe_process(cmd, env, env_lst);
 		add_history (line);
 	}
+	*cmd = temp;
 	return (0);
 }
 
@@ -75,8 +79,8 @@ int	main(int argc, char **argv, char **envp)
 			exit(EXIT_SUCCESS);
 		}
 		if (line)
-			exe(cmd, line, &env_lst, env);
-		main_clear(&line, cmd);
+			exe(&cmd, line, &env_lst, env);
+		main_clear(&line, &cmd);
 	}
 	free_env(&env_lst);
 	return (EXIT_SUCCESS);

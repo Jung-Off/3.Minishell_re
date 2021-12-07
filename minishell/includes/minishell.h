@@ -193,8 +193,7 @@ void		add_node(t_env *add_lst, t_env **env_lst);
 
 //main.c
 void		init_argument(t_cmd **cmd, t_env **env_lst, int argc, char **argv);
-void		main_clear(char **line, t_cmd *cmd);
-void		main_clear(char **line, t_cmd *cmd);
+void		main_clear(char **line, t_cmd **cmd);
 void		free_env(t_env **env_lst);
 
 // parse_command.c
