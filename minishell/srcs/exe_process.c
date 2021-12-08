@@ -15,7 +15,7 @@
 void	child_process(t_cmd **cmd, char **env, t_env **env_list, t_exe exe_data)
 {
 	if (!(cmd_ok(env, (*cmd)->argv[0]) || is_built((*cmd)->argv[0])))
-		ft_error(1, (*cmd)->argv[0], "command not found\n", 127);
+		ft_error(1, (*cmd)->argv[0], " command not found\n", 127);
 	if ((*cmd)->redirect > 0)
 	{
 		if (redirect_change((*cmd)->redirect, *env_list))

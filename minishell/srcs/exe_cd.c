@@ -59,7 +59,10 @@ void	go_to_path(t_cmd *cmd, t_cd cd)
 		free(cd.joins);
 	}
 	else
+	{
 		chdir(cd.home);
+		free(cd.path);
+	}
 }
 
 void	exe_cd(t_cmd *cmd, t_env *env_lst)
@@ -79,7 +82,8 @@ void	exe_cd(t_cmd *cmd, t_env *env_lst)
 			free(cd.path);
 			if (cd.result == -1 )
 			{	
-				ft_error(0, "cd ", "No such file or directory\n", 1);
+				ft_error(0, "cd", cmd->argv[1], 1);
+				ft_putstr_fd(": No such file or directory\n", 1);
 				return ;
 			}
 		}

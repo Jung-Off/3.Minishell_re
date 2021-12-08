@@ -16,6 +16,7 @@ int	error_handler(char *err_msg)
 {
 	(void)err_msg;
 	parse_error(0, 258);
+	printf("minishell: %s\n", err_msg);
 	return (EXIT_FAILURE);
 }
 

@@ -62,7 +62,12 @@ void	print_export(t_env *print_lst)
 		ft_putstr_fd("=", 1);
 		if (print_lst->value == NULL)
 			ft_putstr_fd("\"\"", 1);
-		ft_putstr_fd(print_lst->value, 1);
+		else
+		{
+			ft_putstr_fd("\"", 1);
+			ft_putstr_fd(print_lst->value, 1);
+			ft_putstr_fd("\"", 1);
+		}
 	}
 	ft_putstr_fd("\n", 1);
 }

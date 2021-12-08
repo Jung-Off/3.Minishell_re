@@ -25,7 +25,7 @@ void	ft_error(int is_exit, char *cmd, char *err_msg, int exit_code)
 	{
 		write(1, "minishell: ", 11);
 		write(1, cmd, ft_strlen(cmd));
-		write(1, ": ", 1);
+		write(1, ": ", 2);
 		write(1, err_msg, ft_strlen(err_msg));
 	}
 	g_exit_code = exit_code;
@@ -42,7 +42,17 @@ void	exit_code_change(t_cmd *cmd)
 void	exit_utils(int exit_exe, char *err_msg, int exit_code)
 {
 	ft_putstr_fd("exit\n", 1);
-	ft_error(exit_exe, "exit ", err_msg, exit_code);
+	ft_error(exit_exe, "exit", err_msg, exit_code);
+	// if (exit_code == 1)
+	// {
+	// 	ft_putstr_fd(": too many arguments\n", 1);
+	// 	//g_exit_code = exit_code;
+	// }
+	if (exit_code == 255)
+	{
+		ft_putstr_fd(": numeric argument required\n", 1);
+		exit(g_exit_code);
+	}
 }
 
 void	exe_exit(t_cmd *cmd)
@@ -52,7 +62,10 @@ void	exe_exit(t_cmd *cmd)
 
 	i = 1;
 	if (cmd->argv[1] == NULL)
+	{
+		ft_putstr_fd("exit\n", 1);
 		exit(0);
+	}
 	while (cmd->argv[i])
 	{
 		j = 0;
@@ -64,7 +77,8 @@ void	exe_exit(t_cmd *cmd)
 		while (cmd->argv[i][j])
 		{
 			if (ft_isdigit(cmd->argv[i][j]) == 0)
-				exit_utils(1, " numeric argument required\n", 255);
+				exit_utils(0, cmd->argv[i], 255);
+				//exit_utils(1, cmd->argv[i], 255);
 			++j;
 		}
 		++i;
