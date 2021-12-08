@@ -120,8 +120,8 @@ typedef struct s_unset
 }				t_unset;
 
 //add_export.c
-int			init_envlst(t_env *env_lst, t_env *lst);
-int			duplicate_search(t_env *env_lst, t_env *lst);
+
+void		export_put_value(char **export_oneline, t_env *lst, char *argv);
 int			export_split(t_env *lst, char *argv);
 int			judge_cmd(char *cmd_option);
 int			add_export(t_env **env_lst, char *cmd);
@@ -133,6 +133,8 @@ void		exe_builtin(t_cmd *cmd, t_env **env_lst);
 // error.c
 int			error_handler(char *err_msg);
 t_bool		error_check(t_cmd *cmd);
+void		ft_error(int is_exit, char *cmd, char *err_msg, int exit_code);
+void		parse_error(int is_exit, int exit_code);
 
 //exe_cd.c
 char		*search_home(t_env *env_lst);
@@ -155,9 +157,8 @@ void		free_double(char **env_oneline);
 //exe_exit.c
 void		exit_code_change(t_cmd *cmd);
 void		exe_exit(t_cmd *cmd);
-void		ft_error(int is_exit, char *cmd, char *err_msg, int exit_code);
-void		parse_error(int is_exit, int exit_code);
 void		exit_utils(int exit_exe, char *err_msg, int exit_code);
+void		just_exit(void);
 
 //exe_export.c
 void		sort_export(t_env *env_lst);
@@ -220,6 +221,11 @@ int			redirect_change(t_redirect *redirect, t_env *env_lst);
 
 // replace.c
 int			replace(t_cmd *cmd, t_env *env);
+
+//search_export.c
+void		envlst_change(t_env *env_lst, t_env *lst);
+int			init_envlst(t_env *env_lst, t_env *lst);
+int			duplicate_search(t_env *env_lst, t_env *lst);
 
 //signal.c
 void		emit_signal(int sig);

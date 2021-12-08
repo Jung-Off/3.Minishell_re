@@ -12,40 +12,20 @@
 
 #include "../includes/minishell.h"
 
-int	init_envlst(t_env *env_lst, t_env *lst)
+void	export_put_value(char **export_oneline, t_env *lst, char *argv)
 {
-	char *temp;
-	if (lst->env_flag == 0)
-		return (1);
-	else
+	lst->key = ft_strdup(export_oneline[0]);
+	if (ft_strchr(argv, '='))
 	{
-		free(lst->key);
-		temp = ft_strdup(lst->value);
-		free(lst->value);
-		env_lst->value = temp;
-		env_lst->env_flag = 1;
-		return (1);
-	}
-}
-
-int	duplicate_search(t_env *env_lst, t_env *lst)
-{
-	while (env_lst)
-	{	
-		if (ft_strlen(env_lst->key) <= ft_strlen(lst->key))
-		{
-			if (ft_strncmp(env_lst->key, lst->key, ft_strlen(lst->key)) == 0)
-				return (init_envlst(env_lst, lst));
+		lst->env_flag = 1;
+		if (export_oneline[1] == NULL)
+		{	
+			free_double(export_oneline);
+			return ;
 		}
-		else
-		{
-			if (ft_strncmp(lst->key, \
-env_lst->key, ft_strlen(env_lst->key)) == 0)
-				return (init_envlst(env_lst, lst));
-		}
-		env_lst = env_lst->next;
+		lst->value = ft_strdup(export_oneline[1]);
 	}
-	return (0);
+	free_double(export_oneline);
 }
 
 int	export_split(t_env *lst, char *argv)
@@ -54,46 +34,13 @@ int	export_split(t_env *lst, char *argv)
 	int		i;
 
 	i = 0;
-	if (ft_strncmp(argv, "=", 1) == 0) //=weee
+	if (ft_strncmp(argv, "=", 1) == 0)
 	{	
 		ft_error(0, "export: `='", "not a valid identifier\n", 1);
-		//free(argv);
-		// printf("hello\n");
 		return (1);
 	}
 	export_oneline = ft_split(argv, '=');
-	// int idx = 0;
-	// printf("export cmd : %s\n", argv);
-	// while(export_oneline[idx])
-	// {
-	// 	printf("---%s : %d\n", export_oneline[idx], i);
-	// 	++idx;
-	// }
-	if (export_oneline == NULL || export_oneline[0] == NULL) // c = d
-	{	
-		ft_error(0, "export: `='", "not a valid identifier\n", 1);
-
-		free_double(export_oneline);
-		free(argv);
-		return (1);
-	}
-	else
-	{
-		lst->key = ft_strdup(export_oneline[0]);
-		if (ft_strchr(argv, '='))
-		{
-			lst->env_flag = 1;
-			if (export_oneline[1] == NULL)
-			{	
-				free_double(export_oneline);
-				printf("hello\n");
-				return (0);
-			}
-			lst->value = ft_strdup(export_oneline[1]);
-			
-		}
-		free_double(export_oneline);
-	}
+	export_put_value(export_oneline, lst, argv);
 	return (0);
 }
 
@@ -135,10 +82,7 @@ int	add_export(t_env **env_lst, char *cmd)
 		return (1);
 	}
 	if (duplicate_search(*env_lst, lst))
-	{	
-		free(lst);
 		return (1);
-	}
 	add_node(lst, env_lst);
 	return (0);
 }

@@ -34,3 +34,24 @@ t_bool	error_check(t_cmd *cmd)
 	}
 	return (FALSE);
 }
+
+void	parse_error(int is_exit, int exit_code)
+{
+	g_exit_code = exit_code;
+	if (is_exit)
+		exit (g_exit_code);
+}
+
+void	ft_error(int is_exit, char *cmd, char *err_msg, int exit_code)
+{
+	if (cmd != NULL)
+	{
+		write(1, "minishell: ", 11);
+		write(1, cmd, ft_strlen(cmd));
+		write(1, ": ", 2);
+		write(1, err_msg, ft_strlen(err_msg));
+	}
+	g_exit_code = exit_code;
+	if (is_exit)
+		exit (g_exit_code);
+}
