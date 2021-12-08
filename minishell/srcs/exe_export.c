@@ -55,7 +55,6 @@ void	sort_export(t_env *env_lst)
 
 void	print_export(t_env *print_lst)
 {
-	ft_putnbr_fd(print_lst->idx, 1);
 	ft_putstr_fd("declare -x ", 1);
 	ft_putstr_fd(print_lst->key, 1);
 	if (print_lst->env_flag == 1)
@@ -106,8 +105,9 @@ void	exe_export(t_env **env_lst, t_cmd *cmd)
 	{
 		while (cmd->argv[i])
 		{
-			if (add_export(env_lst, cmd->argv[i]))
-				break ;
+			add_export(env_lst, cmd->argv[i]);
+			// if (add_export(env_lst, cmd->argv[i]))
+			// 	break ;
 			++i;
 		}
 	}

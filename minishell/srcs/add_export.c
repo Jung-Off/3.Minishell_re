@@ -14,11 +14,15 @@
 
 int	init_envlst(t_env *env_lst, t_env *lst)
 {
+	char *temp;
 	if (lst->env_flag == 0)
 		return (1);
 	else
 	{
-		env_lst->value = lst->value;
+		free(lst->key);
+		temp = ft_strdup(lst->value);
+		free(lst->value);
+		env_lst->value = temp;
 		env_lst->env_flag = 1;
 		return (1);
 	}
@@ -50,25 +54,45 @@ int	export_split(t_env *lst, char *argv)
 	int		i;
 
 	i = 0;
-	export_oneline = ft_split(argv, '=');
-	if (export_oneline == NULL || export_oneline[0] == NULL)
+	if (ft_strncmp(argv, "=", 1) == 0) //=weee
 	{	
 		ft_error(0, "export: `='", "not a valid identifier\n", 1);
+		//free(argv);
+		// printf("hello\n");
 		return (1);
 	}
-	if (ft_strncmp(argv, "=", 1) == 0)
+	export_oneline = ft_split(argv, '=');
+	// int idx = 0;
+	// printf("export cmd : %s\n", argv);
+	// while(export_oneline[idx])
+	// {
+	// 	printf("---%s : %d\n", export_oneline[idx], i);
+	// 	++idx;
+	// }
+	if (export_oneline == NULL || export_oneline[0] == NULL) // c = d
 	{	
 		ft_error(0, "export: `='", "not a valid identifier\n", 1);
+
+		free_double(export_oneline);
+		free(argv);
 		return (1);
 	}
 	else
 	{
-		lst->key = export_oneline[0];
+		lst->key = ft_strdup(export_oneline[0]);
 		if (ft_strchr(argv, '='))
 		{
-			lst->value = export_oneline[1];
 			lst->env_flag = 1;
+			if (export_oneline[1] == NULL)
+			{	
+				free_double(export_oneline);
+				printf("hello\n");
+				return (0);
+			}
+			lst->value = ft_strdup(export_oneline[1]);
+			
 		}
+		free_double(export_oneline);
 	}
 	return (0);
 }
@@ -106,9 +130,15 @@ int	add_export(t_env **env_lst, char *cmd)
 	}
 	create_list(&lst);
 	if (export_split(lst, cmd))
+	{
+		free(lst);
 		return (1);
+	}
 	if (duplicate_search(*env_lst, lst))
+	{	
+		free(lst);
 		return (1);
+	}
 	add_node(lst, env_lst);
 	return (0);
 }
