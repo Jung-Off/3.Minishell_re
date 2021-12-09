@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   search_export.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwchoi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/09 13:49:15 by jiwchoi           #+#    #+#             */
+/*   Updated: 2021/12/09 13:50:09 by jiwchoi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -56,8 +67,8 @@ int	duplicate_search(t_env *env_lst, t_env *lst)
 		}
 		else
 		{
-			if (ft_strncmp(lst->key, \
-env_lst->key, ft_strlen(env_lst->key)) == 0)
+			if (ft_strncmp(lst->key, env_lst->key,
+					ft_strlen(env_lst->key)) == 0)
 				return (init_envlst(env_lst, lst));
 		}
 		env_lst = env_lst->next;

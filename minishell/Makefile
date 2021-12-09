@@ -24,29 +24,30 @@ INCS_DIR	= ./includes/
 SRCS_DIR	= ./srcs/
 OBJS_DIR	= ./objs/
 
-SRC			= error.c \
+SRC			= add_export.c \
+			  builtin.c \
+			  error.c \
+			  exe_cd.c \
+			  exe_echo.c \
+			  exe_env.c \
+			  exe_exit.c \
+			  exe_export.c \
+			  exe_process_utils.c \
+			  exe_process.c \
+			  exe_pwd.c \
+			  exe_unset.c \
+			  list.c \
 			  main.c \
 			  parse_command.c \
 			  parse_line.c \
+			  redirect_utils.c \
+			  redirect.c \
 			  replace.c \
+			  search_export.c \
+			  signal.c \
 			  utils_cmd.c \
 			  utils_redir.c \
-			  	signal.c \
-				redirect.c \
-				exe_process.c \
-				exe_env.c \
-				exe_cd.c \
-				exe_echo.c \
-				exe_pwd.c \
-				exe_export.c \
-				exe_unset.c \
-				exe_exit.c \
-				utils.c \
-				builtin.c \
-				list.c \
-				add_export.c \
-				redirect_utils.c \
-				exe_process_utils.c 
+			  utils.c
 
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRC))
@@ -54,12 +55,12 @@ OBJS		= $(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 
 $(TARGET) : $(OBJS)
 	make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -I $(INCS_DIR) -L$(LIBFT_DIR) -lft -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -I $(INCS_DIR) -L$(LIBFT_DIR) -lft -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 	#cluster : -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include 
 	#home : -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	@mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS_DIR) -I/usr/local/opt/readline/include 
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS_DIR) -I ~/.brew/opt/readline/include 
 	#cluster : -I ~/.brew/opt/readline/include 
 	#home : -I/usr/local/opt/readline/include
 

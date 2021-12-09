@@ -62,7 +62,10 @@ int	parse_line(t_cmd **cmd_lst, char *line, t_env *env)
 		if (split_line(&cmd, &line))
 			return (EXIT_FAILURE);
 		if (!*cmd)
+		{
+			free(cmd);
 			return (error_handler("syntax error near unexpected token \'|\'"));
+		}
 		new_cmd = create_cmd();
 		if (!new_cmd)
 			return (error_handler("malloc error in create_cmd()"));
@@ -72,7 +75,10 @@ int	parse_line(t_cmd **cmd_lst, char *line, t_env *env)
 		if (replace(new_cmd, env))
 			return (EXIT_FAILURE);
 		if (error_check(new_cmd))
+		{
+			free(cmd);
 			return (error_handler("syntax error near unexpected token"));
+		}
 		free(cmd);
 	}
 	return (EXIT_SUCCESS);
