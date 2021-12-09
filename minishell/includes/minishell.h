@@ -173,6 +173,7 @@ void		redirect_signal(t_cmd **cmd);
 int			cmd_ok(char **env, char *cmd);
 
 //exe_process.c
+void		path_find(t_cmd **cmd, char **env);
 void		exe_process(t_cmd **cmd, char **env, t_env **env_list);
 void		child_process(t_cmd **cmd, char **env, \
 		t_env **env_list, t_exe exe_data);

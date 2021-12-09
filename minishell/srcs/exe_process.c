@@ -12,10 +12,20 @@
 
 #include "../includes/minishell.h"
 
+void path_find(t_cmd **cmd, char **env)
+{
+	if (ft_strncmp((*cmd)->argv[0], "/", 1) == 0)
+	{
+		execve((*cmd)->argv[0], (*cmd)->argv, NULL);
+		ft_error(1, (*cmd)->argv[0], "No such file or directory\n", 127);
+	}
+	else if (!(cmd_ok(env, (*cmd)->argv[0]) || is_built((*cmd)->argv[0])))
+		ft_error(1, (*cmd)->argv[0], "command not found\n", 127);
+}
+
 void	child_process(t_cmd **cmd, char **env, t_env **env_list, t_exe exe_data)
 {
-	if (!(cmd_ok(env, (*cmd)->argv[0]) || is_built((*cmd)->argv[0])))
-		ft_error(1, (*cmd)->argv[0], "command not found\n", 127);
+	path_find(cmd, env);
 	if ((*cmd)->redirect > 0)
 	{
 		if (redirect_change((*cmd)->redirect, *env_list))
