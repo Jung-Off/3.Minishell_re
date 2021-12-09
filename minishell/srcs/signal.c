@@ -29,12 +29,14 @@ void	blocking_ctrl_c(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
+	//g_exit_code = 130;
 }
 
 void	blocking_back_slash(int sig)
 {
-	ft_putstr_fd("Quit: 3\n", STDOUT_FILENO);
 	(void)sig;
+	ft_putstr_fd("Quit: 3\n", STDOUT_FILENO);
+	//g_exit_code = 131;
 }
 
 void	emit_signal(int sig)
@@ -46,7 +48,6 @@ void	emit_signal(int sig)
 	}
 	if (sig == N_OMIT)
 	{
-		switch_echoctl(TURN_ON);
 		signal(SIGINT, blocking_ctrl_c);
 		signal(SIGQUIT, blocking_back_slash);
 	}

@@ -26,6 +26,13 @@ void	redirect_signal(t_cmd **cmd)
 {
 	if (!(*cmd)->redirect)
 		emit_signal(N_OMIT);
+	else
+	{
+		if ((*cmd)->redirect->type == REDIRECT_OUTPUT_DOUBLE)
+			emit_signal(N_OMIT);
+		else if ((*cmd)->redirect->type == REDIRECT_OUTPUT_SINGLE)
+			emit_signal(N_OMIT);
+	}
 }
 
 int	cmd_ok(char **env, char *cmd)
