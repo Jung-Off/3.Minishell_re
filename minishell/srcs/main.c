@@ -32,14 +32,12 @@ int	exe(t_cmd **cmd, char *line, t_env **env_lst, char **env)
 {	
 	t_cmd	*temp;
 
+	add_history(line);
 	if (parse_line(cmd, line, *env_lst))
 		return (EXIT_FAILURE);
 	temp = *cmd;
-	if (ft_strlen(line) > 0)
-	{
+	if (*cmd)
 		exe_process(cmd, env, env_lst);
-		add_history (line);
-	}
 	*cmd = temp;
 	return (0);
 }
