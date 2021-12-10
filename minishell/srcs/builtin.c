@@ -27,14 +27,14 @@ int	is_built(char *cmd)
 	return (0);
 }
 
-void	exe_builtin(t_cmd *cmd, t_env **env_lst)
+void	exe_builtin(t_cmd *cmd, t_env **env_lst, t_exe exe_data)
 {
 	if (ft_strncmp((cmd->argv[0]), "pwd", 3) == 0 \
 	&& ft_strlen(cmd->argv[0]) == 3)
 		exe_pwd();
 	else if (ft_strncmp((cmd->argv[0]), "env", 3) == 0 \
 	&& ft_strlen(cmd->argv[0]) == 3)
-		print_env(*env_lst, cmd);
+		print_env(*env_lst);
 	else if (ft_strncmp((cmd->argv[0]), "export", 6) == 0 \
 	&& ft_strlen(cmd->argv[0]) == 6)
 		exe_export(env_lst, cmd);
@@ -49,5 +49,5 @@ void	exe_builtin(t_cmd *cmd, t_env **env_lst)
 		exe_echo(cmd);
 	else if (ft_strncmp((cmd->argv[0]), "exit", 4) == 0 \
 	&& ft_strlen(cmd->argv[0]) == 4)
-		exe_exit(cmd);
+		exe_exit(cmd, exe_data);
 }

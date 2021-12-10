@@ -128,7 +128,7 @@ int			add_export(t_env **env_lst, char *cmd);
 
 //builtin.c
 int			is_built(char *cmd);
-void		exe_builtin(t_cmd *cmd, t_env **env_lst);
+void		exe_builtin(t_cmd *cmd, t_env **env_lst, t_exe exe_data);
 
 // error.c
 int			error_handler(char *err_msg);
@@ -150,15 +150,15 @@ void		exe_echo(t_cmd *cmd);
 //exe_env.c
 char		**find_envp_path(void);
 void		env_split(t_env *lst, char *env);
-void		print_env(t_env *env_lst, t_cmd *cmd);
+void		print_env(t_env *env_lst);
 void		make_envlst(char **envp, t_env **env_lst);
 void		free_double(char **env_oneline);
 
 //exe_exit.c
-void		exit_code_change(t_cmd *cmd);
-void		exe_exit(t_cmd *cmd);
+void		exit_code_change(t_cmd *cmd, t_exe exe_data);
+void		exe_exit(t_cmd *cmd, t_exe exe_data);
 void		exit_utils(int exit_exe, char *err_msg, int exit_code);
-void		just_exit(void);
+void		just_exit(t_exe exe_data);
 
 //exe_export.c
 void		sort_export(t_env *env_lst);

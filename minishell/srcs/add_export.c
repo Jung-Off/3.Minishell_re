@@ -54,10 +54,7 @@ int	judge_cmd(char *cmd_option)
 	while (cmd_option[i] && !judge)
 	{
 		if (ft_isdigit(cmd_option[i]))
-		{
-			ft_putchar_fd(cmd_option[i], 1);
 			judge = 1;
-		}
 		if (ft_isalpha(cmd_option[i]))
 			break ;
 		++i;
@@ -71,8 +68,7 @@ int	add_export(t_env **env_lst, char *cmd)
 
 	if (judge_cmd(cmd))
 	{
-		ft_error(0, cmd, " not a valid identifier", 1);
-		ft_putstr_fd("\n", 1);
+		ft_error(0, cmd, " not a valid identifier\n", 1);
 		return (1);
 	}
 	create_list(&lst);

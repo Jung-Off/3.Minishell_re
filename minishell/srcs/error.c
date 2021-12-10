@@ -45,10 +45,10 @@ void	ft_error(int is_exit, char *cmd, char *err_msg, int exit_code)
 {
 	if (cmd != NULL)
 	{
-		write(1, "minishell: ", 11);
-		write(1, cmd, ft_strlen(cmd));
-		write(1, ": ", 2);
-		write(1, err_msg, ft_strlen(err_msg));
+		write(2, "minishell: ", 11);
+		write(2, cmd, ft_strlen(cmd));
+		write(2, ": ", 2);
+		write(2, err_msg, ft_strlen(err_msg));
 	}
 	g_exit_code = exit_code;
 	if (is_exit)

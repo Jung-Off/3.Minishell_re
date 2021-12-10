@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void path_find(t_cmd **cmd, char **env)
+void	path_find(t_cmd **cmd, char **env)
 {
 	if (ft_strncmp((*cmd)->argv[0], "/", 1) == 0)
 	{
@@ -43,7 +43,7 @@ void	child_process(t_cmd **cmd, char **env, t_env **env_list, t_exe exe_data)
 	}
 	if (is_built((*cmd)->argv[0]))
 	{
-		exe_builtin(*cmd, env_list);
+		exe_builtin(*cmd, env_list, exe_data);
 		exit(g_exit_code);
 	}
 	else
@@ -75,7 +75,7 @@ void	exe_process(t_cmd **cmd, char **env, t_env **env_list)
 	while (*cmd)
 	{	
 		if (is_built((*cmd)->argv[0]) && exe_data.n == 1 && !(*cmd)->redirect)
-			exe_builtin(*cmd, env_list);
+			exe_builtin(*cmd, env_list, exe_data);
 		else
 		{
 			pipe_setting(cmd, &exe_data);
