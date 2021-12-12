@@ -46,6 +46,7 @@ void	emit_signal(int sig)
 	}
 	if (sig == N_OMIT)
 	{
+		switch_echoctl(TURN_ON);
 		signal(SIGINT, blocking_ctrl_c);
 		signal(SIGQUIT, blocking_back_slash);
 	}
