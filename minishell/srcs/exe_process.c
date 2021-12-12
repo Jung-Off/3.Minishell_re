@@ -14,6 +14,8 @@
 
 void	path_find(t_cmd **cmd, char **env)
 {
+	if ((*cmd)->argv[0] == NULL && (*cmd)->redirect)
+		return ;
 	if (ft_strncmp((*cmd)->argv[0], "/", 1) == 0)
 	{
 		execve((*cmd)->argv[0], (*cmd)->argv, NULL);
@@ -28,7 +30,7 @@ void	child_process(t_cmd **cmd, char **env, t_env **env_list, t_exe exe_data)
 	path_find(cmd, env);
 	if ((*cmd)->redirect > 0)
 	{
-		if (redirect_change((*cmd)->redirect, *env_list))
+		if (redirect_change((*cmd)->redirect, *env_list, *cmd))
 			exit(1);
 	}
 	if (exe_data.in != 0)

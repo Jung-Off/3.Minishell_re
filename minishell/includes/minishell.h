@@ -214,11 +214,16 @@ void		file_error(t_redirect *redirect);
 int			input_file_check(t_redirect *redirect, t_env *env_lst);
 
 //redirect.c
-void		redirect_input_single(t_redirect *redirect, t_data data);
-void		redircet_input_double(t_redirect *redir, t_data data);
-void		redirect_ouput_single(t_redirect *redirect, t_data data);
-void		redirect_output_double(t_redirect *redirect, t_data data);
-int			redirect_change(t_redirect *redirect, t_env *env_lst);
+void		redirect_input_single(t_redirect *redirect, t_data data, \
+		t_cmd *cmd);
+void		redircet_input_double(t_redirect *redir, t_data data, \
+		t_cmd *cmd);
+void		redirect_ouput_single(t_redirect *redirect, t_data data, \
+		t_cmd *cmd);
+void		redirect_output_double(t_redirect *redirect, t_data data, \
+		t_cmd *cmd);
+int			redirect_change(t_redirect *redirect, t_env *env_lst, \
+		t_cmd *cmd);
 
 // replace.c
 int			replace(t_cmd *cmd, t_env *env);
