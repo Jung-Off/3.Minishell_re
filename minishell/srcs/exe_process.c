@@ -32,6 +32,8 @@ void	child_process(t_cmd **cmd, char **env, t_env **env_list, t_exe exe_data)
 	{
 		if (redirect_change((*cmd)->redirect, *env_list, *cmd))
 			exit(1);
+		if ((*cmd)->argv[0] == NULL)
+			exit(0);
 	}
 	if (exe_data.in != 0)
 	{	
