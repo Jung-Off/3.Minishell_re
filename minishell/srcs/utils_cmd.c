@@ -25,6 +25,7 @@ t_cmd	*create_cmd(void)
 	new->argv[0] = NULL;
 	new->redirect = NULL;
 	new->next = NULL;
+	new->argc = -1;
 	return (new);
 }
 

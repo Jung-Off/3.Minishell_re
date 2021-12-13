@@ -106,11 +106,14 @@ void	exe_export(t_env **env_lst, t_cmd *cmd)
 	int	i;
 
 	i = 1;
-	if (cmd->argv[1])
+	if (cmd->argc > 0)
 	{
-		while (cmd->argv[i])
+		while (i <= cmd->argc)
 		{
-			add_export(env_lst, cmd->argv[i]);
+			if (cmd->argv[i] == 0)
+				ft_error(0, "`\' ", "not a valid identifier\n", 1);
+			else
+				add_export(env_lst, cmd->argv[i]);
 			++i;
 		}
 	}
