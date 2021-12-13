@@ -6,7 +6,7 @@
 /*   By: jiwchoi <jiwchoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 14:40:11 by jiwchoi           #+#    #+#             */
-/*   Updated: 2021/11/03 18:24:48 by jiwchoi          ###   ########.fr       */
+/*   Updated: 2021/12/13 21:33:32 by applemang        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,11 @@ int	replace_env(char **str, t_env *env)
 	}
 	free(*str);
 	*str = new_str;
+	if (!*str)
+	{
+		*str = malloc(1);
+		**str = 0;
+	}
 	return (EXIT_SUCCESS);
 }
 
