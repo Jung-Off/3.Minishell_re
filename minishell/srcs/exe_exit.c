@@ -17,7 +17,7 @@ void	exit_code_change(t_cmd *cmd, t_exe exe_data)
 	if (exe_data.n == 1)
 		ft_putstr_fd("exit\n", 1);
 	g_exit_code = ft_atoi(cmd->argv[1]);
-	exit(g_exit_code % 256);
+	exit(g_exit_code);
 }
 
 void	exit_utils(int exit_exe, char *err_msg, int exit_code)
@@ -54,6 +54,8 @@ void	exe_exit(t_cmd *cmd, t_exe exe_data)
 			exit_utils(0, "too many arguments\n", 1);
 			return ;
 		}
+		if (ft_strlen(cmd->argv[i]) > 1 && cmd->argv[i][j] == '-')
+			j++;
 		while (cmd->argv[i][j])
 		{
 			if (ft_isdigit(cmd->argv[i][j]) == 0)

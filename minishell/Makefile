@@ -36,6 +36,7 @@ SRC			= add_export.c \
 			  exe_process.c \
 			  exe_pwd.c \
 			  exe_unset.c \
+			  exe_unset_utils.c \
 			  list.c \
 			  main.c \
 			  parse_command.c \

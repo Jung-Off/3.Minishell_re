@@ -188,6 +188,10 @@ void		init_unset(t_unset *unset, t_env *env_lst);
 t_env		*exe_unset(t_env **env_lst, t_cmd *cmd);
 void		first_unset(t_unset *unset, t_env **env_lst);
 void		etc_unset(t_unset *unset);
+int			delete_unset(t_unset unset, t_cmd *cmd);
+
+//exe_unset_utils.c
+void		unset_utils(t_env **env_lst, t_cmd *cmd, t_unset unset);
 
 //list.c
 void		create_list(t_env **lst);

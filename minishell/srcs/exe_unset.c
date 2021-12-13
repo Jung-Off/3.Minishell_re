@@ -57,19 +57,14 @@ t_env	*exe_unset(t_env **env_lst, t_cmd *cmd)
 	init_unset(&unset, *env_lst);
 	while (cmd->argv[unset.i])
 	{
-		unset.m = *env_lst;
-		while (unset.m)
-		{	
-			if (delete_unset(unset, cmd))
-			{
-				if (unset.prev_env == NULL)
-					first_unset(&unset, env_lst);
-				else
-					etc_unset(&unset);
-				break ;
-			}
-			unset.prev_env = unset.m;
-			unset.m = unset.m->next;
+		if (ft_isdigit(cmd->argv[unset.i][0]))
+			ft_error(0, cmd->argv[unset.i], "not a valid identifier\n", 1);
+		else if (ft_strchr(cmd->argv[unset.i], '='))
+			ft_error(0, cmd->argv[unset.i], "not a valid identifier\n", 1);
+		else
+		{
+			unset.m = *env_lst;
+			unset_utils(env_lst, cmd, unset);
 		}
 		unset.i++;
 	}
