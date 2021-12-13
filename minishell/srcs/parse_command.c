@@ -76,7 +76,10 @@ int	parse_command(t_cmd **cmd, char *cmd_str)
 			free(res);
 		}
 		else if (*res)
+		{
 			(*cmd)->argv = cmd_argv_add_back((*cmd)->argv, res);
+			(*cmd)->argc++;
+		}
 		else
 			free(res);
 	}

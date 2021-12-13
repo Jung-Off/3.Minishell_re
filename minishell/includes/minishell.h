@@ -68,6 +68,7 @@ typedef struct s_redirect
 
 typedef struct s_cmd
 {
+	int					argc;
 	char				**argv;
 	struct s_redirect	*redirect;
 	struct s_cmd		*next;
