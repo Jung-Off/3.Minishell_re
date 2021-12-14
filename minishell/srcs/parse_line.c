@@ -6,7 +6,7 @@
 /*   By: jiwchoi <jiwchoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 13:55:44 by jiwchoi           #+#    #+#             */
-/*   Updated: 2021/11/03 18:04:24 by jiwchoi          ###   ########.fr       */
+/*   Updated: 2021/12/14 13:52:36 by applemang        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,18 @@ int	split_line(char **cmd, char **line)
 	return (EXIT_SUCCESS);
 }
 
+int	parse_line_2(t_cmd **cmd_lst, t_cmd **new_cmd, char *cmd, t_env *env)
+{
+	cmd_add_back(cmd_lst, *new_cmd);
+	if (parse_command(new_cmd, cmd))
+		return (EXIT_FAILURE);
+	if (replace(*new_cmd, env))
+		return (EXIT_FAILURE);
+	if (error_check(*new_cmd))
+		return (error_handler("syntax error near unexpected token"));
+	return (EXIT_SUCCESS);
+}
+
 int	parse_line(t_cmd **cmd_lst, char *line, t_env *env)
 {
 	t_cmd	*new_cmd;
@@ -69,15 +81,10 @@ int	parse_line(t_cmd **cmd_lst, char *line, t_env *env)
 		new_cmd = create_cmd();
 		if (!new_cmd)
 			return (error_handler("malloc error in create_cmd()"));
-		cmd_add_back(cmd_lst, new_cmd);
-		if (parse_command(&new_cmd, cmd))
-			return (EXIT_FAILURE);
-		if (replace(new_cmd, env))
-			return (EXIT_FAILURE);
-		if (error_check(new_cmd))
+		if (parse_line_2(cmd_lst, &new_cmd, cmd, env))
 		{
 			free(cmd);
-			return (error_handler("syntax error near unexpected token"));
+			return (EXIT_FAILURE);
 		}
 		free(cmd);
 	}

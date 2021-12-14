@@ -46,6 +46,7 @@ SRC			= add_export.c \
 			  replace.c \
 			  search_export.c \
 			  signal.c \
+			  string.c \
 			  utils_cmd.c \
 			  utils_redir.c \
 			  utils.c
@@ -56,12 +57,12 @@ OBJS		= $(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 
 $(TARGET) : $(OBJS)
 	make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -I $(INCS_DIR) -L$(LIBFT_DIR) -lft -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -I $(INCS_DIR) -L$(LIBFT_DIR) -lft -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 	#cluster : -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 	#home : -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	@mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS_DIR) -I ~/.brew/opt/readline/include
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS_DIR) -I/usr/local/opt/readline/include
 	#cluster : -I ~/.brew/opt/readline/include
 	#home : -I/usr/local/opt/readline/include
 

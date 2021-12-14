@@ -6,7 +6,7 @@
 /*   By: jiwchoi <jiwchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 15:32:13 by jiwchoi           #+#    #+#             */
-/*   Updated: 2021/12/02 18:23:00 by jji              ###   ########.fr       */
+/*   Updated: 2021/12/14 13:37:44 by applemang        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define MINISHELL_H
 
 # include <unistd.h>
-# include <stdlib.h> //getenv
-# include <stdio.h> //readline
-# include <signal.h> //signal, kill
-# include <term.h> // tget~
-# include <termios.h> // tcget~
-# include <dirent.h> // ~dir
-# include <sys/stat.h> // ~stat
+# include <stdlib.h>
+# include <stdio.h>
+# include <signal.h>
+# include <term.h>
+# include <termios.h>
+# include <dirent.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -244,6 +244,11 @@ void		blocking_back_slash(int sig);
 void		blocking_ctrl_c(int sig);
 void		sig_restart(int sig);
 void		switch_echoctl(int sig);
+
+// string.c
+char		*sh_strjoin(char const *s1, char const *s2);
+int			add_char(char **str, char ch);
+char		*malloc_null_string(void);
 
 // utils_cmd.c
 t_cmd		*create_cmd(void);
