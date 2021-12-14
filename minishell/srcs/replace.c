@@ -6,98 +6,56 @@
 /*   By: jiwchoi <jiwchoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 14:40:11 by jiwchoi           #+#    #+#             */
-/*   Updated: 2021/12/13 21:33:32 by applemang        ###   ########.fr       */
+/*   Updated: 2021/12/14 17:00:25 by applemang        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*sh_strjoin(char const *s1, char const *s2)
+int	get_status(char **res, int *idx)
 {
-	int		i;
-	int		j;
-	char	*join;
-
-	if (!s1 && !s2)
-		return (0);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	join = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!join)
-		return (0);
-	i = 0;
-	j = 0;
-	while (s1[i])
-	{
-		join[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-		join[i++] = s2[j++];
-	join[i] = 0;
-	return (join);
-}
-
-int	add_char(char **str, char ch)
-{
-	char	*ch_str;
-	char	*new;
-
-	ch_str = (char *)malloc(2);
-	ch_str[0] = ch;
-	ch_str[1] = 0;
-	new = sh_strjoin(*str, ch_str);
-	free(*str);
-	free(ch_str);
-	*str = new;
+	*res = ft_itoa(g_exit_code);
+	g_exit_code = 0;
+	(*idx)++;
 	return (EXIT_SUCCESS);
 }
 
-int	get_env(char **res, char *str, t_env *env, int *idx)
+int	get_key(char **key, char **val, char *str, t_env *env)
 {
 	int		key_size;
-	char	*key;
-	char	*val;
-	char	*join;
 	t_env	*p;
 
-	if (!ft_strncmp("?", str, 1))
-	{
-		*res = ft_itoa(g_exit_code);
-		g_exit_code = 0;
-		(*idx)++;
-		return (EXIT_SUCCESS);
-	}
-	if (*str == '?' && (*idx)++)
-	{
-		val = "($?)";
-		join = sh_strjoin(*res, val);
-		free(*res);
-		*res = join;
-		return (EXIT_SUCCESS);
-	}
 	key_size = 0;
 	while (str[key_size] && str[key_size] != '\"' && str[key_size] != '\''
 		&& str[key_size] != ' ' && str[key_size] != '$')
 		key_size++;
-	key = ft_substr(str, 0, key_size);
-	val = NULL;
+	*key = ft_substr(str, 0, key_size);
+	*val = NULL;
 	p = env;
 	while (p)
 	{
 		if (key_size == 0)
-			val = "$";
-		else if (ft_strncmp(p->key, key, ft_strlen(p->key)) == 0
-			&& ft_strncmp(p->key, key, ft_strlen(key)) == 0)
-			val = p->value;
+			*val = "$";
+		else if (ft_strncmp(p->key, *key, ft_strlen(p->key)) == 0
+			&& ft_strncmp(p->key, *key, ft_strlen(*key)) == 0)
+			*val = p->value;
 		p = p->next;
 	}
+	return (key_size);
+}
+
+int	get_env(char **res, char *str, t_env *env, int *idx)
+{
+	char	*key;
+	char	*val;
+	char	*join;
+
+	if (!ft_strncmp("?", str, 1))
+		return (get_status(res, idx));
+	*idx += get_key(&key, &val, str, env);
 	join = sh_strjoin(*res, val);
 	free(*res);
 	*res = join;
-	*idx += key_size;
 	free(key);
 	return (EXIT_SUCCESS);
 }
@@ -108,10 +66,10 @@ int	replace_env(char **str, t_env *env)
 	int		quote;
 	char	*new_str;
 
-	i = 0;
+	i = -1;
 	quote = NONE;
 	new_str = NULL;
-	while ((*str)[i])
+	while ((*str)[++i])
 	{
 		if ((*str)[i] == '\"' && quote == NONE)
 			quote = DOUBLE;
@@ -123,15 +81,11 @@ int	replace_env(char **str, t_env *env)
 			get_env(&new_str, &((*str)[i + 1]), env, &i);
 		else if ((*str)[i] != QUOTE[quote])
 			add_char(&new_str, (*str)[i]);
-		i++;
 	}
 	free(*str);
 	*str = new_str;
 	if (!*str)
-	{
-		*str = malloc(1);
-		**str = 0;
-	}
+		*str = malloc_null_string();
 	return (EXIT_SUCCESS);
 }
 
