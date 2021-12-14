@@ -1,3 +1,0 @@
-make_envlst->create_list->malloc // free_env
-
-find_envp_path() >> env_path;
