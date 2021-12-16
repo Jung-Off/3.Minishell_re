@@ -32,6 +32,8 @@ int	exe(t_cmd **cmd, char *line, t_env **env_lst, char **env)
 {	
 	t_cmd	*temp;
 
+	if (is_empty_string(line))
+		return (0);
 	add_history(line);
 	if (parse_line(cmd, line, *env_lst))
 		return (EXIT_FAILURE);

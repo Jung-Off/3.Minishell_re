@@ -263,8 +263,9 @@ t_redirect	*create_redir(char *line);
 void		redir_add_back(t_redirect **lst, t_redirect *new);
 void		redir_clear(t_redirect **lst);
 
-//main.c
+// utils.c
 int			cmd_num(t_cmd *cmd);
 char		*exe_parse(char **env, char *command_split);
+t_bool		is_empty_string(char *str);
 
 #endif
