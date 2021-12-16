@@ -171,10 +171,12 @@ int			env_rank(t_env *env_lst, t_env *move_lst);
 //exe_process_utils.c
 void		init_exe(t_exe *exe_data, t_cmd *cmd);
 void		redirect_signal(t_cmd **cmd);
+void		ready_process(t_exe *exe_data, t_cmd **cmd);
 int			cmd_ok(char **env, char *cmd);
+char		*search_path(t_env *env_lst);
 
 //exe_process.c
-void		path_find(t_cmd **cmd, char **env);
+void		path_find(t_cmd **cmd, char **env, t_env *env_lst);
 void		exe_process(t_cmd **cmd, char **env, t_env **env_list);
 void		child_process(t_cmd **cmd, char **env, \
 		t_env **env_list, t_exe exe_data);

@@ -12,22 +12,26 @@
 
 #include "../includes/minishell.h"
 
-void	path_find(t_cmd **cmd, char **env)
+void	path_find(t_cmd **cmd, char **env, t_env *env_lst)
 {
 	if ((*cmd)->argv[0] == NULL && (*cmd)->redirect)
 		return ;
+	if (*((*cmd)->argv[0]) == 0 && !(*cmd)->redirect)
+		ft_error(1, (*cmd)->argv[0], "No such file or directory\n", 127);
 	if (ft_strncmp((*cmd)->argv[0], "/", 1) == 0)
 	{
 		execve((*cmd)->argv[0], (*cmd)->argv, NULL);
 		ft_error(1, (*cmd)->argv[0], "No such file or directory\n", 127);
 	}
+	else if (!search_path(env_lst))
+		ft_error(1, (*cmd)->argv[0], "command not found\n", 127);
 	else if (!(cmd_ok(env, (*cmd)->argv[0]) || is_built((*cmd)->argv[0])))
 		ft_error(1, (*cmd)->argv[0], "command not found\n", 127);
 }
 
 void	child_process(t_cmd **cmd, char **env, t_env **env_list, t_exe exe_data)
 {
-	path_find(cmd, env);
+	path_find(cmd, env, *env_list);
 	if ((*cmd)->redirect > 0)
 	{
 		if (redirect_change((*cmd)->redirect, *env_list, *cmd))
@@ -74,9 +78,8 @@ void	exe_process(t_cmd **cmd, char **env, t_env **env_list)
 {
 	t_exe	exe_data;
 
-	init_exe(&exe_data, *cmd);
-	redirect_signal(cmd);
-	while (*cmd)
+	ready_process(&exe_data, cmd);
+	while (exe_data.n)
 	{	
 		if (is_built((*cmd)->argv[0]) && exe_data.n == 1 && !(*cmd)->redirect)
 			exe_builtin(*cmd, env_list, exe_data);
@@ -95,6 +98,7 @@ void	exe_process(t_cmd **cmd, char **env, t_env **env_list)
 			}
 			ready_next_process(cmd, &exe_data);
 		}
+		exe_data.n--;
 		(*cmd) = (*cmd)->next;
 	}
 }

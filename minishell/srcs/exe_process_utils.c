@@ -35,6 +35,12 @@ void	redirect_signal(t_cmd **cmd)
 	}
 }
 
+void	ready_process(t_exe *exe_data, t_cmd **cmd)
+{
+	init_exe(exe_data, *cmd);
+	redirect_signal(cmd);
+}
+
 int	cmd_ok(char **env, char *cmd)
 {
 	int			i;
@@ -52,6 +58,18 @@ int	cmd_ok(char **env, char *cmd)
 		if (stat(env_path, &buf) == 0)
 			return (1);
 		++i;
+	}
+	return (0);
+}
+
+char	*search_path(t_env *env_lst)
+{
+	while (env_lst)
+	{
+		if (ft_strncmp(env_lst->key, "PATH", ft_strlen("PATH")) == 0
+			&& ft_strncmp(env_lst->key, "PATH", ft_strlen(env_lst->key)) == 0)
+			return (env_lst->value);
+		env_lst = env_lst->next;
 	}
 	return (0);
 }
