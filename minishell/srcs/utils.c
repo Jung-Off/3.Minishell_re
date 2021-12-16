@@ -49,3 +49,14 @@ char	*exe_parse(char **env, char *command_split)
 	}
 	return (0);
 }
+
+t_bool	is_empty_string(char *str)
+{
+	while (*str)
+	{
+		if (!ft_isspace(*str))
+			return (FALSE);
+		++str;
+	}
+	return (TRUE);
+}
