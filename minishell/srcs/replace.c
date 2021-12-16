@@ -15,7 +15,6 @@
 int	get_status(char **res, int *idx)
 {
 	*res = ft_itoa(g_exit_code);
-	g_exit_code = 0;
 	(*idx)++;
 	return (EXIT_SUCCESS);
 }

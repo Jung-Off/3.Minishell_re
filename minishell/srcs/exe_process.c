@@ -17,12 +17,14 @@ void	path_find(t_cmd **cmd, char **env, t_env *env_lst)
 	if ((*cmd)->argv[0] == NULL && (*cmd)->redirect)
 		return ;
 	if (*((*cmd)->argv[0]) == 0 && !(*cmd)->redirect)
-		ft_error(1, (*cmd)->argv[0], "No such file or directory\n", 127);
+		ft_error(1, (*cmd)->argv[0], "command not found\n", 127);
 	if (ft_strncmp((*cmd)->argv[0], "/", 1) == 0)
 	{
 		execve((*cmd)->argv[0], (*cmd)->argv, NULL);
 		ft_error(1, (*cmd)->argv[0], "No such file or directory\n", 127);
 	}
+	else if (ft_strncmp((*cmd)->argv[0], ".", 1) == 0)
+		ft_error(1, (*cmd)->argv[0], "command not found\n", 127);
 	else if (!search_path(env_lst))
 		ft_error(1, (*cmd)->argv[0], "command not found\n", 127);
 	else if (!(cmd_ok(env, (*cmd)->argv[0]) || is_built((*cmd)->argv[0])))

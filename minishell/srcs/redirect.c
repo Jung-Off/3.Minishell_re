@@ -31,6 +31,8 @@ void	redircet_input_double(t_redirect *redir, t_data data, t_cmd *cmd)
 		if (data.idx > 0)
 			dup2(data.fd_in, STDIN_FILENO);
 		data.new = readline("");
+		if (!ft_strlen(data.new))
+			printf("\n");
 		if (ft_strncmp(data.new, redir->file, ft_strlen(redir->file)) == 0
 			&& ft_strncmp(data.new, redir->file, ft_strlen(data.new)) == 0)
 			break ;
